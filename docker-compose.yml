@@ -44,10 +44,8 @@ services:
                - '3000:3000'
           depends_on:
                - relay
-          environment:
-               - GF_AUTH_ANONYMOUS_ENABLED=true
-               - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-               - GF_SECURITY_ADMIN_PASSWORD=password
+          env_file:
+               - ./conf/grafana.env
           healthcheck:
                test: 'curl -fsSL -o /dev/null http://localhost:3000/login'
                interval: 10s
