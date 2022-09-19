@@ -14,4 +14,4 @@ RUN npm install
 COPY . .
 
 # Start the program
-CMD ["npm", "start"]
+CMD ["node", "src/push.js"]

@@ -9,11 +9,11 @@ const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, prettyPrint } = format;
 
 const logger = createLogger({
-  format: combine(
-    timestamp(),
-    prettyPrint()
-  ),
-  transports: [new transports.File({ filename: "api.log" })]
+     format: combine(
+          timestamp(),
+          prettyPrint()
+     ),
+     transports: [new transports.File({ filename: "api.log" })]
 })
 
 async function gz(data) {
@@ -27,11 +27,12 @@ let forcedHost = undefined;
 
 function getPrivateHost() {
      return new Promise(resolve => {
-          var hosts = [
+          const hosts = [
                ['localhost', 21025],
                ['host.docker.internal', 21025],
                ['172.17.0.1', 21025],
           ]
+          let checkHostCount = 0;
           for (let i = 0; i < hosts.length; i++) {
                const host = hosts[i];
                var sock = new net.Socket()
@@ -40,8 +41,14 @@ function getPrivateHost() {
                     sock.destroy()
                     resolve(host[0])
                })
-                    .on('error', function (e) {})
-                    .on('timeout', function (e) {})
+                    .on('error', function (e) {
+                         checkHostCount+=1
+                         if (checkHostCount == 3) resolve(undefined)
+                     })
+                    .on('timeout', function (e) {
+                         checkHostCount+=1
+                         if (checkHostCount == 3) resolve(undefined)
+                     })
                     .connect(host[1], host[0])
           }
      })
@@ -50,7 +57,7 @@ function getPrivateHost() {
 async function getHost(type) {
      if (forcedHost) return forcedHost
      if (type === 'mmo') return 'screeps.com'
-     if (!privateHost) privateHost = await getPrivateHost();
+     if (!privateHost) privateHost = await getPrivateHost() || 'localhost';
      return privateHost
 }
 
@@ -108,16 +115,16 @@ async function req(options) {
      return await Promise.race([executeReq, maxTime])
           .then(result => {
                if (result === 'Timeout') {
-                    logger.log('info','Timeout hit!', new Date(), JSON.stringify(options), reqBody)
+                    logger.log('info', 'Timeout hit!', new Date(), JSON.stringify(options), reqBody)
                     return
                }
                // is result string
-               if (typeof result === 'string' && result.startsWith("Rate limit exceeded")) logger.log('error',{data:result,options})
-               else logger.log('info',{data:`${JSON.stringify(result).length/1000} MB`,options})
+               if (typeof result === 'string' && result.startsWith("Rate limit exceeded")) logger.log('error', { data: result, options })
+               else logger.log('info', { data: `${JSON.stringify(result).length / 1000} MB`, options })
                return result
           })
           .catch(result => {
-               logger.log('error', {data:result,options})
+               logger.log('error', { data: result, options })
           })
 }
 
@@ -127,6 +134,7 @@ module.exports.getPrivateServerToken = async (username, password) => {
           password,
      })
      const res = await req(options)
+     if (!res) return
      return res.token
 }
 

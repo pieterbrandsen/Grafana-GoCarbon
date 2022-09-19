@@ -15,7 +15,7 @@ const logger = createLogger({
         timestamp(),
         prettyPrint()
     ),
-    transports: [new transports.File({ filename: "push.log" }, new transports.Console())],
+    transports: [new transports.File({ filename: "push.log" })],
 })
 
 class ManageStats {
@@ -24,26 +24,36 @@ class ManageStats {
     users
     constructor(statsUsers) {
         this.groupedStats = {}
-        this.message = "----------------------------------------------------------------"
+        this.message = "----------------------------------------------------------------\r\n"
         this.users = statsUsers
     }
 
-    async handleUsers() {
-        for (let i = 0; i < users.length; i++) {
+    async handleUsers(type) {
+        for (let i = 0; i < this.users.length; i++) {
             try {
-                const user = users[i]
-                user.token = await getLoginInfo(user)
+                const user = this.users[i]
+                user.token = await this.getLoginInfo(user)
                 const shouldContinue = new Date().getMinutes() % user.shards.length === 0
-                if (user.type === 'mmo' && shouldContinue) continue
+                if (user.token && user.type === 'mmo' && shouldContinue) continue
                 for (let y = 0; y < user.shards.length; y++) {
                     const shard = user.shards[y]
-                    await getStats(user, shard, message)
+                    await this.getStats(user, shard, this.message)
                 }
             } catch (error) {
-                logger.error(error)
+                logger.error(error.message)
             }
         }
-
+        const groupedStats = this.groupedStats
+        
+        if (type === "private") {
+            if (Object.keys(groupedStats).length > 0) {
+                ManageStats.reportStats({ stats: groupedStats })
+                this.message+=`Pushed ${type} stats to graphite`
+                console.log(this.message)
+                logger.info(this.message)
+            }
+            return;
+        }
         try {
             const unfilteredUsers = await apiFunc.getUsers();
             const users = unfilteredUsers.filter(u => u.active === 10000)
@@ -53,11 +63,15 @@ class ManageStats {
 
 
             ManageStats.reportStats({ stats: groupedStats, serverStats })
-            message+=Object.keys(groupedStats) > 0 ? 'Pushed stats AND serverStats to graphite\r\n' : 'Pushed serverStats to graphite\r\n';
+            this.message+=Object.keys(groupedStats) > 0 ? 'Pushed private stats AND serverStats to graphite' : 'Pushed serverStats to graphite';
+            logger.info(this.message)
+            console.log(this.message)
         } catch (e) {
             if (Object.keys(groupedStats).length > 0) {
                 ManageStats.reportStats({ stats: groupedStats })
-                message+='Pushed stats to graphite\r\n'
+                this.message+=`Pushed ${type} stats to graphite`
+                logger.info(this.message)
+                console.log(this.message)
             }
         }
     }
@@ -79,14 +93,14 @@ class ManageStats {
 
     async getStats(userinfo, shard) {
         const stats = await apiFunc.getMemory(userinfo, shard)
-        if (stats) await processStats(userinfo, shard, stats)
+        if (stats) await this.processStats(userinfo, shard, stats)
     }
 
     async processStats(userinfo, shard, stats) {
         const me = await apiFunc.getUserinfo(userinfo)
         if (!me.error) stats.power = me.power || 0
-        stats.leaderboard = await addLeaderboardData(userinfo)
-        pushStats(userinfo, stats, shard)
+        stats.leaderboard = await this.addLeaderboardData(userinfo)
+        this.pushStats(userinfo, stats, shard)
     }
 
     static reportStats(stats) {
@@ -99,8 +113,8 @@ class ManageStats {
     }
 
     pushStats(userinfo, stats, shard) {
-        groupedStats[userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats }
-        message += `${userinfo.type}: Added stats object for ${userinfo.username} in ${shard}\r\n`
+        this.groupedStats[userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats }
+        this.message += `${userinfo.type}: Added stats object for ${userinfo.username} in ${shard}\r\n`
     }
 }
 
@@ -112,10 +126,8 @@ const groupedUsers = statsUsers.reduce((group, user) => {
   }, {});
 
 
-cron.schedule('*/15 * * * * *', async () => {
-    new ManageStats(groupedUsers.private).handleUsers()
-})
 cron.schedule('* * * * *', async () => {
-    new ManageStats(groupedUsers.mmo).handleUsers()
+    console.log("\r\nCron event hit: ", new Date())
+    if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers("private")
+    if (groupedUsers.mmo) new ManageStats(groupedUsers.mmo).handleUsers("mmo")
 })
-

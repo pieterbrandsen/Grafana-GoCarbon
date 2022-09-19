@@ -1,5 +1,8 @@
 version: '3.5'
 
+volumes: 
+  grafana_data: 
+
 services:
      push-stats:
           build: .
@@ -40,6 +43,8 @@ services:
                retries: 3
      grafana:
           image: grafana/grafana-enterprise:9.0.4-ubuntu
+          volumes:
+               - grafana_data:/var/lib/grafana
           ports:
                - '3000:3000'
           depends_on:
