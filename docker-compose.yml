@@ -2,7 +2,6 @@ version: '3.5'
 
 volumes: 
   grafana_data: 
-
 services:
      push-stats:
           build: .
@@ -25,6 +24,7 @@ services:
           volumes:
                - ./conf/carbon.conf:/openmetric/conf/carbon.conf:ro
                - ./conf/schemas.conf:/openmetric/conf/schemas.conf:ro
+               - ./whisper:/openmetric/data/whisper
           healthcheck:
                test: "curl -fsSL -o /dev/null 'http://localhost:8080/metrics/find/?query=*&format=json'"
                interval: 10s
@@ -42,17 +42,17 @@ services:
                timeout: 1s
                retries: 3
      grafana:
-          image: grafana/grafana-enterprise:9.0.4-ubuntu
+          image: grafana/grafana:latest
           volumes:
                - grafana_data:/var/lib/grafana
           ports:
-               - '3000:3000'
+               - '${GF_SERVER_HTTP_PORT}:${GF_SERVER_HTTP_PORT}'
           depends_on:
                - relay
           env_file:
                - ./conf/grafana.env
           healthcheck:
-               test: 'curl -fsSL -o /dev/null http://localhost:3000/login'
+               test: 'curl -fsSL -o /dev/null http://localhost:${GF_SERVER_HTTP_PORT}/login'
                interval: 10s
                timeout: 1s
                retries: 3

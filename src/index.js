@@ -1,4 +1,6 @@
 const axios = require('axios').default
+const { join } = require('path')
+require('dotenv').config({ path: join(__dirname, '../conf', 'grafana.env') });
 const fs = require('fs')
 const dashboardHelper = require('../dashboards/helper.js')
 const { login } = require('./config.js')
@@ -7,14 +9,14 @@ function sleep(milliseconds) {
      return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-const grafanaUrl = 'http://localhost:3000'
+const grafanaApiUrl = `http://localhost:${process.env.GF_SERVER_HTTP_PORT}/api`
 const dashboards = dashboardHelper.getDashboards()
 const includeAllDashboards = process.argv.length > 2 && process.argv[2] === 'all'
 
 async function SetupDataSources() {
      try {
           await axios({
-               url: grafanaUrl + '/api/datasources',
+               url: grafanaApiUrl + '/datasources',
                method: 'post',
                auth: login,
                data: {
@@ -26,7 +28,7 @@ async function SetupDataSources() {
                },
           })
      } catch (err) {
-          if (err.response.data.message !== 'data source with the same name already exists') console.error('Graphite datasource creation error: ', err.response.data.message)
+          if (err.response && err.response.data.message !== 'data source with the same name already exists') console.error('Graphite datasource creation error: ', err.response && err.response.data.message)
      }
 }
 
@@ -34,13 +36,13 @@ async function SetupServiceInfoDashboard() {
      try {
           const dashboard = dashboards.serviceInfo
           await axios({
-               url: grafanaUrl + '/api/dashboards/db',
+               url: grafanaApiUrl + '/dashboards/db',
                method: 'post',
                auth: login,
                data: dashboard,
           })
      } catch (err) {
-          console.error("Service info dashboard creation error: ", err.response.data.message)
+          console.error("Service info dashboard creation error: ", err.response && err.response.data.message)
      }
 }
 
@@ -48,13 +50,13 @@ async function SetupStatsDashboard() {
      try {
           const dashboard = dashboards.stats
           await axios({
-               url: grafanaUrl + '/api/dashboards/db',
+               url: grafanaApiUrl + '/dashboards/db',
                method: 'post',
                auth: login,
                data: dashboard,
           })
      } catch (err) {
-          console.log("Stats dashboard creation error: ", err.response.data.message)
+          console.log("Stats dashboard creation error: ", err.response && err.response.data.message)
      }
 }
 
@@ -62,21 +64,21 @@ async function SetupServerStatsDashboard() {
      try {
           const dashboard = dashboards.serverStats
           await axios({
-               url: grafanaUrl + '/api/dashboards/db',
+               url: grafanaApiUrl + '/dashboards/db',
                method: 'post',
                auth: login,
                data: dashboard,
           })
      } catch (err) {
-          console.log("Server-Stats dashboard creation error: ", err.response.data.message)
+          console.log("Server-Stats dashboard creation error: ", err.response && err.response.data.message)
      }
 }
 
 ; (async function () {
      const commands = [
-          'docker-compose down',
-          'docker-compose build --no-cache',
-          'docker-compose up -d'
+          'docker-compose --env-file ./conf/grafana.env down',
+          'docker-compose --env-file ./conf/grafana.env build --no-cache',
+          'docker-compose --env-file ./conf/grafana.env up -d'
      ]
 
      for (let i = 0; i < commands.length; i++) {
