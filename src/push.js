@@ -48,7 +48,7 @@ class ManageStats {
         if (type === "private") {
             if (Object.keys(groupedStats).length > 0) {
                 ManageStats.reportStats({ stats: groupedStats })
-                this.message+=`Pushed ${type} stats to graphite\r\n`
+                this.message+=`Pushed ${type} stats to graphite`
                 console.log(this.message)
                 logger.info(this.message)
             }
@@ -63,13 +63,13 @@ class ManageStats {
 
 
             ManageStats.reportStats({ stats: groupedStats, serverStats })
-            this.message+=Object.keys(groupedStats) > 0 ? 'Pushed private stats AND serverStats to graphite\r\n' : 'Pushed serverStats to graphite\r\n';
+            this.message+=Object.keys(groupedStats) > 0 ? 'Pushed private stats AND serverStats to graphite' : 'Pushed serverStats to graphite';
             logger.info(this.message)
             console.log(this.message)
         } catch (e) {
             if (Object.keys(groupedStats).length > 0) {
                 ManageStats.reportStats({ stats: groupedStats })
-                this.message+=`Pushed ${type} stats to graphite\r\n`
+                this.message+=`Pushed ${type} stats to graphite`
                 logger.info(this.message)
                 console.log(this.message)
             }
@@ -100,7 +100,7 @@ class ManageStats {
         const me = await apiFunc.getUserinfo(userinfo)
         if (!me.error) stats.power = me.power || 0
         stats.leaderboard = await this.addLeaderboardData(userinfo)
-        pushStats(userinfo, stats, shard)
+        this.pushStats(userinfo, stats, shard)
     }
 
     static reportStats(stats) {
@@ -127,7 +127,7 @@ const groupedUsers = statsUsers.reduce((group, user) => {
 
 
 cron.schedule('* * * * *', async () => {
-    console.log("Cron event hit: ", new Date())
+    console.log("\r\nCron event hit: ", new Date())
     if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers("private")
     if (groupedUsers.mmo) new ManageStats(groupedUsers.mmo).handleUsers("mmo")
 })
