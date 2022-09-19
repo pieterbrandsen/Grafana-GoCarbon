@@ -7,9 +7,70 @@ function sleep(milliseconds) {
      return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
+const grafanaUrl = 'http://localhost:3000'
 const dashboards = dashboardHelper.getDashboards()
 const includeAllDashboards = process.argv.length > 2 && process.argv[2] === 'all'
 
+async function SetupDataSources() {
+     try {
+          await axios({
+               url: grafanaUrl + '/api/datasources',
+               method: 'post',
+               auth: login,
+               data: {
+                    name: 'Graphite',
+                    type: 'graphite',
+                    url: `http://api:8080`,
+                    access: 'proxy',
+                    isDefault: true,
+               },
+          })
+     } catch (err) {
+          console.log("Data sources creation error: ",err.message)
+     }
+}
+
+async function SetupServiceInfoDashboard() {
+     try {
+          const dashboard = dashboards.serviceInfo
+          await axios({
+               url: grafanaUrl + '/api/dashboards/db',
+               method: 'post',
+               auth: login,
+               data: dashboard,
+          })
+     } catch (err) {
+          console.error("Service info dashboard creation error: ",err.message)
+     }
+}
+
+async function SetupStatsDashboard() {
+     try {
+          const dashboard = dashboards.stats
+          await axios({
+               url: grafanaUrl + '/api/dashboards/db',
+               method: 'post',
+               auth: login,
+               data: dashboard,
+          })
+     } catch (err) {
+          console.log("Stats dashboard creation error: ",err.message)
+     }
+}
+
+async function SetupServerStatsDashboard() {
+     try {
+          const dashboard = dashboards.serverStats
+          await axios({
+               url: grafanaUrl + '/api/dashboards/db',
+               method: 'post',
+               auth: login,
+               data: dashboard,
+          })
+     } catch (err) {
+          console.log("Server-Stats dashboard creation error: ",err.message)
+     }
+}
 
 ;(async function () {
      const commands = [
@@ -26,67 +87,7 @@ const includeAllDashboards = process.argv.length > 2 && process.argv[2] === 'all
           }
      }
 
-     const grafanaUrl = 'http://localhost:3000'
-
-     async function SetupDataSources() {
-          try {
-               await axios({
-                    url: grafanaUrl + '/api/datasources',
-                    method: 'post',
-                    auth: login,
-                    data: {
-                         name: 'Graphite',
-                         type: 'graphite',
-                         url: `http://api:8080`,
-                         access: 'proxy',
-                         isDefault: true,
-                    },
-               })
-          } catch (err) {
-               console.log(err)
-          }
-     }
-
-     async function SetupServiceInfoDashboard() {
-          try {
-               const dashboard = dashboards.serviceInfo
-               await axios({
-                    url: grafanaUrl + '/api/dashboards/db',
-                    method: 'post',
-                    auth: login,
-                    data: dashboard,
-               })
-          } catch (err) {
-               console.log(err)
-          }
-     }
-     async function SetupStatsDashboard() {
-          try {
-               const dashboard = dashboards.stats
-               await axios({
-                    url: grafanaUrl + '/api/dashboards/db',
-                    method: 'post',
-                    auth: login,
-                    data: dashboard,
-               })
-          } catch (err) {
-               console.log(err)
-          }
-     }
-     async function SetupServerStatsDashboard() {
-          try {
-               const dashboard = dashboards.serverStats
-               await axios({
-                    url: grafanaUrl + '/api/dashboards/db',
-                    method: 'post',
-                    auth: login,
-                    data: dashboard,
-               })
-          } catch (err) {
-               console.log(err)
-          }
-     }
-     await sleep(10*1000)
+     await sleep(30*1000)
      console.log('Pre setup done!')
      
      await SetupDataSources()
