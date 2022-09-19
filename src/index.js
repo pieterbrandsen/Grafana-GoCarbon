@@ -1,7 +1,7 @@
 const axios = require('axios').default
 const fs = require('fs')
 const dashboardHelper = require('../dashboards/helper.js')
-const {login } = require('./config.js')
+const { login } = require('./config.js')
 const { execSync } = require('child_process')
 function sleep(milliseconds) {
      return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -26,7 +26,7 @@ async function SetupDataSources() {
                },
           })
      } catch (err) {
-          console.log("Data sources creation error: ",err.message)
+          if (err.response.data.message !== 'data source with the same name already exists') console.error('Graphite datasource creation error: ', err.response.data.message)
      }
 }
 
@@ -40,7 +40,7 @@ async function SetupServiceInfoDashboard() {
                data: dashboard,
           })
      } catch (err) {
-          console.error("Service info dashboard creation error: ",err.message)
+          console.error("Service info dashboard creation error: ", err.response.data.message)
      }
 }
 
@@ -54,7 +54,7 @@ async function SetupStatsDashboard() {
                data: dashboard,
           })
      } catch (err) {
-          console.log("Stats dashboard creation error: ",err.message)
+          console.log("Stats dashboard creation error: ", err.response.data.message)
      }
 }
 
@@ -68,11 +68,11 @@ async function SetupServerStatsDashboard() {
                data: dashboard,
           })
      } catch (err) {
-          console.log("Server-Stats dashboard creation error: ",err.message)
+          console.log("Server-Stats dashboard creation error: ", err.response.data.message)
      }
 }
 
-;(async function () {
+; (async function () {
      const commands = [
           'docker-compose down',
           'docker-compose build --no-cache',
@@ -87,9 +87,9 @@ async function SetupServerStatsDashboard() {
           }
      }
 
-     await sleep(30*1000)
-     console.log('Pre setup done!')
-     
+     await sleep(30 * 1000)
+     console.log('Pre setup done!\r\n')
+
      await SetupDataSources()
      await SetupServiceInfoDashboard()
      if (includeAllDashboards) {

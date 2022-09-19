@@ -12,7 +12,7 @@ function setupDashboard(dashboard) {
         delete datasource.uid;
     }
 
-        for (let i = 0; i < dashboard.panels.length; i++) {
+    for (let i = 0; i < dashboard.panels.length; i++) {
         const panel = dashboard.panels[i];
         if (panel.panels) {
             for (let y = 0; y < panel.panels.length; y++) {
@@ -26,10 +26,10 @@ function setupDashboard(dashboard) {
             delete panel.datasource.type;
         }
     }
-    return {dashboard:dashboard};
+    return { dashboard: dashboard, overwrite: true };
 }
 
-module.exports.getDashboards = ()=>{
-    return {serverStats:setupDashboard(serverStats),stats:setupDashboard(stats),serviceInfo:setupDashboard(serviceInfo)};
+module.exports.getDashboards = () => {
+    return { serverStats: setupDashboard(serverStats), stats: setupDashboard(stats), serviceInfo: setupDashboard(serviceInfo) };
 }
 
