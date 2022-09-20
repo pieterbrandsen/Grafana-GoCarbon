@@ -6,6 +6,7 @@ const { execSync } = require('child_process')
 
 const grafanaEnv = 'conf/grafana.env'
 require('dotenv').config({ path: join(__dirname,"../", grafanaEnv) });
+const isWindows = process.platform === 'win32'
 
 function sleep(milliseconds) {
      return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -81,12 +82,14 @@ async function SetupServerStatsDashboard() {
      const commands = [
           `docker-compose --env-file ${grafanaEnv} down`,
           `docker-compose --env-file ${grafanaEnv} build --no-cache`,
-          `docker-compose --env-file ${grafanaEnv} up -d`
+          `docker-compose --env-file ${grafanaEnv} up -d`,
      ]
+     if (!isWindows) commands.push(`chmod ugo+rwx whisper`)
 
      for (let i = 0; i < commands.length; i++) {
+          const command = commands[i];
           try {
-               execSync(commands[i])
+               execSync(command)
           } catch (error) {
                console.log('Command index ' + i, error)
           }
