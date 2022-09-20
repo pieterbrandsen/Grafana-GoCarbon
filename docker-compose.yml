@@ -42,7 +42,7 @@ services:
                timeout: 1s
                retries: 3
      grafana:
-          image: grafana/grafana:latest
+          image: grafana/grafana-enterprise:9.0.4-ubuntu
           volumes:
                - grafana_data:/var/lib/grafana
           ports:
