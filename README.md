@@ -29,3 +29,11 @@ node index.js
 Go to `http://localhost:3000` and setup the dashboards you want
 
 If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats) is installed on the private server then all server information will be available
+
+### Delete data
+
+```bash
+node src/deletePath direct.path.to.delete
+```
+
+This removes all data for the path
