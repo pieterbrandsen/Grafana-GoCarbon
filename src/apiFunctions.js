@@ -1,11 +1,11 @@
-const http = require('http')
-const https = require('https')
-const net = require('net')
-const util = require('util')
-const zlib = require('zlib')
+import http from 'http'
+import https from 'https'
+import net from 'net'
+import util from 'util'
+import zlib from 'zlib'
 const gunzipAsync = util.promisify(zlib.gunzip)
 
-const { createLogger, format, transports } = require('winston');
+import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, prettyPrint } = format;
 
 const logger = createLogger({
@@ -42,13 +42,13 @@ function getPrivateHost() {
                     resolve(host[0])
                })
                     .on('error', function (e) {
-                         checkHostCount+=1
+                         checkHostCount += 1
                          if (checkHostCount == 3) resolve(undefined)
-                     })
+                    })
                     .on('timeout', function (e) {
-                         checkHostCount+=1
+                         checkHostCount += 1
                          if (checkHostCount == 3) resolve(undefined)
-                     })
+                    })
                     .connect(host[1], host[0])
           }
      })
@@ -128,40 +128,41 @@ async function req(options) {
           })
 }
 
-module.exports.getPrivateServerToken = async (username, password) => {
-     const options = await getRequestOptions({ type: 'private', username }, '/api/auth/signin', 'POST', {
-          email: username,
-          password,
-     })
-     const res = await req(options)
-     if (!res) return
-     return res.token
-}
+export default class {
+     static async getPrivateServerToken(username, password) {
+          const options = await getRequestOptions({ type: 'private', username }, '/api/auth/signin', 'POST', {
+               email: username,
+               password,
+          })
+          const res = await req(options)
+          if (!res) return
+          return res.token
+     }
+     static async getMemory(info, shard, statsPath = "stats") {
+          const options = await getRequestOptions(info, `/api/user/memory?path=${statsPath}&shard=${shard}`, 'GET')
+          const res = await req(options)
+          if (!res) return
+          return await gz(res.data)
+     }
+     static async getUserinfo(info) {
+          const options = await getRequestOptions(info, `/api/auth/me`, 'GET')
+          const res = await req(options)
+          return res
+     }
+     static async getLeaderboard(info) {
+          const options = await getRequestOptions(info, `/api/leaderboard/find?username=${info.username}&mode=world`, 'GET')
+          const res = await req(options)
+          return res
+     }
 
-module.exports.getMemory = async (info, shard, statsPath = "stats") => {
-     const options = await getRequestOptions(info, `/api/user/memory?path=${statsPath}&shard=${shard}`, 'GET')
-     const res = await req(options)
-     if (!res) return
-     return await gz(res.data)
-}
-module.exports.getUserinfo = async info => {
-     const options = await getRequestOptions(info, `/api/auth/me`, 'GET')
-     const res = await req(options)
-     return res
-}
-module.exports.getLeaderboard = async info => {
-     const options = await getRequestOptions(info, `/api/leaderboard/find?username=${info.username}&mode=world`, 'GET')
-     const res = await req(options)
-     return res
-}
-
-module.exports.getUsers = async () => {
-     const options = await getRequestOptions({}, `/api/stats/users`, 'GET')
-     const res = await req(options)
-     return res
-}
-module.exports.getRoomsObjects = async () => {
-     const options = await getRequestOptions({}, `/api/stats/rooms/objects`, 'GET')
-     const res = await req(options)
-     return res
+     static async getUsers() {
+          const options = await getRequestOptions({}, `/api/stats/users`, 'GET')
+          const res = await req(options)
+          return res
+     }
+     static async getRoomsObjects() {
+          const options = await getRequestOptions({}, `/api/stats/rooms/objects`, 'GET')
+          const res = await req(options)
+          return res
+     }
 }

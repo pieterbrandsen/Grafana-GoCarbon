@@ -1,4 +1,4 @@
-module.exports = objects => {
+export default objects => {
     const updatedObjects = {}
 
     for (let i = 0; i < objects.length; i++) {

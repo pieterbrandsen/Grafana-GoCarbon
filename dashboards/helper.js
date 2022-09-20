@@ -1,6 +1,6 @@
-const serviceInfo = require("./serviceInfo.json");
-const stats = require("./stats.json");
-const serverStats = require("./serverStats.json");
+import serviceInfo from "./serviceInfo.json" assert {type: 'json'};
+import stats from "./stats.json" assert {type: 'json'};
+import serverStats from "./serverStats.json" assert {type: 'json'};
 
 function setupDashboard(dashboard) {
     delete dashboard.id;
@@ -29,7 +29,7 @@ function setupDashboard(dashboard) {
     return { dashboard: dashboard, overwrite: true };
 }
 
-module.exports.getDashboards = () => {
+export default () => {
     return { serverStats: setupDashboard(serverStats), stats: setupDashboard(stats), serviceInfo: setupDashboard(serviceInfo) };
 }
 

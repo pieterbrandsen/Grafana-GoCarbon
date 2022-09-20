@@ -1,4 +1,4 @@
-module.exports.users = [
+export default [
      {
           username: 'W1N1',
           type: 'private',

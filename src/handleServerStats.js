@@ -119,7 +119,7 @@ function HandleReservedRoomStats(stats, objects) {
     return stats
 }
 
-module.exports = (users, roomsObjects) => {
+export default (users, roomsObjects) => {
     const stats = {}
     const ownedControllers = objectFilter(roomsObjects, c => c.type === 'controller' && c.user)
     const reservedControllers = objectFilter(roomsObjects, c => c.type === 'controller' && c.reservation)

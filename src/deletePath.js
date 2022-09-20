@@ -1,5 +1,8 @@
-const fs = require('fs');
-const {join} = require('path');
+import fs from 'fs';
+import { join, dirname }from 'path'
+import {fileURLToPath} from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const statsPath = process.argv[2];
 if (!statsPath) {

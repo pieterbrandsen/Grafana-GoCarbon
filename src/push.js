@@ -1,13 +1,12 @@
-const apiFunc = require('./apiFunctions.js')
-const cron = require('node-cron')
-require('dotenv').config({ path: `.env.grafana` })
-const statsUsers = require('./users.js').users
-const modifyRoomObjects = require('./modifyRoomObjects.js')
-const handleServerStats = require('./handleServerStats.js')
-var graphite = require('graphite')
-var client = graphite.createClient('plaintext://relay:2003/')
+import ApiFunc from './apiFunctions.js'
+import cron from 'node-cron'
+import statsUsers from './users.js'
+import modifyRoomObjects from './modifyRoomObjects.js'
+import handleServerStats from './handleServerStats.js'
+import graphite from 'graphite'
+const client = graphite.createClient('plaintext://relay:2003/')
 
-const { createLogger, format, transports } = require('winston');
+import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, prettyPrint } = format;
 
 const logger = createLogger({
@@ -55,9 +54,9 @@ class ManageStats {
             return;
         }
         try {
-            const unfilteredUsers = await apiFunc.getUsers();
+            const unfilteredUsers = await ApiFunc.getUsers();
             const users = unfilteredUsers.filter(u => u.active === 10000)
-            const roomsObjects = await apiFunc.getRoomsObjects()
+            const roomsObjects = await ApiFunc.getRoomsObjects()
             const modifiedRoomsObjects = modifyRoomObjects(roomsObjects)
             const serverStats = handleServerStats(users, modifiedRoomsObjects)
 
@@ -79,11 +78,11 @@ class ManageStats {
     async getLoginInfo(userinfo) {
         return userinfo.type === 'mmo'
             ? userinfo.token
-            : await apiFunc.getPrivateServerToken(userinfo.username, userinfo.password)
+            : await ApiFunc.getPrivateServerToken(userinfo.username, userinfo.password)
     }
 
     async addLeaderboardData(userinfo) {
-        const leaderboard = await apiFunc.getLeaderboard(userinfo)
+        const leaderboard = await ApiFunc.getLeaderboard(userinfo)
         if (!leaderboard) return { rank: 0, score: 0 }
         const leaderboardList = leaderboard.list
         if (!leaderboardList || leaderboardList.length === 0) return { rank: 0, score: 0 }
@@ -92,12 +91,12 @@ class ManageStats {
     }
 
     async getStats(userinfo, shard) {
-        const stats = await apiFunc.getMemory(userinfo, shard)
+        const stats = await ApiFunc.getMemory(userinfo, shard)
         if (stats) await this.processStats(userinfo, shard, stats)
     }
 
     async processStats(userinfo, shard, stats) {
-        const me = await apiFunc.getUserinfo(userinfo)
+        const me = await ApiFunc.getUserinfo(userinfo)
         if (!me.error) stats.power = me.power || 0
         stats.leaderboard = await this.addLeaderboardData(userinfo)
         this.pushStats(userinfo, stats, shard)
