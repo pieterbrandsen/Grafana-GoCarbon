@@ -10,6 +10,8 @@ function sleep(milliseconds) {
 }
 
 const grafanaApiUrl = `http://localhost:${process.env.GF_SERVER_HTTP_PORT}/api`
+console.log(`Grafana API URL: ${grafanaApiUrl}`)
+
 const dashboards = dashboardHelper.getDashboards()
 const includeAllDashboards = process.argv.length > 2 && process.argv[2] === 'all'
 
