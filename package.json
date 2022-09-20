@@ -10,6 +10,7 @@
     },
     "scripts": {
         "start": "node src/index.js",
+        "start-mmo": "node src/index.js mmo",
         "start-complete": "node src/index.js all"
     }
 }
