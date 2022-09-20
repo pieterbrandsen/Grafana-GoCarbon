@@ -1,7 +1,6 @@
 const axios = require('axios').default
 const { join } = require('path')
 const dashboardHelper = require('../dashboards/helper.js')
-const { login } = require('./config.js')
 const { execSync } = require('child_process')
 
 const grafanaEnv = 'conf/grafana.env'
@@ -16,6 +15,10 @@ const grafanaApiUrl = `http://localhost:${process.env.GF_SERVER_HTTP_PORT}/api`
 console.log(`Grafana API URL: ${grafanaApiUrl}`)
 
 const dashboards = dashboardHelper.getDashboards()
+const login = {
+     username: process.env.GF_SECURITY_ADMIN_USER,
+     password: process.env.GF_SECURITY_ADMIN_PASSWORD,
+}
 
 async function SetupDataSources() {
      try {
