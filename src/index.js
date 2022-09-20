@@ -1,10 +1,12 @@
 const axios = require('axios').default
 const { join } = require('path')
-require('dotenv').config({ path: join(__dirname, '../conf', 'grafana.env') });
-const fs = require('fs')
 const dashboardHelper = require('../dashboards/helper.js')
 const { login } = require('./config.js')
 const { execSync } = require('child_process')
+
+const grafanaEnv = 'conf/grafana.env'
+require('dotenv').config({ path: join(__dirname,"../", grafanaEnv) });
+
 function sleep(milliseconds) {
      return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
@@ -78,9 +80,9 @@ async function SetupServerStatsDashboard() {
 
 ; (async function () {
      const commands = [
-          'docker-compose --env-file ./conf/grafana.env down',
-          'docker-compose --env-file ./conf/grafana.env build --no-cache',
-          'docker-compose --env-file ./conf/grafana.env up -d'
+          `docker-compose --env-file ${grafanaEnv} down`,
+          `docker-compose --env-file ${grafanaEnv} build --no-cache`,
+          `docker-compose --env-file ${grafanaEnv} up -d`
      ]
 
      for (let i = 0; i < commands.length; i++) {
