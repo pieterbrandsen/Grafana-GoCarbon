@@ -33,7 +33,7 @@ class ManageStats {
             try {
                 const user = this.users[i]
                 user.token = await this.getLoginInfo(user)
-                const shouldContinue = new Date().getMinutes() % user.shards.length === 0
+                const shouldContinue = new Date().getMinutes() % user.shards.length !== 0
                 if (user.token && user.type === 'mmo' && shouldContinue) continue
                 for (let y = 0; y < user.shards.length; y++) {
                     const shard = user.shards[y]
@@ -126,7 +126,7 @@ const groupedUsers = statsUsers.reduce((group, user) => {
   }, {});
 
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/15 * * * * *', async () => {
     console.log("\r\nCron event hit: ", new Date())
     if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers("private")
     if (groupedUsers.mmo) new ManageStats(groupedUsers.mmo).handleUsers("mmo")
