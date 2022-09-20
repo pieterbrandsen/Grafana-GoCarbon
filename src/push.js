@@ -86,7 +86,7 @@ class ManageStats {
         const leaderboard = await apiFunc.getLeaderboard(userinfo)
         if (!leaderboard) return { rank: 0, score: 0 }
         const leaderboardList = leaderboard.list
-        if (leaderboardList.length === 0) return { rank: 0, score: 0 }
+        if (!leaderboardList || leaderboardList.length === 0) return { rank: 0, score: 0 }
         const { rank, score } = leaderboardList.slice(-1)[0]
         return { rank, score }
     }
