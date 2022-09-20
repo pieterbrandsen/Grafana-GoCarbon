@@ -45,7 +45,7 @@ class ManageStats {
         }
         const groupedStats = this.groupedStats
         
-        if (type === "private") {
+        if (type === "mmo") {
             if (Object.keys(groupedStats).length > 0) {
                 ManageStats.reportStats({ stats: groupedStats })
                 this.message+=`Pushed ${type} stats to graphite`
