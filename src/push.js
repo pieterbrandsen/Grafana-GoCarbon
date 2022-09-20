@@ -126,7 +126,7 @@ const groupedUsers = statsUsers.reduce((group, user) => {
   }, {});
 
 
-cron.schedule('*/15 * * * * *', async () => {
+cron.schedule('* * * * *', async () => {
     console.log("\r\nCron event hit: ", new Date())
     if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers("private")
     if (groupedUsers.mmo) new ManageStats(groupedUsers.mmo).handleUsers("mmo")
