@@ -1,3 +1,22 @@
+/* Setup:
+     Step 1: Remove all users below
+     Step 2: Add users like this:
+          A. MMO: 
+          {
+               username: 'PandaMaster',
+               type: 'mmo',
+               shards: ['shard0'],
+               token: 'TOKEN_FOR_THIS_USER!',
+          },
+          B. Private:
+          {
+               username: 'W1N1',
+               type: 'private',
+               shards: ['screeps'],
+               password: 'password',
+          },
+*/
+
 export default [
      {
           username: 'W1N1',

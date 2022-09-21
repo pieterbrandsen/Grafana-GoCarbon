@@ -9,17 +9,19 @@
 
 ### Setup
 
-For MMO change `password` to your `token`
-Include the correct information per user and remove all current private users
+1. Check out `src/users.js` for setup instructions
 
 ### Running
 
-Inside this folder
+To get only datasource and serviceInfo dashboard run this:
 
 ```bash
 npm install
-node index.js
+npm run start
 ```
+Run commands to get other dashboards:
+1. `npm run start-mmo` For International mmo dashboard.
+2. `npm run start-private` To get performance server dashboards.
 
 ## Usage
 
