@@ -1,17 +1,10 @@
-# Base Image
-FROM node:alpine
+# syntax=docker/dockerfile:1
 
-# Working Directory
+FROM node:16.17.0
+ENV NODE_ENV=production
+
 WORKDIR "/app"
-
-# COPY the package.json file
-COPY package.json .
-
-# RUN command to install programs
+COPY . .
 RUN npm install
 
-# COPY All the files from Host Present Working Directory to Container
-COPY . .
-
-# Start the program
 CMD ["node", "src/push.js"]
