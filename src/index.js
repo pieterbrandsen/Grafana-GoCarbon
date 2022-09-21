@@ -93,7 +93,7 @@ class GrafanaInitializer {
                `docker-compose --env-file ${grafanaEnv} build --no-cache`,
                `docker-compose --env-file ${grafanaEnv} up -d`,
           ]
-          if (!isWindows) commands.push(`chmod ugo+rwx whisper`)
+          if (!isWindows) commands.push(`sudo chmod -R 777 whisper`)
      
           for (let i = 0; i < commands.length; i++) {
                const command = commands[i];
