@@ -1,8 +1,5 @@
 # An service to launch an easy to use high performant graphite + grafana service
 
-! UNTIL FURTHER NOTICE EVERY RESTART OF THE COMPLETE CONTAINER WILL RESULT IN A LOSS OF ALL DATA !
-Solution is to stop and delete push-stats container, `docker-compose rebuild` and `docker-compose up -d`
-
 ## Requirements
 
 - Docker-Compose
@@ -36,4 +33,4 @@ If the mod [screepsmod-server-stats](https://github.com/The-International-Screep
 node src/deletePath direct.path.to.delete
 ```
 
-This removes all data for the path
+This removes all data for the chosen path
