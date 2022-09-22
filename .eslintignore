@@ -1,0 +1,10 @@
+# Folders
+
+/dashboards
+/node_modules
+/conf
+
+## File types
+
+**/*.json
+**/*.log
