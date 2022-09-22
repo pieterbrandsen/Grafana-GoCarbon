@@ -3,8 +3,12 @@
 /dashboards
 /node_modules
 /conf
+/whisper
 
 ## File types
 
 **/*.json
 **/*.log
+**/*.md
+**/*.yml
+Dockerfile

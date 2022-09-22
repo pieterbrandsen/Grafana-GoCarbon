@@ -1,7 +1,7 @@
 /* Setup:
      Step 1: Remove all users below
      Step 2: Add users like this:
-          A. MMO: 
+          A. MMO:
           {
                username: 'PandaMaster',
                type: 'mmo',
@@ -18,58 +18,58 @@
 */
 
 export default [
-     {
-          username: 'W1N1',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W6N1',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W2N5',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W5N8',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W7N3',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W9N9',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W3N9',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W8N6',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     },
-     {
-          username: 'W3N3',
-          type: 'private',
-          shards: ['screeps'],
-          password: 'password',
-     }
-]
+  {
+    username: 'W1N1',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W6N1',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W2N5',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W5N8',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W7N3',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W9N9',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W3N9',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W8N6',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+  {
+    username: 'W3N3',
+    type: 'private',
+    shards: ['screeps'],
+    password: 'password',
+  },
+];
