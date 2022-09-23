@@ -24,33 +24,33 @@ async function gz(data) {
 }
 
 let privateHost;
-let forcedHost;
 
 function getPrivateHost() {
+  const port = 21025;
   const hosts = [
-    ['localhost', 21025],
-    ['host.docker.internal', 21025],
-    ['172.17.0.1', 21025],
+    'localhost',
+    'host.docker.internal',
+    '172.17.0.1',
   ];
-  for (let s = 0; s < hosts.length; s += 1) {
-    const host = hosts[s];
+  for (let h = 0; h < hosts.length; h += 1) {
+    const host = hosts[h];
     const sock = new net.Socket();
     sock.setTimeout(2500);
+    // eslint-disable-next-line no-loop-func
     sock.on('connect', () => {
-      privateHost = host[0];
       sock.destroy();
+      privateHost = host;
     })
       .on('error', () => {
       })
       .on('timeout', () => {
       })
-      .connect(host[1], host[0]);
+      .connect(host, port);
   }
 }
 getPrivateHost();
 
 async function getHost(type) {
-  if (forcedHost) return forcedHost;
   if (type === 'mmo') return 'screeps.com';
   return privateHost;
 }
