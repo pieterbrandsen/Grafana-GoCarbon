@@ -42,13 +42,22 @@ function getPrivateHost() {
       privateHost = host;
     })
       .on('error', () => {
+        console.log('error', host);
+        sock.destroy();
       })
       .on('timeout', () => {
+        console.log('timeout', host);
+        sock.destroy();
       })
-      .connect(host, port);
+      .connect(port, host);
   }
 }
-getPrivateHost();
+while (!privateHost) {
+  getPrivateHost();
+  // eslint-disable-next-line
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (!privateHost) console.log('no private host found to make connection with!');
+}
 
 async function getHost(type) {
   if (type === 'mmo') return 'screeps.com';
