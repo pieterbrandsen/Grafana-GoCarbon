@@ -113,7 +113,7 @@ class GrafanaInitializer {
     await this.SetupDataSources();
     await this.SetupServiceInfoDashboard();
     switch (process.argv[2]) {
-      case 'all':
+      case 'private':
         await this.SetupStatsDashboard();
         await this.SetupServerStatsDashboard();
         break;
