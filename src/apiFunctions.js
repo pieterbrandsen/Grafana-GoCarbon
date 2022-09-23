@@ -37,6 +37,7 @@ function getPrivateHost() {
     const sock = new net.Socket();
     sock.setTimeout(2500);
     sock.on('connect', () => {
+      privateHost = host[0];
       sock.destroy();
     })
       .on('error', () => {
