@@ -50,7 +50,7 @@ services:
           depends_on:
                - relay
           env_file:
-               - ./conf/grafana.env
+               - ./conf/.env.grafana
           healthcheck:
                test: 'curl -fsSL -o /dev/null http://localhost:${GF_SERVER_HTTP_PORT}/login'
                interval: 10s
