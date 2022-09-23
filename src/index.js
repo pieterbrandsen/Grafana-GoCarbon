@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import axios from 'axios';
 import { execSync } from 'child_process';
 import { join, dirname } from 'path';
@@ -9,8 +10,8 @@ import getDashboards from '../dashboards/helper.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const grafanaEnv = 'conf/grafana.env';
-dotenv.config({ path: join(__dirname, '../', grafanaEnv) });
+const grafanaEnv = join(__dirname, '../conf/grafana.env');
+dotenv.config({ path:  grafanaEnv});
 const isWindows = process.platform === 'win32';
 
 function sleep(milliseconds) {
