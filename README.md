@@ -25,7 +25,7 @@ Run commands to get other dashboards:
 
 ## Usage
 
-Go to `http://localhost:3000` and setup the dashboards you want
+Go to `http://localhost:3000` and login with `admin` and `password`.
 
 If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats) is installed on the private server then all server information will be available
 
