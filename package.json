@@ -1,4 +1,9 @@
 {
+    "name": "screeps-grafana",
+    "version": "1.1.0",
+    "bin": {
+        "screeps-grafana": "./bin/setup.js"
+    },
     "dependencies": {
         "axios": "^0.27.2",
         "dotenv": "^16.0.2",
@@ -20,5 +25,13 @@
         "eslint": "^8.23.1",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-plugin-import": "^2.26.0"
-    }
+    },
+    "files": [
+        "src",
+        "conf",
+        "dashboards",
+        "docker-compose.yml",
+        "Dockerfile",
+        ".dockerignore"
+    ]
 }

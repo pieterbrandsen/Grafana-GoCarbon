@@ -19,7 +19,9 @@ To get only datasource and serviceInfo dashboard run this:
 npm install
 npm run start
 ```
+
 Run commands to get other dashboards:
+
 1. `npm run start-mmo` For International mmo dashboard.
 2. `npm run start-private` To get performance server dashboards.
 
@@ -36,3 +38,8 @@ node src/deletePath direct.path.to.delete
 ```
 
 This removes all data for the chosen path
+
+## FAQ
+
+1. To update password/username for the admin user, you need to update `conf/grafana.env`, delete the volume of the grafana container and restart.
+2. Its possible to start using `npx` instead of `npm run` but you need to install using `npm i - g screeps-grafana` and then `npx screeps-grafana` with possible `mmo` or `private` options.
