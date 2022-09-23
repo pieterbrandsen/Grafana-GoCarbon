@@ -1,4 +1,3 @@
-#! /usr/bin/env node
 import axios from 'axios';
 import { execSync } from 'child_process';
 import { join, dirname } from 'path';
@@ -10,8 +9,8 @@ import getDashboards from '../dashboards/helper.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const grafanaEnv = join(__dirname, '../conf/grafana.env');
-dotenv.config({ path:  grafanaEnv});
+const grafanaEnv = join(__dirname, '../conf/.env.grafana');
+dotenv.config({ path: grafanaEnv });
 const isWindows = process.platform === 'win32';
 
 function sleep(milliseconds) {
@@ -91,10 +90,11 @@ class GrafanaInitializer {
   }
 
   static async Start() {
+    const dockerComposePath = join(__dirname, '../docker-compose.yml');
     const commands = [
-      `docker-compose --env-file ${grafanaEnv} down`,
-      `docker-compose --env-file ${grafanaEnv} build --no-cache`,
-      `docker-compose --env-file ${grafanaEnv} up -d`,
+      `docker-compose -f ${dockerComposePath} down`,
+      `docker-compose -f ${dockerComposePath} build --no-cache`,
+      `docker-compose -f ${dockerComposePath} up -d`,
     ];
     if (!isWindows) commands.push('sudo chmod -R 777 whisper');
 
