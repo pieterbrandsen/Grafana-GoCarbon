@@ -384,7 +384,10 @@
       "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "graphite",
+        "uid": "kloVnenVz"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -446,7 +449,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "C",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eih, 5, 'sum'), 60), 'Harvest')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eih, 5, 'sum'), '1hour'), 'Harvest')"
         },
         {
           "datasource": {
@@ -456,7 +459,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "A",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eob, 5, 'sum'), 60), 'Build')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eob, 5, 'sum'), '1hour'), 'Build')"
         },
         {
           "datasource": {
@@ -466,7 +469,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "B",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eoro, 5, 'sum'), 60), 'Repair Other')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eoro, 5, 'sum'), '1hour'), 'Repair Other')"
         },
         {
           "datasource": {
@@ -476,7 +479,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "D",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eorwr, 5, 'sum'), 60), 'Repair Barricades')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eorwr, 5, 'sum'), '1hour'), 'Repair Barricades')"
         },
         {
           "datasource": {
@@ -486,7 +489,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "E",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eosp, 5, 'sum'), 60), 'Spawning')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eosp, 5, 'sum'), '1hour'), 'Spawning')"
         },
         {
           "datasource": {
@@ -496,7 +499,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "F",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.reih, 5, 'sum'), 60), 'Remote Harvest')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.reih, 5, 'sum'), '1hour'), 'Remote Harvest')"
         },
         {
           "datasource": {
@@ -506,7 +509,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "G",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.reob, 5, 'sum')), 60), 'Remote Build')"
+          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.reob, 5, 'sum')), '1hour'), 'Remote Build')"
         },
         {
           "datasource": {
@@ -516,7 +519,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "H",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.reoro, 5, 'sum')), 60), 'Remote Repair Other')"
+          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.reoro, 5, 'sum')), '1hour'), 'Remote Repair Other')"
         },
         {
           "datasource": {
@@ -526,7 +529,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "I",
-          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eou, 5, 'sum'), 60), 'Upgrading')"
+          "target": "alias(movingAverage(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eou, 5, 'sum'), '1hour'), 'Upgrading')"
         },
         {
           "datasource": {
@@ -536,7 +539,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "J",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eib, 5, 'sum')), 60), 'Bought')"
+          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eib, 5, 'sum')), '1hour'), 'Bought')"
         },
         {
           "datasource": {
@@ -546,7 +549,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "K",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eos, 5, 'sum')), 60), 'Sold')"
+          "target": "alias(movingAverage(removeZeroSeries(groupByNode(stats.$Users.$Shards.rooms.$Rooms.eos, 5, 'sum')), '1hour'), 'Sold')"
         }
       ],
       "title": "Energy Distribution",
@@ -2983,7 +2986,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5019,6 +5023,6 @@
   "timezone": "",
   "title": "Stats",
   "uid": "Wg0V7e7Vk",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
