@@ -1738,7 +1738,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "graphite",
+        "uid": "kloVnenVz"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1777,7 +1780,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "#EAB839",
@@ -1934,8 +1938,8 @@
           "hide": true,
           "refCount": 1,
           "refId": "M",
-          "target": "groupByNode(group(#J, #K, #L), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 1, 'sum')",
+          "target": "sortByName(groupByNode(group(#J, #K, #L), 4, 'sum'), false)",
+          "targetFull": "sortByName(groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 4, 'sum'), false)",
           "textEditor": true
         },
         {
@@ -1946,8 +1950,8 @@
           "hide": true,
           "refCount": 1,
           "refId": "I",
-          "target": "groupByNode(group(#A, #B, #C, #D, #E, #F, #G, #H), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 1, 'sum')"
+          "target": "sortByName(groupByNode(group(#A, #B, #C, #D, #E, #F, #G, #H), 4, 'sum'), false)",
+          "targetFull": "sortByName(groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 4, 'sum'), false)"
         },
         {
           "datasource": {
@@ -1956,9 +1960,10 @@
           },
           "hide": false,
           "refCount": 1,
-          "refId": "N",
-          "target": "groupByNode(diffSeriesLists(#M, #I), 0, 'sum')",
-          "targetFull": "groupByNode(diffSeriesLists(groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 1, 'sum'), groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 1, 'sum')), 0, 'sum')"
+          "refId": "O",
+          "target": "aliasByNode(diffSeriesLists(#M, #I), 0)",
+          "targetFull": "aliasByNode(diffSeriesLists(sortByName(groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 4, 'sum'), false), sortByName(groupByNode(group(removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 4, 'sum'), false)), 0)",
+          "textEditor": true
         }
       ],
       "title": "Energy Net income",
@@ -2004,7 +2009,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2013,7 +2019,32 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "W3N9"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -2128,7 +2159,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2218,7 +2250,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2227,7 +2260,32 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "W3N9"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -2389,7 +2447,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2490,7 +2549,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -5005,6 +5065,6 @@
   "timezone": "",
   "title": "Stats",
   "uid": "Wg0V7e7Vk",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
