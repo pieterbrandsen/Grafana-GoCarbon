@@ -3,7 +3,7 @@ import https from 'https';
 import net from 'net';
 import util from 'util';
 import zlib from 'zlib';
-import users from './users';
+import users from './users.js';
 
 const needsPrivateHost = users.some((u) => u.type === 'private');
 
