@@ -3,6 +3,9 @@ import https from 'https';
 import net from 'net';
 import util from 'util';
 import zlib from 'zlib';
+import users from './users';
+
+const needsPrivateHost = users.some((u) => u.type === 'private');
 
 import { createLogger, format, transports } from 'winston';
 
@@ -52,10 +55,10 @@ function getPrivateHost() {
       .connect(port, host);
   }
 }
-while (!privateHost) {
+while (!privateHost && needsPrivateHost) {
   getPrivateHost();
   // eslint-disable-next-line
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 60*1000));
   if (!privateHost) console.log('no private host found to make connection with!');
 }
 
