@@ -28,25 +28,6 @@ const login = {
 };
 
 class GrafanaInitializer {
-  static async SetupDataSources() {
-    try {
-      await axios({
-        url: `${grafanaApiUrl}/datasources`,
-        method: 'post',
-        auth: login,
-        data: {
-          name: 'Graphite',
-          type: 'graphite',
-          url: 'http://api:8080',
-          access: 'proxy',
-          isDefault: true,
-        },
-      });
-    } catch (err) {
-      if (err.response && err.response.data.message !== 'data source with the same name already exists') console.error('Graphite datasource creation error: ', err.response && err.response.data.message);
-    }
-  }
-
   static async SetupServiceInfoDashboard() {
     try {
       const dashboard = dashboards.serviceInfo;
@@ -111,7 +92,6 @@ class GrafanaInitializer {
     await sleep(30 * 1000);
     console.log('Pre setup done!\r\n');
 
-    await this.SetupDataSources();
     await this.SetupServiceInfoDashboard();
     switch (process.argv[2]) {
       case 'private':

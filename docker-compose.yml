@@ -45,6 +45,7 @@ services:
           image: grafana/grafana-enterprise:9.0.4-ubuntu
           volumes:
                - grafana_data:/var/lib/grafana
+               - ./conf/grafanaDatasource.yaml:/etc/grafana/provisioning/datasources/grafanaDatasource.yaml:ro
           ports:
                - '${GF_SERVER_HTTP_PORT}:${GF_SERVER_HTTP_PORT}'
           depends_on:
