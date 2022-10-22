@@ -12,8 +12,6 @@ services:
                - ./conf/relay.conf:/openmetric/conf/relay.conf:ro
           depends_on:
                - carbon
-          ports:
-               - '2003:2003'
           healthcheck:
                test: nc -zv localhost 2003
                interval: 10s

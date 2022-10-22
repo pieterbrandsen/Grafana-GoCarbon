@@ -5,7 +5,7 @@ import util from 'util';
 import zlib from 'zlib';
 import users from './users.js';
 
-const needsPrivateHost = users.some((u) => u.type === 'private' && !u.host);
+const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
 
 import { createLogger, format, transports } from 'winston';
 
@@ -55,11 +55,19 @@ function getPrivateHost() {
       .connect(port, host);
   }
 }
-while (!privateHost && needsPrivateHost) {
+
+async function TryToGetPrivateHost() {
   getPrivateHost();
-  // eslint-disable-next-line
-  await new Promise((resolve) => setTimeout(resolve, 60*1000));
   if (!privateHost) console.log('no private host found to make connection with!');
+  if (!privateHost && needsPrivateHost) {
+    // eslint-disable-next-line
+    await new Promise((resolve) => setTimeout(resolve, 60*1000));
+    TryToGetPrivateHost();
+  }
+}
+
+if (!privateHost && needsPrivateHost) {
+  TryToGetPrivateHost();
 }
 
 async function getHost(host, type) {
