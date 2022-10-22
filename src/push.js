@@ -65,9 +65,10 @@ class ManageStats {
       return;
     }
     try {
-      const unfilteredUsers = await ApiFunc.getUsers();
+      const host = users.find((user) => user.type === 'private').host;
+      const unfilteredUsers = await ApiFunc.getUsers(host);
       const unfilteredActiveUsers = unfilteredUsers.filter((u) => u.active === 10000);
-      const roomsObjects = await ApiFunc.getRoomsObjects();
+      const roomsObjects = await ApiFunc.getRoomsObjects(host);
       const modifiedRoomsObjects = modifyRoomObjects(roomsObjects);
       const serverStats = handleServerStats(unfilteredActiveUsers, modifiedRoomsObjects);
 

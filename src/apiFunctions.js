@@ -176,14 +176,14 @@ export default class {
     return res;
   }
 
-  static async getUsers() {
-    const options = await getRequestOptions({}, '/api/stats/users', 'GET');
+  static async getUsers(host) {
+    const options = await getRequestOptions({host}, '/api/stats/users', 'GET');
     const res = await req(options);
     return res;
   }
 
-  static async getRoomsObjects() {
-    const options = await getRequestOptions({}, '/api/stats/rooms/objects', 'GET');
+  static async getRoomsObjects(host) {
+    const options = await getRequestOptions({host}, '/api/stats/rooms/objects', 'GET');
     const res = await req(options);
     return res;
   }

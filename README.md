@@ -11,6 +11,8 @@
 
 1. Check out `src/users.js` for setup instructions
 
+Only 1 host per type is supported at the moment. So if you set it in the `src/users.js` file, it will always use first found host per type.
+
 ### Running
 
 To get only datasource and serviceInfo dashboard run this:
