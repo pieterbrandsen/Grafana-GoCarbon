@@ -55,6 +55,15 @@ class ManageStats {
       }
       return;
     }
+    if (type === 'swc') {
+      const host = users.find((user) => user.type === 'swc').host;
+      const serverStats = await ApiFunc.getSwcServerStats(host);
+      ManageStats.reportStats({ swc: groupedStats, serverStats });
+      this.message += Object.keys(groupedStats) > 0 ? 'Pushed swc stats AND serverStats to graphite' : 'Pushed serverStats to graphite';
+      console.log(this.message);
+      logger.info(this.message);
+      return;
+    }
     try {
       const unfilteredUsers = await ApiFunc.getUsers();
       const unfilteredActiveUsers = unfilteredUsers.filter((u) => u.active === 10000);
@@ -67,6 +76,7 @@ class ManageStats {
       logger.info(this.message);
       console.log(this.message);
     } catch (e) {
+      console.log(Object.keys(groupedStats));
       if (Object.keys(groupedStats).length > 0) {
         ManageStats.reportStats({ stats: groupedStats });
         this.message += `Pushed ${type} stats to graphite`;
@@ -78,18 +88,22 @@ class ManageStats {
 
   static async getLoginInfo(userinfo) {
     if (userinfo.type !== 'mmo') {
-      userinfo.token = await ApiFunc.getPrivateServerToken(userinfo.username, userinfo.password);
+      userinfo.token = await ApiFunc.getPrivateServerToken(userinfo);
     }
     return userinfo.token;
   }
 
   static async addLeaderboardData(userinfo) {
-    const leaderboard = await ApiFunc.getLeaderboard(userinfo);
-    if (!leaderboard) return { rank: 0, score: 0 };
-    const leaderboardList = leaderboard.list;
-    if (leaderboardList.length === 0) return { rank: 0, score: 0 };
-    const { rank, score } = leaderboardList.slice(-1)[0];
-    return { rank, score };
+    try {
+      const leaderboard = await ApiFunc.getLeaderboard(userinfo);
+      if (!leaderboard) return { rank: 0, score: 0 };
+      const leaderboardList = leaderboard.list;
+      if (leaderboardList.length === 0) return { rank: 0, score: 0 };
+      const { rank, score } = leaderboardList.slice(-1)[0];
+      return { rank, score };
+    } catch (error) {
+      return { rank: 0, score: 0 };
+    }
   }
 
   async getStats(userinfo, shard) {
@@ -135,8 +149,9 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('*/30 * * * * *', async () => {
+cron.schedule('* * * * *', async () => {
   console.log('\r\nCron event hit: ', new Date());
   if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers('private');
+  if (groupedUsers.swc) new ManageStats(groupedUsers.swc).handleUsers('swc');
   if (groupedUsers.mmo) new ManageStats(groupedUsers.mmo).handleUsers('mmo');
 });

@@ -5,7 +5,7 @@ import util from 'util';
 import zlib from 'zlib';
 import users from './users.js';
 
-const needsPrivateHost = users.some((u) => u.type === 'private');
+const needsPrivateHost = users.some((u) => u.type === 'private' && !u.host);
 
 import { createLogger, format, transports } from 'winston';
 
@@ -62,8 +62,9 @@ while (!privateHost && needsPrivateHost) {
   if (!privateHost) console.log('no private host found to make connection with!');
 }
 
-async function getHost(type) {
+async function getHost(host, type) {
   if (type === 'mmo') return 'screeps.com';
+  if (host) return host;
   return privateHost;
 }
 
@@ -76,7 +77,7 @@ async function getRequestOptions(info, path, method = 'GET', body = {}) {
   if (info.username) headers['X-Username'] = info.username;
   if (info.token) headers['X-Token'] = info.token;
   return {
-    host: await getHost(info.type),
+    host: await getHost(info.host, info.type),
     port: info.type === 'mmo' ? 443 : 21025,
     path,
     method,
@@ -137,10 +138,10 @@ async function req(options) {
 }
 
 export default class {
-  static async getPrivateServerToken(username, password) {
-    const options = await getRequestOptions({ type: 'private', username }, '/api/auth/signin', 'POST', {
-      email: username,
-      password,
+  static async getPrivateServerToken(info) {
+    const options = await getRequestOptions({ type: 'private', username: info.username, host: info.host }, '/api/auth/signin', 'POST', {
+      email: info.username,
+      password: info.password,
     });
     const res = await req(options);
     if (!res) return undefined;
@@ -175,6 +176,11 @@ export default class {
 
   static async getRoomsObjects() {
     const options = await getRequestOptions({}, '/api/stats/rooms/objects', 'GET');
+    const res = await req(options);
+    return res;
+  }
+  static async getSwcServerStats(host) {
+    const options = await getRequestOptions({host}, '/stats', 'GET');
     const res = await req(options);
     return res;
   }

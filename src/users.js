@@ -15,6 +15,14 @@
                shards: ['screeps'],
                password: 'password',
           },
+    Step 3: Add the host of the private server if its not localhost
+          {
+              username: 'W1N1',
+              type: 'private',
+              shards: ['screeps'],
+              password: 'password',
+              host: '123.456.789',
+          },
 */
 
 export default [
