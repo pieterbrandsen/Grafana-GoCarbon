@@ -6,6 +6,8 @@ services:
      push-stats:
           build: .
           restart: unless-stopped
+          volumes:
+               - ./logs:/logs
      relay:
           image: openmetric/carbon-c-relay:latest
           volumes:

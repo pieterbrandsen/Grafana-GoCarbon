@@ -17,7 +17,7 @@ const logger = createLogger({
     timestamp(),
     prettyPrint(),
   ),
-  transports: [new transports.File({ filename: 'api.log' })],
+  transports: [new transports.File({ filename: 'logs/api.log' })],
 });
 
 async function gz(data) {
@@ -167,9 +167,13 @@ export default class {
   static async getSegmentMemory(info, shard) {
     const options = await getRequestOptions(info, `/api/user/memory-segment?segment=${info.segment}&shard=${shard}`, 'GET');
     const res = await req(options);
-    if (!res) return undefined;
-    const data = JSON.parse(res.data);
-    return data;
+    if (!res || res.data == null) return {};
+    try {
+      const data = JSON.parse(res.data)
+      return data; 
+    } catch (error) {
+      return {}      
+    }
   }
 
   static async getUserinfo(info) {

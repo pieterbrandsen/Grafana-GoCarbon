@@ -11,7 +11,7 @@
 
 1. Check out `src/users.js` for setup instructions
 
-Only 1 host per type is supported at the moment. So if you set it in the `src/users.js` file, it will always use first found host per type.
+Only 1 private serverStats host is supported at the moment. So if you set it in the `src/users.js` file, it will always use first found host.
 
 ### Running
 
@@ -31,7 +31,7 @@ Run commands to get other dashboards:
 
 Go to `http://localhost:3000` and login with `admin` and `password`.
 
-If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats) is installed on the private server then all server information will be available
+If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats) is installed on the private server that is referenced then all server information will be imported
 
 ### Delete data
 
@@ -40,6 +40,15 @@ node src/deletePath direct.path.to.delete
 ```
 
 This removes all data for the chosen path
+
+### Upgrade version
+
+1. `docker-compose down`
+2. Backup `src/users.js` and `.env.grafana`. If you would like to start fresh backup `whisper` and `logs` (if you want) folder as well.
+3. Get latest changes
+4. Overwrite all backuped files/folders
+5. `npm install`
+6. `npm run start`
 
 ## FAQ
 

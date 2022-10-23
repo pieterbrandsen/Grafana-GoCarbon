@@ -15,7 +15,15 @@ const logger = createLogger({
     timestamp(),
     prettyPrint(),
   ),
-  transports: [new transports.File({ filename: 'push.log' })],
+  transports: [new transports.File({ filename: 'logs/push.log' })],
+});
+
+const cronLogger = createLogger({
+  format: combine(
+    timestamp(),
+    prettyPrint(),
+  ),
+  transports: [new transports.File({ filename: 'logs/cron.log' })],
 });
 
 class ManageStats {
@@ -55,36 +63,33 @@ class ManageStats {
       }
       return;
     }
-    if (type === 'swc') {
-      const host = users.find((user) => user.type === 'swc').host;
-      const serverStats = await ApiFunc.getSwcServerStats(host);
-      ManageStats.reportStats({ swc: groupedStats, serverStats });
-      this.message += Object.keys(groupedStats) > 0 ? 'Pushed swc stats AND serverStats to graphite' : 'Pushed serverStats to graphite';
-      console.log(this.message);
-      logger.info(this.message);
-      return;
-    }
+
+    let serverStats;
+    const host = users.find((user) => user.type === 'private').host;
+    const adminUtilsServerStats = await ApiFunc.getSwcServerStats(host);
     try {
-      const host = users.find((user) => user.type === 'private').host;
       const unfilteredUsers = await ApiFunc.getUsers(host);
       const unfilteredActiveUsers = unfilteredUsers.filter((u) => u.active === 10000);
       const roomsObjects = await ApiFunc.getRoomsObjects(host);
       const modifiedRoomsObjects = modifyRoomObjects(roomsObjects);
-      const serverStats = handleServerStats(unfilteredActiveUsers, modifiedRoomsObjects);
-
-      ManageStats.reportStats({ stats: groupedStats, serverStats });
-      this.message += Object.keys(groupedStats) > 0 ? 'Pushed private stats AND serverStats to graphite' : 'Pushed serverStats to graphite';
-      logger.info(this.message);
-      console.log(this.message);
+      serverStats = handleServerStats(unfilteredActiveUsers, modifiedRoomsObjects);
     } catch (e) {
-      console.log(Object.keys(groupedStats));
-      if (Object.keys(groupedStats).length > 0) {
-        ManageStats.reportStats({ stats: groupedStats });
-        this.message += `Pushed ${type} stats to graphite`;
-        logger.info(this.message);
-        console.log(this.message);
-      }
     }
+
+    ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats });
+    let statsPushed = "";
+    if (Object.keys(groupedStats).length > 0) {
+      statsPushed = `Pushed ${type} stats`;
+    }
+    if (serverStats) {
+      statsPushed += statsPushed.length > 0 ? `, server stats` : "Pushed server stats";
+    }
+    if (adminUtilsServerStats) {
+      statsPushed += statsPushed.length > 0 ? `, adminUtilsServerStats` : "Pushed server stats";
+    }
+    this.message += statsPushed.length > 0 ? `> ${statsPushed} to graphite` : '> Pushed no stats to graphite';
+    logger.info(this.message);
+    console.log(this.message);
   }
 
   static async getLoginInfo(userinfo) {
@@ -110,7 +115,7 @@ class ManageStats {
   async getStats(userinfo, shard) {
     try {
       await ManageStats.getLoginInfo(userinfo);
-      const stats = userinfo.segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
+      const stats = userinfo. segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
       await this.processStats(userinfo, shard, stats);
       return 'success';
     } catch (error) {
@@ -120,7 +125,7 @@ class ManageStats {
 
   async processStats(userinfo, shard, stats) {
     const me = await ApiFunc.getUserinfo(userinfo);
-    if (!me || me.error) stats.power = me.power || 0;
+    if (me) stats.power = me.power || 0;
     stats.leaderboard = await ManageStats.addLeaderboardData(userinfo);
     this.pushStats(userinfo, stats, shard);
   }
@@ -151,8 +156,10 @@ const groupedUsers = users.reduce((group, user) => {
 }, {});
 
 cron.schedule('*/15 * * * * *', async () => {
-  console.log('\r\nCron event hit: ', new Date());
-  if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers('private');
-  if (groupedUsers.swc) new ManageStats(groupedUsers.swc).handleUsers('swc');
-  if (groupedUsers.mmo) new ManageStats(groupedUsers.mmo).handleUsers('mmo');
+  const message = 'Cron event hit: ' + new Date(); 
+  console.log("\r\n"+message);
+  cronLogger.info(message);
+  Object.keys(groupedUsers).forEach((type) => {
+    new ManageStats(groupedUsers[type]).handleUsers(type);
+  })
 });
