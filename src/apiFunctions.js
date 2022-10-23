@@ -21,6 +21,7 @@ const logger = createLogger({
 });
 
 async function gz(data) {
+  if (!data) return {};
   const buf = Buffer.from(data.slice(3), 'base64');
   const ret = await gunzipAsync(buf);
   return JSON.parse(ret.toString());
