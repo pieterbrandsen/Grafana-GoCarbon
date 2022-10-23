@@ -13,6 +13,16 @@ const grafanaEnv = join(__dirname, '../conf/.env.grafana');
 dotenv.config({ path: grafanaEnv });
 const isWindows = process.platform === 'win32';
 
+import { createLogger, format, transports } from 'winston';
+const { combine, timestamp, prettyPrint } = format;
+const logger = createLogger({
+  format: combine(
+    timestamp(),
+    prettyPrint(),
+  ),
+  transports: [new transports.File({ filename: 'logs/setup.log' })],
+});
+
 function sleep(milliseconds) {
   // eslint-disable-next-line no-promise-executor-return
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -38,6 +48,7 @@ class GrafanaInitializer {
         data: dashboard,
       });
     } catch (err) {
+      logger.error('Service-Info dashboard creation error: ', err);
       console.error('Service info dashboard creation error: ', err.response && err.response.data.message);
     }
   }
@@ -52,6 +63,7 @@ class GrafanaInitializer {
         data: dashboard,
       });
     } catch (err) {
+      logger.error('Service-Info dashboard creation error: ', err);
       console.log('Stats dashboard creation error: ', err.response && err.response.data.message);
     }
   }
@@ -66,6 +78,7 @@ class GrafanaInitializer {
         data: dashboard,
       });
     } catch (err) {
+      logger.error('Service-Info dashboard creation error: ', err);
       console.log('Server-Stats dashboard creation error: ', err.response && err.response.data.message);
     }
   }
