@@ -23,6 +23,15 @@
               password: 'password',
               host: '123.456.789',
           },
+     Step 4: Add the segment of the stats if its not memory
+          {
+              username: 'W1N1',
+              type: 'private',
+              shards: ['screeps'],
+              password: 'password',
+              host: '123.456.789',
+              segment: 0,
+          },
 */
 
 export default [

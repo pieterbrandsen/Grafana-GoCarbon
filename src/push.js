@@ -110,7 +110,7 @@ class ManageStats {
   async getStats(userinfo, shard) {
     try {
       await ManageStats.getLoginInfo(userinfo);
-      const stats = await ApiFunc.getMemory(userinfo, shard);
+      const stats = userinfo.segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
       await this.processStats(userinfo, shard, stats);
       return 'success';
     } catch (error) {
@@ -150,7 +150,7 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/15 * * * * *', async () => {
   console.log('\r\nCron event hit: ', new Date());
   if (groupedUsers.private) new ManageStats(groupedUsers.private).handleUsers('private');
   if (groupedUsers.swc) new ManageStats(groupedUsers.swc).handleUsers('swc');

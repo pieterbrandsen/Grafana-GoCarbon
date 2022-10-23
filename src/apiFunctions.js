@@ -164,6 +164,13 @@ export default class {
     const data = await gz(res.data);
     return data;
   }
+  static async getSegmentMemory(info, shard) {
+    const options = await getRequestOptions(info, `/api/user/memory-segment?segment=${info.segment}&shard=${shard}`, 'GET');
+    const res = await req(options);
+    if (!res) return undefined;
+    const data = JSON.parse(res.data);
+    return data;
+  }
 
   static async getUserinfo(info) {
     const options = await getRequestOptions(info, '/api/auth/me', 'GET');
