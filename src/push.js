@@ -65,7 +65,8 @@ class ManageStats {
     }
 
     let serverStats;
-    const host = users.find((user) => user.type === 'private').host;
+    const privateUser = users.find((user) => user.type === 'private' && user.host);
+    const host = privateUser ? privateUser.host : 'localhost';
     const adminUtilsServerStats = await ApiFunc.getSwcServerStats(host);
     try {
       const unfilteredUsers = await ApiFunc.getUsers(host);
@@ -115,7 +116,7 @@ class ManageStats {
   async getStats(userinfo, shard) {
     try {
       await ManageStats.getLoginInfo(userinfo);
-      const stats = userinfo. segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
+      const stats = userinfo.segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
       await this.processStats(userinfo, shard, stats);
       return 'success';
     } catch (error) {
@@ -155,9 +156,9 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('*/15 * * * * *', async () => {
-  const message = 'Cron event hit: ' + new Date(); 
-  console.log("\r\n"+message);
+cron.schedule('* * * * *', async () => {
+  const message = 'Cron event hit: ' + new Date();
+  console.log("\r\n" + message);
   cronLogger.info(message);
   Object.keys(groupedUsers).forEach((type) => {
     new ManageStats(groupedUsers[type]).handleUsers(type);
