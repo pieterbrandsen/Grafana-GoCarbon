@@ -46,7 +46,7 @@ This removes all data for the chosen path
 1. `docker-compose down`
 2. Backup `src/users.js` and `.env.grafana`. If you would like to start fresh backup `whisper` and `logs` (if you want) folder as well.
 3. Get latest changes
-4. Overwrite all backuped files/folders
+4. Copy all backuped files/folders to the folder
 5. `npm install`
 6. `npm run start`
 
