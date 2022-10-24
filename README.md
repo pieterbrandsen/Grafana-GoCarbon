@@ -25,7 +25,7 @@ npm run start
 Run commands to get other dashboards:
 
 1. `npm run start-mmo` For International mmo dashboard.
-2. `npm run start-private` To get performance server dashboards.
+2. `npm run start-private` To get performance server dashboards to use when admin-utils mod is installed.
 
 ## Usage
 

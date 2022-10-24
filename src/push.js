@@ -66,8 +66,19 @@ class ManageStats {
 
     let serverStats;
     const privateUser = users.find((user) => user.type === 'private' && user.host);
-    const host = privateUser ? privateUser.host : 'localhost';
-    const adminUtilsServerStats = await ApiFunc.getSwcServerStats(host);
+    const host = privateUser ? privateUser.host : 'localhost2';
+    let adminUtilsServerStats = await ApiFunc.getSwcServerStats(host);
+    if (adminUtilsServerStats) {
+      try {
+        const groupedAdminStatsUsers = {};
+        adminUtilsServerStats.users.forEach(user => {
+          groupedAdminStatsUsers[user.username] = user;
+        })
+        adminUtilsServerStats.users = groupedAdminStatsUsers;
+      } catch (error) {
+      }
+    }
+
     try {
       const unfilteredUsers = await ApiFunc.getUsers(host);
       const unfilteredActiveUsers = unfilteredUsers.filter((u) => u.active === 10000);
@@ -156,7 +167,7 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/5 * * * * *', async () => {
   const message = 'Cron event hit: ' + new Date();
   console.log("\r\n" + message);
   cronLogger.info(message);

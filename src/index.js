@@ -63,7 +63,7 @@ class GrafanaInitializer {
         data: dashboard,
       });
     } catch (err) {
-      logger.error('Service-Info dashboard creation error: ', err);
+      logger.error('Stats dashboard creation error: ', err);
       console.log('Stats dashboard creation error: ', err.response && err.response.data.message);
     }
   }
@@ -78,8 +78,23 @@ class GrafanaInitializer {
         data: dashboard,
       });
     } catch (err) {
-      logger.error('Service-Info dashboard creation error: ', err);
+      logger.error('Server-Stats dashboard creation error: ', err);
       console.log('Server-Stats dashboard creation error: ', err.response && err.response.data.message);
+    }
+  }
+
+  static async SetupAdminUtilsServerStatsDashboard() {
+    try {
+      const dashboard = dashboards.adminUtilsServerStats;
+      await axios({
+        url: `${grafanaApiUrl}/dashboards/db`,
+        method: 'post',
+        auth: login,
+        data: dashboard,
+      });
+    } catch (err) {
+      logger.error('Admin-Utils-Server-Stats dashboard creation error: ', err);
+      console.log('Admin-Utils-Server-Stats dashboard creation error: ', err.response && err.response.data.message);
     }
   }
 
@@ -106,6 +121,7 @@ class GrafanaInitializer {
     console.log('Pre setup done!\r\n');
 
     await this.SetupServiceInfoDashboard();
+    await this.SetupAdminUtilsServerStatsDashboard();
     switch (process.argv[2]) {
       case 'private':
         await this.SetupStatsDashboard();

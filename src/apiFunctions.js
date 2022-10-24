@@ -202,6 +202,7 @@ export default class {
   static async getSwcServerStats(host) {
     const options = await getRequestOptions({host}, '/stats', 'GET');
     const res = await req(options);
+    console.log(res)
     return res;
   }
 }

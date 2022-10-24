@@ -7,6 +7,7 @@ const dashboardFileNames = [
     'serviceInfo',
     'stats',
     'serverStats',
+    'adminUtilsServerStats'
 ];
 
 function setupDashboard(dashboard) {

@@ -1,0 +1,2434 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 4,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 10,
+        "panels": [],
+        "title": "Server",
+        "type": "row"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 4,
+          "x": 0,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.0.4",
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "adminUtilsServerStats.gametime"
+          }
+        ],
+        "title": "Game time",
+        "type": "stat"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 4,
+          "x": 4,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.0.4",
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "adminUtilsServerStats.activeUsers"
+          }
+        ],
+        "title": "Active users",
+        "type": "stat"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 4,
+          "x": 8,
+          "y": 1
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.0.4",
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "adminUtilsServerStats.ownedRooms"
+          }
+        ],
+        "title": "Owned rooms",
+        "type": "stat"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 4,
+          "x": 12,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.0.4",
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "adminUtilsServerStats.activeRooms"
+          }
+        ],
+        "title": "Active rooms",
+        "type": "stat"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 4,
+          "x": 16,
+          "y": 1
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.0.4",
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "diffSeries(adminUtilsServerStats.objects.all, #B)",
+            "targetFull": "diffSeries(adminUtilsServerStats.objects.all, adminUtilsServerStats.objects.creeps)"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": true,
+            "refCount": -1,
+            "refId": "B",
+            "target": "adminUtilsServerStats.objects.creeps"
+          }
+        ],
+        "title": "Total objects",
+        "type": "stat"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 4,
+          "x": 20,
+          "y": 1
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.0.4",
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "adminUtilsServerStats.objects.creeps"
+          }
+        ],
+        "title": "Total creeps",
+        "type": "stat"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 10
+        },
+        "id": 33,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refCount": 0,
+            "refId": "A",
+            "target": "aliasByMetric(adminUtilsServerStats.ticks.avg)"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "aliasByMetric(adminUtilsServerStats.ticks.max)"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "aliasByMetric(adminUtilsServerStats.ticks.min)"
+          }
+        ],
+        "title": "Tick speed",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 17
+        },
+        "id": 12,
+        "panels": [],
+        "title": "Users",
+        "type": "row"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 10,
+          "x": 0,
+          "y": 18
+        },
+        "id": 35,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "aliasByNode(movingAverage(perSecond(adminUtilsServerStats.users.$Users.gcl), '$Avg'), 2)",
+            "textEditor": false
+          }
+        ],
+        "title": "GCL per second (avg)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 10,
+          "y": 18
+        },
+        "id": 15,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "aliasByNode(adminUtilsServerStats.users.$Users.gcl, 2)",
+            "textEditor": false
+          }
+        ],
+        "title": "GCL",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 18
+        },
+        "id": 18,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refCount": 0,
+            "refId": "A",
+            "target": "aliasByNode(adminUtilsServerStats.users.$Users.gclLevel, 2)"
+          }
+        ],
+        "title": "GCL level",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 10,
+          "x": 0,
+          "y": 26
+        },
+        "id": 14,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "aliasByNode(adminUtilsServerStats.users.$Users.combinedRCL, 2)"
+          }
+        ],
+        "title": "Combined RCL",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 10,
+          "y": 26
+        },
+        "id": 19,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refCount": 0,
+            "refId": "A",
+            "target": "aliasByNode(adminUtilsServerStats.users.$Users.power, 2)"
+          }
+        ],
+        "title": "Power",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 26
+        },
+        "id": 20,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refCount": 0,
+            "refId": "A",
+            "target": "aliasByNode(adminUtilsServerStats.users.$Users.powerLevel, 2)"
+          }
+        ],
+        "title": "GPL",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 34
+        },
+        "id": 17,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "aliasByNode(movingAverage(adminUtilsServerStats.users.$Users.creeps, '1hour'), 2)"
+          }
+        ],
+        "title": "Creeps (1 hour avg)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 34
+        },
+        "id": 16,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "refId": "A",
+            "target": "aliasByNode(adminUtilsServerStats.users.$Users.cpu, 2)"
+          }
+        ],
+        "title": "CPU",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 10,
+          "x": 0,
+          "y": 42
+        },
+        "id": 34,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "aliasByNode(divideSeries(perSecond(adminUtilsServerStats.users.$Users.gcl), #B), 2)",
+            "targetFull": "aliasByNode(divideSeries(perSecond(adminUtilsServerStats.users.$Users.gcl), perSecond(adminUtilsServerStats.gametime)), 2)",
+            "textEditor": false
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": true,
+            "refCount": -1,
+            "refId": "B",
+            "target": "perSecond(adminUtilsServerStats.gametime)",
+            "textEditor": false
+          }
+        ],
+        "title": "GCL per tick",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 50
+        },
+        "id": 22,
+        "panels": [],
+        "title": "Teams",
+        "type": "row"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 10,
+          "x": 0,
+          "y": 51
+        },
+        "id": 24,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(movingAverage(perSecond(groupByNode(adminUtilsServerStats.users.$Team_A.gcl, 3, 'sum')), '$'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(movingAverage(perSecond(groupByNode(adminUtilsServerStats.users.$Team_B.gcl, 3, 'sum')), '1hour'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(movingAverage(perSecond(groupByNode(adminUtilsServerStats.users.$Team_C.gcl, 3, 'sum')), '1hour'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(movingAverage(perSecond(groupByNode(adminUtilsServerStats.users.$Team_D.gcl, 3, 'sum')), '1hour'), 'Team D')"
+          }
+        ],
+        "title": "GCL per second (1 hour avg)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 10,
+          "y": 51
+        },
+        "id": 25,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_A.gcl, 3, 'sum'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_B.gcl, 3, 'sum'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_C.gcl, 3, 'sum'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_D.gcl, 3, 'sum'), 'Team D')"
+          }
+        ],
+        "title": "GCL",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 51
+        },
+        "id": 27,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_A.gclLevel, 3, 'sum'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_B.gclLevel, 3, 'sum'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_C.gclLevel, 3, 'sum'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_D.gclLevel, 3, 'sum'), 'Team D')"
+          }
+        ],
+        "title": "GCL level",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 10,
+          "x": 0,
+          "y": 59
+        },
+        "id": 26,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_A.combinedRCL, 3, 'sum'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_B.combinedRCL, 3, 'sum'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_C.combinedRCL, 3, 'sum'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_D.combinedRCL, 3, 'sum'), 'Team D')"
+          }
+        ],
+        "title": "Combined RCL",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 10,
+          "y": 59
+        },
+        "id": 28,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_A.power, 3, 'sum'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_B.power, 3, 'sum'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_C.power, 3, 'sum'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_D.power, 3, 'sum'), 'Team D')"
+          }
+        ],
+        "title": "GPL",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 59
+        },
+        "id": 29,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_A.powerLevel, 3, 'sum'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_B.powerLevel, 3, 'sum'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_C.powerLevel, 3, 'sum'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_D.powerLevel, 3, 'sum'), 'Team D')"
+          }
+        ],
+        "title": "GPL level",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 67
+        },
+        "id": 30,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(movingAverage(groupByNode(adminUtilsServerStats.users.$Team_A.creeps, 3, 'sum'), '1hour'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(movingAverage(groupByNode(adminUtilsServerStats.users.$Team_B.creeps, 3, 'sum'), '1hour'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(movingAverage(groupByNode(adminUtilsServerStats.users.$Team_C.creeps, 3, 'sum'), '1hour'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(movingAverage(groupByNode(adminUtilsServerStats.users.$Team_D.creeps, 3, 'sum'), '1hour'), 'Team D')"
+          }
+        ],
+        "title": "Creeps (1 hour avg)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {},
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 67
+        },
+        "id": 31,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "A",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_A.cpu, 3, 'sum'), 'Team A')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "B",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_B.cpu, 3, 'sum'), 'Team B')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "C",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_C.cpu, 3, 'sum'), 'Team C')"
+          },
+          {
+            "datasource": {
+              "type": "graphite",
+              "uid": "P66A2574FF36FD84D"
+            },
+            "hide": false,
+            "refCount": 0,
+            "refId": "D",
+            "target": "alias(groupByNode(adminUtilsServerStats.users.$Team_D.cpu, 3, 'sum'), 'Team D')"
+          }
+        ],
+        "title": "CPU",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "5m",
+    "schemaVersion": 36,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "graphite",
+            "uid": "P66A2574FF36FD84D"
+          },
+          "definition": "adminUtilsServerStats.users.*",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "Users",
+          "options": [],
+          "query": "adminUtilsServerStats.users.*",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 1,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "name": "Team_A",
+          "query": "{Robalian,Modus,LordGreywether,MarvinTMB,Kalgen}",
+          "skipUrlSync": false,
+          "type": "constant"
+        },
+        {
+          "hide": 2,
+          "name": "Team_B",
+          "query": "{asdpof,Mitsuyoshi,slowmotionghost,Silten,Raggy}",
+          "skipUrlSync": false,
+          "type": "constant"
+        },
+        {
+          "hide": 2,
+          "name": "Team_C",
+          "query": "{Saruss,CaptainMuscles,Mirroar,Yoner,RayderBlitz}",
+          "skipUrlSync": false,
+          "type": "constant"
+        },
+        {
+          "hide": 2,
+          "name": "Team_D",
+          "query": "{Trepidimous,SBense,ManVsRice,Gadjung,V1king}",
+          "skipUrlSync": false,
+          "type": "constant"
+        },
+        {
+          "auto": true,
+          "auto_count": 10,
+          "auto_min": "5m",
+          "current": {
+            "selected": false,
+            "text": "auto",
+            "value": "$__auto_interval_Avg"
+          },
+          "hide": 0,
+          "name": "Avg",
+          "options": [
+            {
+              "selected": true,
+              "text": "auto",
+              "value": "$__auto_interval_Avg"
+            },
+            {
+              "selected": false,
+              "text": "5m",
+              "value": "5m"
+            },
+            {
+              "selected": false,
+              "text": "30m",
+              "value": "30m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            },
+            {
+              "selected": false,
+              "text": "6h",
+              "value": "6h"
+            },
+            {
+              "selected": false,
+              "text": "1d",
+              "value": "1d"
+            },
+            {
+              "selected": false,
+              "text": "7d",
+              "value": "7d"
+            }
+          ],
+          "query": "5m,30m,1h,6h,1d,7d",
+          "queryValue": "",
+          "refresh": 2,
+          "skipUrlSync": false,
+          "type": "interval"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-12h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "AdminUtils serverStats",
+    "uid": "am03dNNVk",
+    "version": 1,
+    "weekStart": ""
+  }
