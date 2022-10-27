@@ -66,7 +66,7 @@ class ManageStats {
 
     let serverStats;
     const privateUser = users.find((user) => user.type === 'private' && user.host);
-    const host = privateUser ? privateUser.host : 'localhost2';
+    const host = privateUser ? privateUser.host : 'localhost';
     let adminUtilsServerStats = await ApiFunc.getSwcServerStats(host);
     if (adminUtilsServerStats) {
       try {
@@ -154,6 +154,7 @@ class ManageStats {
   }
 
   pushStats(userinfo, stats, shard) {
+    if (Object.keys(stats).length === 0) return;
     this.groupedStats[userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats };
     this.message += `${userinfo.type}: Added stats object for ${userinfo.username} in ${shard}\r\n`;
   }
@@ -167,7 +168,7 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('*/5 * * * * *', async () => {
+cron.schedule('* * * * *', async () => {
   const message = 'Cron event hit: ' + new Date();
   console.log("\r\n" + message);
   cronLogger.info(message);
