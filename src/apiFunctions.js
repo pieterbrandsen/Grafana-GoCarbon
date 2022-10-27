@@ -203,7 +203,7 @@ export default class {
     if (res.code === 'ENOTFOUND') return undefined;
     return res;
   }
-  static async getSwcServerStats(host) {
+  static async getAdminUtilsServerStats(host) {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({host:serverHost}, '/stats', 'GET');
     const res = await req(options);

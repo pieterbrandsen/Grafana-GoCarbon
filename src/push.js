@@ -67,7 +67,7 @@ class ManageStats {
     let serverStats;
     const privateUser = users.find((user) => user.type === 'private' && user.host);
     const host = privateUser ? privateUser.host : undefined;
-    let adminUtilsServerStats = await ApiFunc.getSwcServerStats(host);
+    let adminUtilsServerStats = await ApiFunc.getAdminUtilsServerStats(host);
     if (adminUtilsServerStats) {
       try {
         const groupedAdminStatsUsers = {};
