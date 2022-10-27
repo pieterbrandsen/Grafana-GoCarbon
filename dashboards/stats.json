@@ -384,10 +384,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "kloVnenVz"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -607,7 +604,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
+        "w": 12,
         "x": 0,
         "y": 17
       },
@@ -647,105 +644,6 @@
         }
       ],
       "title": "GCL Progress",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "red",
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "max": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 6,
-        "y": 17
-      },
-      "id": 16,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(divideSeriesLists(stats.$Users.$Shards.gpl.progress, #B)), 1)",
-          "targetFull": "aliasByNode(removeZeroSeries(divideSeriesLists(stats.$Users.$Shards.gpl.progress, stats.$Users.$Shards.gpl.progressTotal)), 1)"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": -1,
-          "refId": "B",
-          "target": "stats.$Users.$Shards.gpl.progressTotal"
-        }
-      ],
-      "title": "GPL Progress",
       "type": "timeseries"
     },
     {
@@ -838,7 +736,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "semi-dark-purple",
+            "fixedColor": "red",
             "mode": "palette-classic"
           },
           "custom": {
@@ -874,12 +772,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "unit": "none"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -889,7 +791,7 @@
         "x": 0,
         "y": 25
       },
-      "id": 19,
+      "id": 16,
       "options": {
         "legend": {
           "calcs": [],
@@ -907,11 +809,24 @@
             "type": "graphite",
             "uid": "utjUeLRVz"
           },
+          "hide": false,
+          "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(stats.$Users.$Shards.resources.credits), 1)"
+          "target": "aliasByNode(removeZeroSeries(divideSeriesLists(stats.$Users.$Shards.gpl.progress, #B)), 1)",
+          "targetFull": "aliasByNode(removeZeroSeries(divideSeriesLists(stats.$Users.$Shards.gpl.progress, stats.$Users.$Shards.gpl.progressTotal)), 1)"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "utjUeLRVz"
+          },
+          "hide": true,
+          "refCount": -1,
+          "refId": "B",
+          "target": "stats.$Users.$Shards.gpl.progressTotal"
         }
       ],
-      "title": "Credits",
+      "title": "GPL Progress",
       "type": "timeseries"
     },
     {
@@ -1024,6 +939,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "fixedColor": "semi-dark-purple",
             "mode": "palette-classic"
           },
           "custom": {
@@ -1055,18 +971,13 @@
             }
           },
           "mappings": [],
-          "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "purple",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1080,16 +991,12 @@
         "x": 0,
         "y": 33
       },
-      "id": 18,
+      "id": 19,
       "options": {
         "legend": {
-          "calcs": [
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "sortBy": "Mean",
-          "sortDesc": false
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
         },
         "tooltip": {
           "mode": "multi",
@@ -1103,10 +1010,10 @@
             "uid": "utjUeLRVz"
           },
           "refId": "A",
-          "target": "aliasByNode(stats.$Users.$Shards.constructionSiteCount, 1)"
+          "target": "aliasByNode(removeZeroSeries(stats.$Users.$Shards.resources.credits), 1)"
         }
       ],
-      "title": "Construction site count",
+      "title": "Credits",
       "type": "timeseries"
     },
     {
@@ -1225,6 +1132,7 @@
             }
           },
           "mappings": [],
+          "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -1238,7 +1146,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -1248,12 +1157,16 @@
         "x": 0,
         "y": 41
       },
-      "id": 14,
+      "id": 18,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "sortBy": "Mean",
+          "sortDesc": false
         },
         "tooltip": {
           "mode": "multi",
@@ -1267,10 +1180,10 @@
             "uid": "utjUeLRVz"
           },
           "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(stats.$Users.$Shards.lastReset), 1)"
+          "target": "aliasByNode(stats.$Users.$Shards.constructionSiteCount, 1)"
         }
       ],
-      "title": "Last Global reset",
+      "title": "Construction site count",
       "type": "timeseries"
     },
     {
@@ -1396,7 +1309,7 @@
             }
           },
           "mappings": [],
-          "noValue": "-",
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1409,8 +1322,7 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "none"
+          }
         },
         "overrides": []
       },
@@ -1420,7 +1332,7 @@
         "x": 0,
         "y": 49
       },
-      "id": 20,
+      "id": 14,
       "options": {
         "legend": {
           "calcs": [],
@@ -1439,18 +1351,14 @@
             "uid": "utjUeLRVz"
           },
           "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(stats.$Users.$Shards.resources.pixels), 1)",
-          "textEditor": false
+          "target": "aliasByNode(removeZeroSeries(stats.$Users.$Shards.lastReset), 1)"
         }
       ],
-      "title": "Pixels",
+      "title": "Last Global reset",
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "kloVnenVz"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1534,12 +1442,98 @@
       "type": "timeseries"
     },
     {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "utjUeLRVz"
+          },
+          "refId": "A",
+          "target": "aliasByNode(removeZeroSeries(stats.$Users.$Shards.resources.pixels), 1)",
+          "textEditor": false
+        }
+      ],
+      "title": "Pixels",
+      "type": "timeseries"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 65
       },
       "id": 67,
       "panels": [],
@@ -1583,12 +1577,12 @@
           },
           "decimals": 0,
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1603,7 +1597,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 58
+        "y": 66
       },
       "id": 68,
       "options": {
@@ -1674,12 +1668,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1694,7 +1688,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 58
+        "y": 66
       },
       "id": 69,
       "options": {
@@ -1741,10 +1735,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "kloVnenVz"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1783,8 +1774,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1799,7 +1789,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 74
       },
       "id": 82,
       "options": {
@@ -2008,12 +1998,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2028,7 +2018,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 66
+        "y": 74
       },
       "id": 70,
       "options": {
@@ -2137,8 +2127,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2154,7 +2143,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 74
+        "y": 82
       },
       "id": 76,
       "options": {
@@ -2224,12 +2213,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2244,7 +2233,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 74
+        "y": 82
       },
       "id": 80,
       "options": {
@@ -2396,12 +2385,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2416,7 +2405,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 90
       },
       "id": 77,
       "options": {
@@ -2498,12 +2487,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2518,7 +2507,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 82
+        "y": 90
       },
       "id": 78,
       "options": {
@@ -2590,12 +2579,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2610,7 +2599,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 90
+        "y": 98
       },
       "id": 73,
       "options": {
@@ -2679,12 +2668,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2699,7 +2688,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 90
+        "y": 98
       },
       "id": 37,
       "options": {
@@ -2768,12 +2757,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2788,7 +2777,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 98
+        "y": 106
       },
       "id": 72,
       "options": {
@@ -2880,12 +2869,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2900,7 +2889,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 98
+        "y": 106
       },
       "id": 71,
       "options": {
@@ -2982,12 +2971,12 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3002,7 +2991,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 106
+        "y": 114
       },
       "id": 79,
       "options": {
@@ -3043,7 +3032,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 114
+        "y": 122
       },
       "id": 26,
       "panels": [
@@ -3590,7 +3579,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 115
+        "y": 123
       },
       "id": 59,
       "panels": [
@@ -4247,7 +4236,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 116
+        "y": 124
       },
       "id": 46,
       "panels": [
@@ -4944,7 +4933,7 @@
         },
         "datasource": {
           "type": "graphite",
-          "uid": "kloVnenVz"
+          "uid": "nZbzEanVk"
         },
         "definition": "stats.*",
         "hide": 0,
@@ -4971,7 +4960,7 @@
         },
         "datasource": {
           "type": "graphite",
-          "uid": "kloVnenVz"
+          "uid": "nZbzEanVk"
         },
         "definition": "stats.$Users.*",
         "hide": 0,
@@ -4998,7 +4987,7 @@
         },
         "datasource": {
           "type": "graphite",
-          "uid": "kloVnenVz"
+          "uid": "nZbzEanVk"
         },
         "definition": "stats.$Users.$Shards.rooms.*",
         "hide": 0,
@@ -5016,13 +5005,13 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Stats",
-  "uid": "Wg0V7e7Vk",
-  "version": 5,
+  "uid": "MObkP-74k",
+  "version": 13,
   "weekStart": ""
 }
