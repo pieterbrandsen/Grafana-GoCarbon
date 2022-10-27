@@ -62,7 +62,7 @@ async function TryToGetPrivateHost() {
   if (!privateHost) console.log('no private host found to make connection with!');
   if (!privateHost && needsPrivateHost) {
     // eslint-disable-next-line
-    await new Promise((resolve) => setTimeout(resolve, 60*1000));
+    await new Promise((resolve) => setTimeout(resolve, 30*1000));
     TryToGetPrivateHost();
   }
 }
@@ -189,18 +189,21 @@ export default class {
   }
 
   static async getUsers(host) {
-    const options = await getRequestOptions({host}, '/api/stats/users', 'GET');
+    const serverHost = host ? host : privateHost;
+    const options = await getRequestOptions({host: serverHost}, '/api/stats/users', 'GET');
     const res = await req(options);
     return res;
   }
 
   static async getRoomsObjects(host) {
-    const options = await getRequestOptions({host}, '/api/stats/rooms/objects', 'GET');
+    const serverHost = host ? host : privateHost;
+    const options = await getRequestOptions({host:serverHost}, '/api/stats/rooms/objects', 'GET');
     const res = await req(options);
     return res;
   }
   static async getSwcServerStats(host) {
-    const options = await getRequestOptions({host}, '/stats', 'GET');
+    const serverHost = host ? host : privateHost;
+    const options = await getRequestOptions({host:serverHost}, '/stats', 'GET');
     const res = await req(options);
     console.log(res)
     return res;
