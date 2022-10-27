@@ -136,6 +136,7 @@ class ManageStats {
   }
 
   async processStats(userinfo, shard, stats) {
+    if (Object.keys(stats).length === 0) return;
     const me = await ApiFunc.getUserinfo(userinfo);
     if (me) stats.power = me.power || 0;
     stats.leaderboard = await ManageStats.addLeaderboardData(userinfo);

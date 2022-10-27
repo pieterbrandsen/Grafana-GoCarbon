@@ -192,6 +192,7 @@ export default class {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({host: serverHost}, '/api/stats/users', 'GET');
     const res = await req(options);
+    if (res.code === 'ENOTFOUND') return undefined;
     return res;
   }
 
@@ -199,12 +200,14 @@ export default class {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({host:serverHost}, '/api/stats/rooms/objects', 'GET');
     const res = await req(options);
+    if (res.code === 'ENOTFOUND') return undefined;
     return res;
   }
   static async getSwcServerStats(host) {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({host:serverHost}, '/stats', 'GET');
     const res = await req(options);
+    if (res.code === 'ENOTFOUND') return undefined;
     delete res.ticks.ticks;
     return res;
   }
