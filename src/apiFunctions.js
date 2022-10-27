@@ -205,7 +205,6 @@ export default class {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({host:serverHost}, '/stats', 'GET');
     const res = await req(options);
-    console.log(res)
     return res;
   }
 }
