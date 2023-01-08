@@ -44,7 +44,7 @@ This removes all data for the chosen path
 ### Upgrade version
 
 1. `docker-compose down`
-2. Backup `src/users.js` and `.env.grafana`. If you would like to start fresh backup `whisper` and `logs` (if you want) folder as well.
+2. Backup `src/users.js` and `.env.grafana`. If you don't want to start an fresh datasource backup `whisper` and `logs` (logs if you want) folder as well.
 3. Get latest changes
 4. Copy all backuped files/folders to the folder
 5. `npm install`
