@@ -27,6 +27,24 @@ async function gz(data) {
   return JSON.parse(ret.toString());
 }
 
+// remove all non number values recursively in object or array
+function removeNonNumbers(obj) {
+  if (!obj) return obj;s
+  
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i += 1) {
+      obj[i] = removeNonNumbers(obj[i]);
+    }
+  } else if (typeof obj === 'object') {
+    Object.keys(obj).forEach((key) => {
+      obj[key] = removeNonNumbers(obj[key]);
+    });
+  } else if (typeof obj !== 'number') {
+    return null;
+  }
+  return obj;
+}
+
 let privateHost;
 
 function getPrivateHost() {
@@ -62,7 +80,7 @@ async function TryToGetPrivateHost() {
   if (!privateHost) console.log('no private host found to make connection with!');
   if (!privateHost && needsPrivateHost) {
     // eslint-disable-next-line
-    await new Promise((resolve) => setTimeout(resolve, 30*1000));
+    await new Promise((resolve) => setTimeout(resolve, 30 * 1000));
     TryToGetPrivateHost();
   }
 }
@@ -170,9 +188,9 @@ export default class {
     if (!res || res.data == null) return {};
     try {
       const data = JSON.parse(res.data)
-      return data; 
+      return data;
     } catch (error) {
-      return {}      
+      return {}
     }
   }
 
@@ -188,27 +206,20 @@ export default class {
     return res;
   }
 
-  static async getUsers(host) {
+  static async getServerStats(host) {
     const serverHost = host ? host : privateHost;
-    const options = await getRequestOptions({host: serverHost}, '/api/stats/users', 'GET');
+    const options = await getRequestOptions({ host: serverHost }, '/api/stats/server', 'GET');
     const res = await req(options);
     if (res.code === 'ENOTFOUND') return undefined;
-    return res;
+    return removeNonNumbers(res);
   }
 
-  static async getRoomsObjects(host) {
-    const serverHost = host ? host : privateHost;
-    const options = await getRequestOptions({host:serverHost}, '/api/stats/rooms/objects', 'GET');
-    const res = await req(options);
-    if (res.code === 'ENOTFOUND') return undefined;
-    return res;
-  }
   static async getAdminUtilsServerStats(host) {
     const serverHost = host ? host : privateHost;
-    const options = await getRequestOptions({host:serverHost}, '/stats', 'GET');
+    const options = await getRequestOptions({ host: serverHost }, '/stats', 'GET');
     const res = await req(options);
-    if (res.code === 'ENOTFOUND') return undefined;
+    if (!res || res.code === 'ENOTFOUND') return undefined;
     delete res.ticks.ticks;
-    return res;
+    return removeNonNumbers(res);
   }
 }

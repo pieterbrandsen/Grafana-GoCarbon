@@ -3,8 +3,6 @@ import graphite from 'graphite';
 import { createLogger, format, transports } from 'winston';
 import ApiFunc from './apiFunctions.js';
 import users from './users.js';
-import modifyRoomObjects from './modifyRoomObjects.js';
-import handleServerStats from './handleServerStats.js';
 
 const client = graphite.createClient('plaintext://relay:2003/');
 
@@ -64,9 +62,9 @@ class ManageStats {
       return;
     }
 
-    let serverStats;
     const privateUser = users.find((user) => user.type === 'private' && user.host);
     const host = privateUser ? privateUser.host : undefined;
+    const serverStats = await ApiFunc.getServerStats(host);
     let adminUtilsServerStats = await ApiFunc.getAdminUtilsServerStats(host);
     if (adminUtilsServerStats) {
       try {
@@ -77,15 +75,6 @@ class ManageStats {
         adminUtilsServerStats.users = groupedAdminStatsUsers;
       } catch (error) {
       }
-    }
-
-    try {
-      const unfilteredUsers = await ApiFunc.getUsers(host);
-      const unfilteredActiveUsers = unfilteredUsers.filter((u) => u.active === 10000);
-      const roomsObjects = await ApiFunc.getRoomsObjects(host);
-      const modifiedRoomsObjects = modifyRoomObjects(roomsObjects);
-      serverStats = handleServerStats(unfilteredActiveUsers, modifiedRoomsObjects);
-    } catch (e) {
     }
 
     ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats });
