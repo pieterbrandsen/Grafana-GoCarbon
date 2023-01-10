@@ -29,7 +29,7 @@ async function gz(data) {
 
 // remove all non number values recursively in object or array
 function removeNonNumbers(obj) {
-  if (!obj) return obj;s
+  if (!obj) return obj;
   
   if (Array.isArray(obj)) {
     for (let i = 0; i < obj.length; i += 1) {
