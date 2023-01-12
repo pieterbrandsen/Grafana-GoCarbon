@@ -15,7 +15,7 @@
         "winston": "^3.8.1"
     },
     "scripts": {
-        "start": "node src/index.js --grafanaPort 3001 --serverPort 3110",
+        "start": "node src/index.js --grafanaPort 3000 --serverPort 21025",
         "start-mmo": "node src/index.js mmo --grafanaPort 3000",
         "start-private": "node src/index.js private --grafanaPort 3000",
         "lint": "eslint **/*",
