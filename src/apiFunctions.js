@@ -5,6 +5,7 @@ import util from 'util';
 import zlib from 'zlib';
 import users from './users.js';
 
+const port = 21025;
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
 
 import { createLogger, format, transports } from 'winston';
@@ -48,7 +49,6 @@ function removeNonNumbers(obj) {
 let privateHost;
 
 function getPrivateHost() {
-  const port = 21025;
   const hosts = [
     'localhost',
     'host.docker.internal',
@@ -105,7 +105,7 @@ async function getRequestOptions(info, path, method = 'GET', body = {}) {
   if (info.token) headers['X-Token'] = info.token;
   return {
     host: await getHost(info.host, info.type),
-    port: info.type === 'mmo' ? 443 : 21025,
+    port: info.type === 'mmo' ? 443 : port,
     path,
     method,
     headers,
