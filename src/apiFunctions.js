@@ -5,7 +5,7 @@ import util from 'util';
 import zlib from 'zlib';
 import users from './users.js';
 
-const port = 21025;
+const port = process.env.SERVER_PORT;
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
 
 import { createLogger, format, transports } from 'winston';

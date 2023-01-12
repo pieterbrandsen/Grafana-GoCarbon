@@ -9,8 +9,8 @@ import getDashboards from '../dashboards/helper.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const grafanaEnv = join(__dirname, '../conf/.env.grafana');
-dotenv.config({ path: grafanaEnv });
+dotenv.config({ path: join(__dirname, '../conf/.env.grafana') });
+dotenv.config({path: join(__dirname, '../.env')});
 const isWindows = process.platform === 'win32';
 
 import { createLogger, format, transports } from 'winston';
@@ -29,7 +29,7 @@ function sleep(milliseconds) {
 }
 
 const grafanaApiUrl = `http://localhost:${process.env.GF_SERVER_HTTP_PORT}/api`;
-console.log(`Grafana API URL: ${grafanaApiUrl}`);
+console.log(`Grafana API URL: ${grafanaApiUrl}, serverPort: ${process.env.SERVER_PORT}`);
 
 const dashboards = getDashboards();
 const login = {
