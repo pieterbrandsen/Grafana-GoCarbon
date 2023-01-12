@@ -1,12 +1,13 @@
 {
     "name": "screeps-grafana",
-    "version": "1.2.3",
+    "version": "1.3.0",
     "bin": {
         "screeps-grafana": "./bin/setup.js"
     },
     "dependencies": {
         "axios": "^0.27.2",
         "dotenv": "^16.0.2",
+        "get-port": "^6.1.2",
         "graphite": "^0.1.4",
         "node-cron": "^3.0.1",
         "node-powershell": "^5.0.1",
@@ -14,9 +15,9 @@
         "winston": "^3.8.1"
     },
     "scripts": {
-        "start": "node src/index.js",
-        "start-mmo": "node src/index.js mmo",
-        "start-private": "node src/index.js private",
+        "start": "node src/index.js --grafanaPort 3001 --serverPort 3110",
+        "start-mmo": "node src/index.js mmo --grafanaPort 3000",
+        "start-private": "node src/index.js private --grafanaPort 3000",
         "lint": "eslint **/*",
         "lint-fix": "eslint **/* --fix"
     },

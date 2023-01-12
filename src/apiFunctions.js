@@ -4,8 +4,12 @@ import net from 'net';
 import util from 'util';
 import zlib from 'zlib';
 import users from './users.js';
+import { fileURLToPath } from 'url';
+import * as dotenv from 'dotenv';
+import { join, dirname } from 'path';
 
-const port = process.env.SERVER_PORT;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
 
 import { createLogger, format, transports } from 'winston';
@@ -47,8 +51,12 @@ function removeNonNumbers(obj) {
 }
 
 let privateHost;
+let serverPort;
 
 function getPrivateHost() {
+  dotenv.config({path: join(__dirname, '../.env')});
+
+  serverPort = process.env.SERVER_PORT;
   const hosts = [
     'localhost',
     'host.docker.internal',
@@ -64,14 +72,14 @@ function getPrivateHost() {
       privateHost = host;
     })
       .on('error', () => {
-        console.log('error', host);
+        console.log(`error: ${host}:${serverPort}`);
         sock.destroy();
       })
       .on('timeout', () => {
-        console.log('timeout', host);
+        console.log(`timeout: ${host}:${serverPort}`);
         sock.destroy();
       })
-      .connect(port, host);
+      .connect(serverPort, host);
   }
 }
 
@@ -105,7 +113,7 @@ async function getRequestOptions(info, path, method = 'GET', body = {}) {
   if (info.token) headers['X-Token'] = info.token;
   return {
     host: await getHost(info.host, info.type),
-    port: info.type === 'mmo' ? 443 : port,
+    port: info.type === 'mmo' ? 443 : serverPort,
     path,
     method,
     headers,
@@ -218,7 +226,7 @@ export default class {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/stats', 'GET');
     const res = await req(options);
-    if (!res || res.code === 'ENOTFOUND') return undefined;
+    if (!res || res.code === 'ENOTFOUND' || !res.ticks) return undefined;
     delete res.ticks.ticks;
     return removeNonNumbers(res);
   }

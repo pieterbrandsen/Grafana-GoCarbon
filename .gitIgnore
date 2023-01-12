@@ -1,6 +1,8 @@
 # Files
 api.log
 push.log
+docker-compose.yml
+.env
 
 # Folders
 node_modules
