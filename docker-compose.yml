@@ -2,6 +2,7 @@ version: '3'
 
 volumes: 
   grafana_data: 
+  whisper_data:
 services:
      push-stats:
           build: .
@@ -30,7 +31,7 @@ services:
           volumes:
                - ./conf/carbon.conf:/openmetric/conf/carbon.conf:ro
                - ./conf/schemas.conf:/openmetric/conf/schemas.conf:ro
-               - ./whisper:/openmetric/data/whisper
+               - whisper_data:/openmetric/data/whisper
           healthcheck:
                test: "curl -fsSL -o /dev/null 'http://localhost:8080/metrics/find/?query=*&format=json'"
                interval: 10s
