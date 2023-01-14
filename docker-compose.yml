@@ -2,18 +2,17 @@ version: '3'
 
 volumes: 
   grafana_data: 
-  whisper_data:
 services:
-     push-stats:
-          build: .
-          restart: unless-stopped
-          volumes:
-               - ./logs:/logs
-          healthcheck:
-               test: 'curl -fsSL -o /dev/null http://localhost:3110/web'
-               interval: 10s
-               timeout: 1s
-               retries: 3
+     # push-stats:
+     #      build: .
+     #      restart: unless-stopped
+     #      volumes:
+     #           - ./logs:/logs
+     #      healthcheck:
+     #           test: 'curl -fsSL -o /dev/null http://localhost:21025/web'
+     #           interval: 10s
+     #           timeout: 1s
+     #           retries: 3
 
      relay:
           image: openmetric/carbon-c-relay:latest
@@ -21,6 +20,8 @@ services:
                - ./conf/relay.conf:/openmetric/conf/relay.conf:ro
           depends_on:
                - carbon
+          ports:
+               - '2003:2003'
           healthcheck:
                test: nc -zv localhost 2003
                interval: 10s
@@ -31,7 +32,7 @@ services:
           volumes:
                - ./conf/carbon.conf:/openmetric/conf/carbon.conf:ro
                - ./conf/schemas.conf:/openmetric/conf/schemas.conf:ro
-               - whisper_data:/openmetric/data/whisper
+               - ./whisper:/openmetric/data/whisper
           healthcheck:
                test: "curl -fsSL -o /dev/null 'http://localhost:8080/metrics/find/?query=*&format=json'"
                interval: 10s
@@ -54,7 +55,7 @@ services:
                - grafana_data:/var/lib/grafana
                - ./conf/grafanaDatasource.yaml:/etc/grafana/provisioning/datasources/grafanaDatasource.yaml:ro
           ports:
-               - '3001:3000'
+               - '3000:3000'
           depends_on:
                - relay
           env_file:

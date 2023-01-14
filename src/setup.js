@@ -11,6 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 let grafanaPort;
 const serverPort = argv.serverPort || 21025;
+const relayPort = argv.relayPort || 2003;
 
 function UpdateEnvFile() {
     const exampleEnvFilePath = join(__dirname, '../example.env');
@@ -26,7 +27,7 @@ async function UpdateDockerComposeFile() {
     const exampleDockerComposeFile = join(__dirname, '../docker-compose.example.yml');
 
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
-    exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort);
+    exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort).replaceAll('{{ relayPort }}', relayPort);
     const dockerComposeFile = join(__dirname, '../docker-compose.yml');
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
     console.log('Docker-compose file created');
