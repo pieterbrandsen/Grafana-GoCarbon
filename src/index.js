@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { execSync } from 'child_process';
 import { join, dirname } from 'path';
-
-import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 import getDashboards from '../dashboards/helper.js';
 
 const __filename = fileURLToPath(import.meta.url);

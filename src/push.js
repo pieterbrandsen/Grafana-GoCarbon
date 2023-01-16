@@ -3,11 +3,16 @@ import graphite from 'graphite';
 import { createLogger, format, transports } from 'winston';
 import ApiFunc from './apiFunctions.js';
 import users from './users.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
+if (process.env.DISABLE_PUSHGATEWAY === 'true') {
+  console.log("Pushgateway disabled");
+  process.exit(0);
+};
+console.log("Pushgateway enabled");
 
 const client = graphite.createClient('plaintext://relay:2003/');
-
 const { combine, timestamp, prettyPrint } = format;
-
 const logger = createLogger({
   format: combine(
     timestamp(),

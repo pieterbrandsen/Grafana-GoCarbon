@@ -5,7 +5,6 @@ volumes:
 services:
      push-stats:
           build: .
-          restart: unless-stopped
           volumes:
                - ./logs:/logs
           healthcheck:
@@ -13,7 +12,8 @@ services:
                interval: 10s
                timeout: 1s
                retries: 3
-
+          environment:
+               DISABLE_PUSHGATEWAY: false
      relay:
           image: openmetric/carbon-c-relay:latest
           volumes:
