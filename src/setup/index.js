@@ -6,6 +6,10 @@ const getDashboards = require('../../dashboards/helper.js');
 const setup = require('./setup.js');
 const fs = require('fs');
 
+const minimist = require('minimist')
+const argv = minimist(process.argv.slice(2));
+console.dir(argv);
+
 const isWindows = process.platform === 'win32';
 let grafanaPort;
 let grafanaApiUrl;
@@ -47,8 +51,9 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
+            console.log('Service-Info dashboard setup done!');
         } catch (err) {
-            handleError("Service Info", err)
+            handleError("Service-Info", err)
         }
     }
 
@@ -61,6 +66,7 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
+            console.log('Stats dashboard setup done!');
         } catch (err) {
             handleError("Stats", err)
         }
@@ -75,6 +81,7 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
+            console.log('Server-Stats dashboard setup done!');
         } catch (err) {
             handleError("Server-Stats", err)
         }
@@ -89,13 +96,14 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
+            console.log('Admin-Utils-Server-Stats dashboard setup done!');
         } catch (err) {
             handleError("Admin-Utils-Server-Stats", err)
         }
     }
 
     static async Start() {
-        await setup();
+        await setup(argv);
         dotenv.config({ path: join(__dirname, '../../.env') });
 
         grafanaPort = process.env.GRAFANA_PORT;
@@ -125,7 +133,7 @@ class GrafanaInitializer {
 
         await this.SetupServiceInfoDashboard();
         await this.SetupAdminUtilsServerStatsDashboard();
-        switch (process.argv[2]) {
+        switch (argv.grafanaType) {
             case 'private':
                 await this.SetupStatsDashboard();
                 await this.SetupServerStatsDashboard();

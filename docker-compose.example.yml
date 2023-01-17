@@ -10,7 +10,7 @@ services:
           volumes:
                - ./logs:/logs
           healthcheck:
-               test: 'curl -fsSL -o /dev/null http://localhost:{{ serverPort }}/web'
+               test: 'curl -fsSL -o /dev/null http://localhost:21025/web'
                interval: 10s
                timeout: 1s
                retries: 3
@@ -24,7 +24,7 @@ services:
           depends_on:
                - carbon
           ports:
-               - '{{ relayPort }}:2003'
+               - '2003:2003'
           healthcheck:
                test: nc -zv localhost 2003
                interval: 10s
@@ -58,7 +58,7 @@ services:
                - grafana_data:/var/lib/grafana
                - ./conf/grafanaDatasource.yaml:/etc/grafana/provisioning/datasources/grafanaDatasource.yaml:ro
           ports:
-               - '{{ grafanaPort }}:3000'
+               - '3000:3000'
           depends_on:
                - relay
           env_file:
