@@ -32,7 +32,7 @@ async function UpdateDockerComposeFile() {
     const exampleDockerComposeFile = join(__dirname, '../docker-compose.example.yml');
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
     exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort).replaceAll('{{ relayPort }}', relayPort);
-    if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replaceAll("DISABLE_PUSHGATEWAY: false", `DISABLE_PUSHGATEWAY: ${disablePushGateway}`)
+    if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replaceAll("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
     console.log('Docker-compose file created');
 }

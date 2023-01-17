@@ -34,7 +34,7 @@
         "dashboards",
         "docker-compose.example.yml",
         "example.env",
-        "Dockerfile",
+        "Dockerfile.PushStats",
         ".dockerignore"
     ]
 }
