@@ -27,12 +27,14 @@ async function UpdateDockerComposeFile() {
     const dockerComposeFile = join(__dirname, '../../docker-compose.yml');
     if (fs.existsSync(dockerComposeFile) && !argv.force) return console.log('Docker-compose file already exists, use --force to overwrite it');
     const relayPort = argv.relayPort || 2003;
-    const disablePushGateway = argv.disablePushGateway;
+    const disablePushGateway = argv.disablePushGateway === "true";
+    const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
 
     const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
     exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort).replaceAll('{{ relayPort }}', relayPort);
     if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replaceAll("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
+    if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replaceAll("- ./whisper:/openmetric/data/whisper", "");
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
     console.log('Docker-compose file created');
 }

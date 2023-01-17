@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import getDashboards from '../../dashboards/helper.js';
 import setup from './setup.js';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -111,7 +112,7 @@ class GrafanaInitializer {
             `docker-compose -f ${dockerComposePath} -p screeps-grafana-${grafanaPort} up -d`,
         ];
         const whisperPath = join(__dirname, '../../whisper');
-        if (!isWindows) commands.push(`sudo chmod -R 777 ${whisperPath}`);
+        if (!isWindows && fs.existsSync(whisperPath)) commands.push(`sudo chmod -R 777 ${whisperPath}`);
 
         for (let i = 0; i < commands.length; i += 1) {
             const command = commands[i];
