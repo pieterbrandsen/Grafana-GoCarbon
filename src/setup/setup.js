@@ -1,14 +1,10 @@
-import fs from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import minimist from 'minimist'
-import getPort, { portNumbers } from 'get-port';
+const fs = require('fs');
+const { join } = require('path');
+const minimist = require('minimist')
+// const { getPort } = require('get-port-please');
 
 const argv = minimist(process.argv.slice(2));
 console.dir(argv);
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 let grafanaPort;
 const serverPort = argv.serverPort || 21025;
 
@@ -18,7 +14,7 @@ function UpdateEnvFile() {
 
     const exampleEnvFilePath = join(__dirname, '../../example.env');
     let exampleEnvText = fs.readFileSync(exampleEnvFilePath, 'utf8');
-    exampleEnvText = exampleEnvText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort)
+    exampleEnvText = exampleEnvText.replace('{{ grafanaPort }}', grafanaPort).replace('{{ serverPort }}', serverPort)
     fs.writeFileSync(envFile, exampleEnvText);
     console.log('Env file created');
 }
@@ -32,15 +28,15 @@ async function UpdateDockerComposeFile() {
 
     const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
-    exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort).replaceAll('{{ relayPort }}', relayPort).replaceAll("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`);
-    if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replaceAll("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
-    if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replaceAll("- ./whisper:/openmetric/data/whisper", "");
+    exampleDockerComposeText = exampleDockerComposeText.replace('{{ grafanaPort }}', grafanaPort).replace('{{ serverPort }}', serverPort).replace('{{ relayPort }}', relayPort).replace("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`);
+    if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
+    if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replace("- ./whisper:/openmetric/data/whisper", "");
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
     console.log('Docker-compose file created');
 }
 
-export default async function Setup() {
-    grafanaPort = argv.grafanaPort || await getPort({ port: portNumbers(3000, 4000) })
+module.exports = async function Setup() {
+    grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] })
     UpdateEnvFile();
     await UpdateDockerComposeFile()
 }

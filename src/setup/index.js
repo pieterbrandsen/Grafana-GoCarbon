@@ -1,21 +1,17 @@
-import axios from 'axios';
-import { execSync } from 'child_process';
-import { join, dirname } from 'path';
-import * as dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import getDashboards from '../../dashboards/helper.js';
-import setup from './setup.js';
-import fs from 'fs';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const dotenv = require('dotenv')
+const axios = require('axios');
+const { execSync } = require('child_process');
+const { join } = require('path');
+const getDashboards = require('../../dashboards/helper.js');
+const setup = require('./setup.js');
+const fs = require('fs');
 
 const isWindows = process.platform === 'win32';
 let grafanaPort;
 let grafanaApiUrl;
 dotenv.config({ path: join(__dirname, '../../conf/.env.grafana') });
 
-import { createLogger, format, transports } from 'winston';
+const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, prettyPrint } = format;
 const logger = createLogger({
     format: combine(

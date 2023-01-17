@@ -1,8 +1,5 @@
-import fs from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const fs = require('fs');
+const { join } = require('path');
 const dashboardFileNames = [
     'serviceInfo',
     'stats',
@@ -37,7 +34,7 @@ function setupDashboard(dashboard) {
     return { dashboard: dashboard, overwrite: true };
 }
 
-export default function GetDashboards() {
+module.exports = function GetDashboards() {
     const setupDashboards = {};
     for (let i = 0; i < dashboardFileNames.length; i += 1) {
         try {

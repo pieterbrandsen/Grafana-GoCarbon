@@ -1,7 +1,6 @@
 {
     "name": "screeps-grafana",
     "version": "1.4.1",
-    "type": "module",
     "scripts": {
         "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025 --relayPort=2003",
         "start-mmo": "node src/setup/index.js mmo --grafanaPort 3000",
@@ -13,7 +12,7 @@
     "dependencies": {
         "axios": "^0.27.2",
         "dotenv": "^16.0.2",
-        "get-port": "^6.1.2",
+        "get-port-please": "^3.0.1",
         "winston": "^3.8.1"
     },
     "devDependencies": {
