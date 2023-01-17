@@ -1,32 +1,28 @@
 {
     "name": "screeps-grafana",
     "version": "1.4.1",
-    "bin": {
-        "screeps-grafana": "./bin/setup.js"
+    "type": "module",
+    "scripts": {
+        "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025 --relayPort=2003",
+        "start-mmo": "node src/setup/index.js mmo --grafanaPort 3000",
+        "start-private": "node src/setup/index.js private --grafanaPort 3000",
+        "start-private-test": "node src/setup/index.js private --grafanaPort 3000 --force",
+        "lint": "eslint **/*",
+        "lint-fix": "eslint **/* --fix"
     },
     "dependencies": {
         "axios": "^0.27.2",
         "dotenv": "^16.0.2",
         "get-port": "^6.1.2",
-        "graphite": "^0.1.4",
-        "node-cron": "^3.0.1",
-        "node-powershell": "^5.0.1",
-        "uuid": "^8.3.2",
         "winston": "^3.8.1"
     },
-    "scripts": {
-        "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025 --relayPort=2003 --disablePushGateway=false",
-        "start-mmo": "node src/setup/index.js mmo --grafanaPort 3000 --disablePushGateway=false",
-        "start-private": "node src/setup/index.js private --grafanaPort 3000 --disablePushGateway=false",
-        "start-private-test": "node src/setup/index.js private --grafanaPort 3000 --disablePushGateway=false --force",
-        "lint": "eslint **/*",
-        "lint-fix": "eslint **/* --fix"
-    },
-    "type": "module",
     "devDependencies": {
         "eslint": "^8.23.1",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-plugin-import": "^2.26.0"
+    },
+    "bin": {
+        "screeps-grafana": "./bin/setup.js"
     },
     "files": [
         "src",

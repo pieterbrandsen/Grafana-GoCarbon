@@ -10,6 +10,7 @@ import { join, dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+dotenv.config({path: join(__dirname, './.env')});
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
 
 import { createLogger, format, transports } from 'winston';
@@ -32,7 +33,6 @@ async function gz(data) {
   return JSON.parse(ret.toString());
 }
 
-// remove all non number values recursively in object or array
 function removeNonNumbers(obj) {
   if (!obj) return obj;
   
@@ -54,8 +54,6 @@ let privateHost;
 let serverPort;
 
 function getPrivateHost() {
-  dotenv.config({path: join(__dirname, '../.env')});
-
   serverPort = process.env.SERVER_PORT;
   const hosts = [
     'localhost',

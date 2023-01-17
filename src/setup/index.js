@@ -36,6 +36,11 @@ const login = {
     password: process.env.GF_SECURITY_ADMIN_PASSWORD,
 };
 
+function handleError(type, err) {
+    logger.error(`${type} dashboard error: `, err);
+    console.error(`${type} dashboard error: `, err.message, err.stack);
+}
+
 class GrafanaInitializer {
     static async SetupServiceInfoDashboard() {
         try {
@@ -47,8 +52,7 @@ class GrafanaInitializer {
                 data: dashboard,
             });
         } catch (err) {
-            logger.error('Service-Info dashboard creation error: ', err);
-            console.error('Service info dashboard creation error: ', err.response && err.response.data.message);
+            handleError("Service Info", err)
         }
     }
 
@@ -62,8 +66,7 @@ class GrafanaInitializer {
                 data: dashboard,
             });
         } catch (err) {
-            logger.error('Stats dashboard creation error: ', err);
-            console.log('Stats dashboard creation error: ', err.response && err.response.data.message);
+            handleError("Stats", err)
         }
     }
 
@@ -77,8 +80,7 @@ class GrafanaInitializer {
                 data: dashboard,
             });
         } catch (err) {
-            logger.error('Server-Stats dashboard creation error: ', err);
-            console.log('Server-Stats dashboard creation error: ', err.response && err.response.data.message);
+            handleError("Server-Stats", err)
         }
     }
 
@@ -92,8 +94,7 @@ class GrafanaInitializer {
                 data: dashboard,
             });
         } catch (err) {
-            logger.error('Admin-Utils-Server-Stats dashboard creation error: ', err);
-            console.log('Admin-Utils-Server-Stats dashboard creation error: ', err.response && err.response.data.message);
+            handleError("Admin-Utils-Server-Stats", err)
         }
     }
 

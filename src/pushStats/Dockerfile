@@ -4,7 +4,7 @@ FROM node:16.16.0
 ENV NODE_ENV=production
 
 WORKDIR "/app"
-COPY . .
+COPY ./src/pushStats .
 RUN npm install
 
-CMD ["node", "push.js"]
+CMD ["node", "index.js"]

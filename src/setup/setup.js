@@ -32,7 +32,7 @@ async function UpdateDockerComposeFile() {
 
     const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
-    exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort).replaceAll('{{ relayPort }}', relayPort);
+    exampleDockerComposeText = exampleDockerComposeText.replaceAll('{{ grafanaPort }}', grafanaPort).replaceAll('{{ serverPort }}', serverPort).replaceAll('{{ relayPort }}', relayPort).replaceAll("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`);
     if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replaceAll("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
     if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replaceAll("- ./whisper:/openmetric/data/whisper", "");
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
