@@ -1,7 +1,12 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist')
-// const { getPort } = require('get-port-please');
+function getPortMock() {
+    return 3000;
+}
+const nodeVersion = process.versions.node;
+const nodeVersionMajor = Number(nodeVersion.split('.')[0]);
+const { getPort } = nodeVersionMajor >= 14 ? require('get-port-please') : { getPort: getPortMock };
 
 const argv = minimist(process.argv.slice(2));
 console.dir(argv);
@@ -36,6 +41,7 @@ async function UpdateDockerComposeFile() {
 }
 
 module.exports = async function Setup() {
+    await getPort({ portRange: [3000, 4000] })
     grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] })
     UpdateEnvFile();
     await UpdateDockerComposeFile()
