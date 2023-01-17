@@ -6,7 +6,7 @@ services:
      push-stats:
           build:
                context: .
-               dockerfile: Dockerfile.PushStats
+               dockerfile: ./src/pushStats/Dockerfile
           volumes:
                - ./logs:/logs
           healthcheck:

@@ -15,10 +15,10 @@
         "winston": "^3.8.1"
     },
     "scripts": {
-        "start": "node src/index.js --grafanaPort=3000 --serverPort=21025 --relayPort=2003 --disablePushGateway=false",
-        "start-mmo": "node src/index.js mmo --grafanaPort 3000 --disablePushGateway=false",
-        "start-private": "node src/index.js private --grafanaPort 3000 --disablePushGateway=false",
-        "start-private-test": "node src/index.js private --grafanaPort 3000 --disablePushGateway=false --force",
+        "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025 --relayPort=2003 --disablePushGateway=false",
+        "start-mmo": "node src/setup/index.js mmo --grafanaPort 3000 --disablePushGateway=false",
+        "start-private": "node src/setup/index.js private --grafanaPort 3000 --disablePushGateway=false",
+        "start-private-test": "node src/setup/index.js private --grafanaPort 3000 --disablePushGateway=false --force",
         "lint": "eslint **/*",
         "lint-fix": "eslint **/* --fix"
     },
@@ -34,7 +34,6 @@
         "dashboards",
         "docker-compose.example.yml",
         "example.env",
-        "Dockerfile.PushStats",
         ".dockerignore"
     ]
 }

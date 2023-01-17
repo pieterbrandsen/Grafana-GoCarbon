@@ -28,4 +28,4 @@ function deletePath(path) {
   }
   console.log(`Path not found: ${path}`);
 }
-deletePath(join(__dirname, '../whisper', statsPath));
+deletePath(join(__dirname, '../../whisper', statsPath));
