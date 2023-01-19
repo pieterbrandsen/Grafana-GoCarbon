@@ -112,9 +112,9 @@ class GrafanaInitializer {
 
         const dockerComposePath = join(__dirname, '../../docker-compose.yml');
         const commands = [
-            `docker-compose -f ${dockerComposePath} -p screeps-grafana-${grafanaPort} down --volumes --remove-orphans`,
-            `docker-compose -f ${dockerComposePath} -p screeps-grafana-${grafanaPort} build --no-cache`,
-            `docker-compose -f ${dockerComposePath} -p screeps-grafana-${grafanaPort} up -d`,
+            `docker-compose -f ${dockerComposePath} down --volumes --remove-orphans`,
+            `docker-compose -f ${dockerComposePath} build --no-cache`,
+            `docker-compose -f ${dockerComposePath} up -d`,
         ];
         const whisperPath = join(__dirname, '../../whisper');
         if (!isWindows && fs.existsSync(whisperPath)) commands.push(`sudo chmod -R 777 ${whisperPath}`);

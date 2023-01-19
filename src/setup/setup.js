@@ -34,7 +34,9 @@ async function UpdateDockerComposeFile(argv) {
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
     exampleDockerComposeText = exampleDockerComposeText.replace('3000:3000', `${grafanaPort}:3000`)
     .replace('http://localhost:21025/web', `http://localhost:${serverPort}/web`)
-    .replace('2003:2003', `${relayPort}:2003`).replace("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`);
+    .replace('2003:2003', `${relayPort}:2003`)
+    .replace("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`)
+    if (grafanaPort) exampleDockerComposeText = exampleDockerComposeText.replace("name: \"screeps-grafana\"", `name: \"screeps-grafana-${grafanaPort}\"`);
     if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
     if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replace("- ./whisper:/openmetric/data/whisper", "");
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);

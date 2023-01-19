@@ -1,5 +1,5 @@
 version: '3'
-
+name: "screeps-grafana"
 volumes: 
   grafana_data: 
 services:
