@@ -10,7 +10,7 @@ import { join, dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-dotenv.config({path: join(__dirname, './.env')});
+dotenv.config({ path: join(__dirname, './.env') });
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
 
 import { createLogger, format, transports } from 'winston';
@@ -23,7 +23,8 @@ const logger = createLogger({
     timestamp(),
     prettyPrint(),
   ),
-  transports: [new transports.File({ filename: 'logs/api.log' })],
+  transports: [new transports.File({ filename: 'logs/api.log' }),
+  new transports.File({ filename: 'logs/api_error.log', level: 'error' }),],
 });
 
 async function gz(data) {
@@ -35,7 +36,7 @@ async function gz(data) {
 
 function removeNonNumbers(obj) {
   if (!obj) return obj;
-  
+
   if (Array.isArray(obj)) {
     for (let i = 0; i < obj.length; i += 1) {
       obj[i] = removeNonNumbers(obj[i]);
@@ -54,7 +55,7 @@ let privateHost;
 let serverPort;
 
 function getPrivateHost() {
-  serverPort = process.env.SERVER_PORT;
+  serverPort = 21025;
   const hosts = [
     'localhost',
     'host.docker.internal',
@@ -86,7 +87,7 @@ async function TryToGetPrivateHost() {
   if (!privateHost) console.log('no private host found to make connection with!');
   if (!privateHost && needsPrivateHost) {
     // eslint-disable-next-line
-    await new Promise((resolve) => setTimeout(resolve, 30 * 1000));
+    await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
     TryToGetPrivateHost();
   }
 }
@@ -216,7 +217,10 @@ export default class {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/api/stats/server', 'GET');
     const res = await req(options);
-    if (res.code === 'ENOTFOUND') return undefined;
+    if (!res || !res.users) {
+      logger.error(res)
+      return undefined;
+    }
     return removeNonNumbers(res);
   }
 
@@ -224,7 +228,10 @@ export default class {
     const serverHost = host ? host : privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/stats', 'GET');
     const res = await req(options);
-    if (!res || res.code === 'ENOTFOUND' || !res.ticks) return undefined;
+    if (!res || !res.gametime) {
+      logger.error(res)
+      return undefined;
+    }
     delete res.ticks.ticks;
     return removeNonNumbers(res);
   }
