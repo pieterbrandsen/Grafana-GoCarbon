@@ -16,8 +16,10 @@ function UpdateEnvFile(argv) {
 
     const exampleEnvFilePath = join(__dirname, '../../example.env');
     let exampleEnvText = fs.readFileSync(exampleEnvFilePath, 'utf8');
-    exampleEnvText = exampleEnvText.replace('GRAFANA_PORT=3000', `GRAFANA_PORT=${grafanaPort}`)
+    exampleEnvText = exampleEnvText
+    .replace('GRAFANA_PORT=3000', `GRAFANA_PORT=${grafanaPort}`)
     .replace('SERVER_PORT=21025', `SERVER_CONFIG=${serverPort}`)
+    .replace("COMPOSE_PROJECT_NAME=screeps-grafana", `COMPOSE_PROJECT_NAME=screeps-grafana-${grafanaPort}`);
 
     fs.writeFileSync(envFile, exampleEnvText);
     console.log('Env file created');
@@ -32,11 +34,11 @@ async function UpdateDockerComposeFile(argv) {
 
     const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
-    exampleDockerComposeText = exampleDockerComposeText.replace('3000:3000', `${grafanaPort}:3000`)
+    exampleDockerComposeText = exampleDockerComposeText
+    .replace('3000:3000', `${grafanaPort}:3000`)
     .replace('http://localhost:21025/web', `http://localhost:${serverPort}/web`)
     .replace('2003:2003', `${relayPort}:2003`)
     .replace("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`)
-    if (grafanaPort) exampleDockerComposeText = exampleDockerComposeText.replace("name: \"screeps-grafana\"", `name: \"screeps-grafana-${grafanaPort}\"`);
     if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
     if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replace("- ./whisper:", "- whisper_data:");
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);

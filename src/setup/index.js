@@ -116,8 +116,9 @@ class GrafanaInitializer {
             `docker-compose -f ${dockerComposePath} build --no-cache`,
             `docker-compose -f ${dockerComposePath} up -d`,
         ];
+        const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
         const whisperPath = join(__dirname, '../../whisper');
-        if (!isWindows && fs.existsSync(whisperPath)) commands.push(`sudo chmod -R 777 ${whisperPath}`);
+        if (!disableWhisperFolderExport && !isWindows && fs.existsSync(whisperPath)) commands.push(`sudo chmod -R 777 ${whisperPath}`);
 
         for (let i = 0; i < commands.length; i += 1) {
             const command = commands[i];
