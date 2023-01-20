@@ -17,6 +17,8 @@ services:
           environment:
                DISABLE_PUSHGATEWAY: "false"
                SERVER_PORT: 21025
+          logging:
+               driver: "local"
      relay:
           image: openmetric/carbon-c-relay:latest
           volumes:
@@ -30,6 +32,8 @@ services:
                interval: 10s
                timeout: 1s
                retries: 3
+          logging:
+               driver: "local"
      carbon:
           image: openmetric/go-carbon:latest
           volumes:
@@ -41,6 +45,8 @@ services:
                interval: 10s
                timeout: 1s
                retries: 3
+          logging:
+               driver: "local"
      api:
           image: openmetric/carbonapi:latest
           volumes:
@@ -52,6 +58,8 @@ services:
                interval: 10s
                timeout: 1s
                retries: 3
+          logging:
+               driver: "local"
      grafana:
           image: grafana/grafana-enterprise:9.0.4-ubuntu
           volumes:
@@ -68,3 +76,5 @@ services:
                interval: 10s
                timeout: 1s
                retries: 3
+          logging:
+               driver: "local"
