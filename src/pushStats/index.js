@@ -139,7 +139,7 @@ class ManageStats {
 
   static reportStats(stats) {
     try {
-      client.client.writeTagged(stats, {}, (err) => {
+      client.write(stats, {}, (err) => {
         if (err) logger.error(err);
       });
       return true;

@@ -15,7 +15,7 @@ services:
                timeout: 1s
                retries: 3
           environment:
-               DISABLE_PUSHGATEWAY: "false"
+               DISABLE_PUSHGATEWAY: "true"
                SERVER_PORT: 21025
           logging:
                driver: "local"

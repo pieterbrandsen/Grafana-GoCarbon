@@ -36,6 +36,11 @@ const login = {
     password: process.env.GF_SECURITY_ADMIN_PASSWORD,
 };
 
+function handleSuccess(type) {
+    console.log(`${type} dashboard setup done`);
+    logger.info(`${type} dashboard setup done`);
+}
+
 function handleError(type, err) {
     logger.error(`${type} dashboard error: `, err);
     console.error(`${type} dashboard error: `, err.message, err.stack);
@@ -43,6 +48,7 @@ function handleError(type, err) {
 
 class GrafanaInitializer {
     static async SetupServiceInfoDashboard() {
+        const type = "Service-Info";
         try {
             const dashboard = dashboards.serviceInfo;
             await axios({
@@ -51,13 +57,14 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Service-Info dashboard setup done!');
+            handleSuccess(type);
         } catch (err) {
-            handleError("Service-Info", err)
+            handleError(type, err)
         }
     }
 
     static async SetupStatsDashboard() {
+        const type = "Stats";
         try {
             const dashboard = dashboards.stats;
             await axios({
@@ -66,13 +73,14 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Stats dashboard setup done');
+            handleSuccess(type);
         } catch (err) {
-            handleError("Stats", err)
+            handleError(type, err)
         }
     }
 
     static async SetupServerStatsDashboard() {
+        const type = "Server-Stats";
         try {
             const dashboard = dashboards.serverStats;
             await axios({
@@ -81,13 +89,14 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Server-Stats dashboard setup done');
+            handleSuccess(type);
         } catch (err) {
-            handleError("Server-Stats", err)
+            handleError(type, err)
         }
     }
 
     static async SetupAdminUtilsServerStatsDashboard() {
+        const type = "Admin-Utils-Server-Stats";
         try {
             const dashboard = dashboards.adminUtilsServerStats;
             await axios({
@@ -96,9 +105,9 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Admin-Utils-Server-Stats dashboard setup done');
+            handleSuccess(type);
         } catch (err) {
-            handleError("Admin-Utils-Server-Stats", err)
+            handleError(type, err)
         }
     }
 
@@ -145,7 +154,7 @@ class GrafanaInitializer {
             default:
                 break;
         }
-        console.log('Setup done');
+        console.log('Setup done!');
     }
 }
 GrafanaInitializer.Start();
