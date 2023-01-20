@@ -55,7 +55,7 @@ let privateHost;
 let serverPort;
 
 function getPrivateHost() {
-  serverPort = 21025;
+  serverPort = process.env.SERVER_PORT || 21025;
   const hosts = [
     'localhost',
     'host.docker.internal',
