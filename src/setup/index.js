@@ -66,7 +66,7 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Stats dashboard setup done!');
+            console.log('Stats dashboard setup done');
         } catch (err) {
             handleError("Stats", err)
         }
@@ -81,7 +81,7 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Server-Stats dashboard setup done!');
+            console.log('Server-Stats dashboard setup done');
         } catch (err) {
             handleError("Server-Stats", err)
         }
@@ -96,7 +96,7 @@ class GrafanaInitializer {
                 auth: login,
                 data: dashboard,
             });
-            console.log('Admin-Utils-Server-Stats dashboard setup done!');
+            console.log('Admin-Utils-Server-Stats dashboard setup done');
         } catch (err) {
             handleError("Admin-Utils-Server-Stats", err)
         }
@@ -111,26 +111,26 @@ class GrafanaInitializer {
         console.log(`Grafana API URL: ${grafanaApiUrl}, serverPort: ${process.env.SERVER_PORT}`);
 
         const dockerComposePath = join(__dirname, '../../docker-compose.yml');
-        const commands = [
-            `docker-compose -f ${dockerComposePath} down --volumes --remove-orphans`,
-            `docker-compose -f ${dockerComposePath} build --no-cache`,
-            `docker-compose -f ${dockerComposePath} up -d`,
+        const commands = [{command: `docker-compose -f ${dockerComposePath} down --volumes --remove-orphans`, name: 'docker-compose down'},
+            {command: `docker-compose -f ${dockerComposePath} build --no-cache`, name: 'docker-compose build',},
+            {command: `docker-compose -f ${dockerComposePath} up -d`, name: 'docker-compose up'},
         ];
         const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
         const whisperPath = join(__dirname, '../../whisper');
         if (!disableWhisperFolderExport && !isWindows && fs.existsSync(whisperPath)) commands.push(`sudo chmod -R 777 ${whisperPath}`);
 
         for (let i = 0; i < commands.length; i += 1) {
-            const command = commands[i];
+            const commandInfo = commands[i];
             try {
-                execSync(command);
+                console.log(`Running command ${commandInfo.name}`);
+                execSync(commandInfo.command, {stdio: 'pipe'});
             } catch (error) {
-                console.log(`Command index ${i}`, error);
+                console.log(`Command ${commandInfo.name} errored`, error);
             }
         }
 
+        console.log('Pre setup done!\r\nWaiting for Grafana to start...\r\n');
         await sleep(30 * 1000);
-        console.log('Pre setup done!\r\n');
 
         await this.SetupServiceInfoDashboard();
         await this.SetupAdminUtilsServerStatsDashboard();
@@ -145,7 +145,7 @@ class GrafanaInitializer {
             default:
                 break;
         }
-        console.log('Setup done!');
+        console.log('Setup done');
     }
 }
 GrafanaInitializer.Start();

@@ -71,11 +71,11 @@ function getPrivateHost() {
       privateHost = host;
     })
       .on('error', () => {
-        console.log(`error: ${host}:${serverPort}`);
+        console.log(`Connect error: ${host}:${serverPort}`);
         sock.destroy();
       })
       .on('timeout', () => {
-        console.log(`timeout: ${host}:${serverPort}`);
+        console.log(`Connect timeout: ${host}:${serverPort}`);
         sock.destroy();
       })
       .connect(serverPort, host);
