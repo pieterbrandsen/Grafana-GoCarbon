@@ -38,7 +38,7 @@ async function UpdateDockerComposeFile(argv) {
     .replace("SERVER_PORT: 21025", `SERVER_PORT: ${serverPort}`)
     if (grafanaPort) exampleDockerComposeText = exampleDockerComposeText.replace("name: \"screeps-grafana\"", `name: \"screeps-grafana-${grafanaPort}\"`);
     if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
-    if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replace("- ./whisper:/openmetric/data/whisper", "");
+    if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replace("- ./whisper:", "- whisper_data:");
     fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
     console.log('Docker-compose file created');
 }
