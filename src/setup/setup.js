@@ -29,8 +29,8 @@ async function UpdateDockerComposeFile(argv) {
     const dockerComposeFile = join(__dirname, '../../docker-compose.yml');
     if (fs.existsSync(dockerComposeFile) && !argv.force) return console.log('Docker-compose file already exists, use --force to overwrite it');
     const relayPort = argv.relayPort || 2003;
-    const disablePushGateway = argv.disablePushGateway === "true";
-    const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
+    const disablePushGateway = argv.disablePushGateway;
+    const disableWhisperFolderExport = argv.disableWhisperFolderExport;
 
     const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
     let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
