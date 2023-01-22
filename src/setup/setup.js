@@ -49,9 +49,20 @@ async function UpdateDockerComposeFile(argv) {
     console.log('Docker-compose file created');
 }
 
+function UpdateUsersFile(argv) {
+    const usersFile = join(__dirname, '../../users.json');
+    if (fs.existsSync(usersFile) && !argv.force) return console.log('Users file already exists, use --force to overwrite it');
+
+    const exampleUsersFilePath = join(__dirname, '../../users.example.json');
+    const exampleUsersText = fs.readFileSync(exampleUsersFilePath, 'utf8');
+    fs.writeFileSync(usersFile, exampleUsersText);
+    console.log('Users file created');
+}
+
 module.exports = async function Setup(argv) {
     grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] });
     serverPort = argv.serverPort;
     UpdateEnvFile(argv);
     await UpdateDockerComposeFile(argv)
+    UpdateUsersFile(argv);
 }

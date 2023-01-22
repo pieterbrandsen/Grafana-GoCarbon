@@ -3,7 +3,7 @@ import https from 'https';
 import net from 'net';
 import util from 'util';
 import zlib from 'zlib';
-import users from './users.js';
+import users from './users.json' assert {type: 'json'};
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
 import { join, dirname } from 'path';
@@ -71,11 +71,9 @@ function getPrivateHost() {
       privateHost = host;
     })
       .on('error', () => {
-        console.log(`Connect error: ${host}:${serverPort}`);
         sock.destroy();
       })
       .on('timeout', () => {
-        console.log(`Connect timeout: ${host}:${serverPort}`);
         sock.destroy();
       })
       .connect(serverPort, host);
@@ -83,9 +81,11 @@ function getPrivateHost() {
 }
 
 async function TryToGetPrivateHost() {
-  getPrivateHost();
-  if (!privateHost) console.log('no private host found to make connection with!');
   if (!privateHost && needsPrivateHost) {
+    getPrivateHost();
+    if (!privateHost) console.log('No private host found to make connection with yet! Trying again in 60 seconds.')
+    else console.log(`Private host found! Continuing with ${privateHost}.`)
+    
     // eslint-disable-next-line
     await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
     TryToGetPrivateHost();

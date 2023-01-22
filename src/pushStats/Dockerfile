@@ -5,6 +5,7 @@ ENV NODE_ENV=production
 
 WORKDIR "/app"
 COPY ./src/pushStats .
+COPY ./users.json ./users.json
 RUN npm install
 
 CMD ["node", "index.js"]

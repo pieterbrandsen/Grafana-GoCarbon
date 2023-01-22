@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import graphite from 'graphite';
 import { createLogger, format, transports } from 'winston';
 import ApiFunc from './apiFunctions.js';
-import users from './users.js';
+import users from './users.json' assert {type: 'json'};
 import * as dotenv from 'dotenv';
 dotenv.config();
 if (process.env.DISABLE_PUSHGATEWAY === 'true') {
