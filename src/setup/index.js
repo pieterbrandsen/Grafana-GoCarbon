@@ -132,7 +132,7 @@ class GrafanaInitializer {
             const commandInfo = commands[i];
             try {
                 console.log(`Running command ${commandInfo.name}`);
-                execSync(commandInfo.command, {stdio: 'pipe'});
+                execSync(commandInfo.command, {stdio: 'ignore'});
             } catch (error) {
                 console.log(`Command ${commandInfo.name} errored`, error);
             }
