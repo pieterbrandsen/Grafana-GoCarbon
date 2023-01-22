@@ -64,13 +64,13 @@ services:
           image: grafana/grafana-enterprise:9.0.4-ubuntu
           volumes:
                - grafana_data:/var/lib/grafana
-               - ./conf/grafanaDatasource.yaml:/etc/grafana/provisioning/datasources/grafanaDatasource.yaml:ro
+               - ./grafanaConfig/grafanaDatasource.yaml:/etc/grafana/provisioning/datasources/grafanaDatasource.yaml:ro
           ports:
                - '3000:3000'
           depends_on:
                - relay
           env_file:
-               - ./conf/.env.grafana
+               - ./grafanaConfig/.env.grafana
           healthcheck:
                test: 'curl -fsSL -o /dev/null http://localhost:3000/login'
                interval: 10s

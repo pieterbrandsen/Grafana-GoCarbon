@@ -12,6 +12,7 @@
     "dependencies": {
         "axios": "^0.27.2",
         "dotenv": "^16.0.2",
+        "fs-extra": "^11.1.0",
         "get-port-please": "^3.0.1",
         "winston": "^3.8.1"
     },

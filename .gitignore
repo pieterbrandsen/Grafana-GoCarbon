@@ -7,3 +7,4 @@ users.json
 node_modules
 whisper
 logs
+grafanaConfig

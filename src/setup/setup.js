@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fse = require('fs-extra');
 const { join } = require('path');
 function getPortMock() {
     return 3000;
@@ -59,10 +60,19 @@ function UpdateUsersFile(argv) {
     console.log('Users file created');
 }
 
+function UpdateGrafanaConfigFolder(argv) {
+    const grafanaConfigFolder = join(__dirname, '../../grafanaConfig');
+    if (fs.existsSync(grafanaConfigFolder) && !argv.force) return console.log('Grafana config folder already exists, use --force to overwrite it');
+
+    fse.copySync(join(__dirname, '../../grafanaConfig.example'), grafanaConfigFolder);
+    console.log('Grafana config folder created');
+}
+
 module.exports = async function Setup(argv) {
     grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] });
     serverPort = argv.serverPort;
     UpdateEnvFile(argv);
     await UpdateDockerComposeFile(argv)
     UpdateUsersFile(argv);
+    UpdateGrafanaConfigFolder(argv);
 }
