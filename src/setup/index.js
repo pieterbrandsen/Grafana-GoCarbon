@@ -13,7 +13,7 @@ console.dir(argv);
 const isWindows = process.platform === 'win32';
 let grafanaPort;
 let grafanaApiUrl;
-dotenv.config({ path: join(__dirname, '../../conf/.env.grafana') });
+dotenv.config({ path: join(__dirname, '../../grafanaConfig/.env.grafana') });
 
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, prettyPrint } = format;
@@ -135,6 +135,8 @@ class GrafanaInitializer {
                 execSync(commandInfo.command, {stdio: 'ignore'});
             } catch (error) {
                 console.log(`Command ${commandInfo.name} errored`, error);
+                console.log("Stopping setup");
+                process.exit(1);
             }
         }
 

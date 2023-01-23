@@ -22,7 +22,7 @@ services:
      relay:
           image: openmetric/carbon-c-relay:latest
           volumes:
-               - ./conf/relay.conf:/openmetric/conf/relay.conf:ro
+               - ./grafanaConfig/relay.conf:/openmetric/conf/relay.conf:ro
           depends_on:
                - carbon
           ports:
@@ -37,8 +37,8 @@ services:
      carbon:
           image: openmetric/go-carbon:latest
           volumes:
-               - ./conf/carbon.conf:/openmetric/conf/carbon.conf:ro
-               - ./conf/schemas.conf:/openmetric/conf/schemas.conf:ro
+               - ./grafanaConfig/carbon.conf:/openmetric/conf/carbon.conf:ro
+               - ./grafanaConfig/schemas.conf:/openmetric/conf/schemas.conf:ro
                - ./whisper:/openmetric/data/whisper
           healthcheck:
                test: "curl -fsSL -o /dev/null 'http://localhost:8080/metrics/find/?query=*&format=json'"
@@ -50,7 +50,7 @@ services:
      api:
           image: openmetric/carbonapi:latest
           volumes:
-               - ./conf/api.yaml:/openmetric/conf/api.yaml:ro
+               - ./grafanaConfig/api.yaml:/openmetric/conf/api.yaml:ro
           depends_on:
                - relay
           healthcheck:
