@@ -1,6 +1,5 @@
 const fs = require('fs');
-const { join, dirname } = require('path');
-const { fileURLToPath } = require('url');
+const { join } = require('path');
 
 const minimist = require('minimist')
 const argv = minimist(process.argv.slice(2));
