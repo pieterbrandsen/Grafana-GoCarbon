@@ -84,9 +84,10 @@ Add all env variables you want to modify, I don't have an url yet for the docume
 
 ## Usage
 
-1. `npm run start-mmo` For International mmo dashboard.
-2. `npm run start-mmo` For International mmo dashboard.
-3. `npm run start-private` To get performance server dashboards to use when admin-utils mod and/or server-stats mod is installed.
+1. `npm run start:mmo` For International mmo dashboard.
+2. `npm run start:mmo` For International mmo dashboard.
+3. `npm run start:private` To get performance server dashboards to use when admin-utils mod and/or server-stats mod is installed.
+4. For custom run commands check out package.json on how to run the commands.
 
 Go to `http://localhost:3000` and login with `admin` and `password`.
 
