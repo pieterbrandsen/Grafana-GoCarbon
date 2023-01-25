@@ -3,8 +3,8 @@
     "version": "1.6.0",
     "scripts": {
         "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025",
-        "start:mmo": "node src/setup/index.js --grafanaType=mmo --grafanaPort 3000",
-        "start:private": "node src/setup/index.js --grafanaType=private --grafanaPort 3000",
+        "start:mmo": "node src/setup/index.js --grafanaType=mmo --grafanaPort=3000",
+        "start:private": "node src/setup/index.js --grafanaType=private --grafanaPort=3000",
         "start:private-test": "node src/setup/index.js --grafanaType=private --grafanaPort=3000 --force",
         "lint": "eslint **/*",
         "lint:fix": "eslint **/* --fix"
