@@ -81,6 +81,7 @@ Add all env variables you want to modify, I don't have an url yet for the docume
 - --disablePushGateway, disable the push gateway
 - --disableWhisperFolderExport, disable the export of whisper folder
 - --force, force the non .example config files to be overwritten.
+- --debug, listen to setup docker logs
 
 ## Usage
 
