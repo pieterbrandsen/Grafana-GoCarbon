@@ -1,4 +1,4 @@
-# An service to launch an easy to use high performant graphite + grafana service
+# An easy-to-use, high-performance Graphite + Grafana service
 
 ## Requirements
 
@@ -7,20 +7,19 @@
 
 ## Installation
 
-- Clone this repo
-- Run `npm install` to install dependencies
+1. Clone this repository
+2. Run `npm install` to install dependencies
 
 ## Setup
 
-- Update all .example files and/or folder to your needs, this is not needed if you use the default setup
+1. Update all .example files and/or folders to match your needs. This step is not required if you are using the default setup.
+2. Add your own Grafana variables in `grafanaConfig/.env.grafana`. This file will be updated after a volume reset.
 
-You can add your own grafana variables in `grafanaConfig/.env.grafana`, after volume reset this is updated.
+### User Setup
 
-### Users setup
+1. Remove all users from the setup
+2. Add users in the following format:
 
-/* Setup:
-Step 1: Remove all users below
-Step 2: Add users like this:
 A. MMO:
 
 ```json
@@ -29,7 +28,7 @@ A. MMO:
 "type": "mmo",
 "shards": ["shard0"],
 "token": "TOKEN_FOR_THIS_USER!",
-},
+}
 ```
 
 B. Private:
@@ -43,7 +42,7 @@ B. Private:
 }
 ```
 
-Step 3: Add the host of the private server if its not localhost
+If the private server is not hosted on localhost, add the host to the user:
 
 ```json
 {
@@ -55,7 +54,7 @@ Step 3: Add the host of the private server if its not localhost
 }
 ```
 
-Step 4. Add the segment of the stats if its not memory
+If the segment of the stats is not memory, add it to the user:
 
 ```json
 {
@@ -68,50 +67,26 @@ Step 4. Add the segment of the stats if its not memory
 }
 ```
 
-### Grafana env variables
+Grafana Environment Variables
+Add any env variables you want to modify. Currently, there is no URL for the documentation of all variables.
 
-Add all env variables you want to modify, I don't have an url yet for the documentation of all variables.
+Run Commands
 
-### Run commands
-
-- --grafanaPort, port for grafana to run on
-- --serverPort, port for push-stats to look for a server on
-- --grafanaType, type of grafana to run, can be `mmo` or `private`. If not included it will run a normal grafana instance
-- --relayPort, port for relay to run on, default 2003
-- --disablePushGateway, disable the push gateway
-- --disableWhisperFolderExport, disable the export of whisper folder
-- --force, force the non .example config files to be overwritten.
-- --debug, listen to setup docker logs
+- `--grafanaPort`: port for Grafana to run on
+- `--serverPort`: port for push-stats to look for a server on
+- `--grafanaType`: type of Grafana to run (mmo or private). If not included, it will run a normal Grafana instance.
+- `--relayPort`: port for relay to run on (default is 2003)
+- `--disablePushGateway`: disable the push gateway
+- `--disableWhisperFolderExport`: disable the export of the whisper folder
+- `--force`: force the non .example config files to be overwritten.
+- `--debug`: listen to setup Docker logs
 
 ## Usage
 
-1. `npm run start:mmo` For International mmo dashboard.
-2. `npm run start:mmo` For International mmo dashboard.
-3. `npm run start:private` To get performance server dashboards to use when admin-utils mod and/or server-stats mod is installed.
-4. For custom run commands check out package.json on how to run the commands.
+- npm run start:mmo for the International MMO dashboard.
+- npm run start:private for performance server dashboards to use when the admin-utils mod and/or server-stats mod is installed.
+- For custom run commands, check out package.json for instructions on how to run them.
 
-Go to `http://localhost:3000` and login with `admin` and `password`.
+Go to [localhost:3000](http://localhost:3000) and login with `admin` and `password`.
 
-By default stats are gathered from users every minute.
-
-If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats) is installed on the private server that is referenced then all server information will be imported
-
-### Update users
-
-1. Update users
-2. `npm run start` (or your preferred command)
-
-This will rebuild the push-stats docker image and restart the service.
-
-### Delete data
-
-```bash
-node src/deletePath --statsPath=direct.path.to.delete
-```
-
-This removes all files for the chosen path
-
-## FAQ
-
-1. To update password/username for the admin user, you need to update `grafanaConfig/.env.grafana`, delete the volume of the grafana container and restart.
-2. Its possible to start using `npx` instead of `npm run` but you need to install using `npm i - g screeps-grafana` and then `npx screeps-grafana` with support for arguments.
+By default, stats are gathered from users every minute. If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats)
