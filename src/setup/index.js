@@ -126,7 +126,7 @@ class GrafanaInitializer {
         ];
         const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
         const whisperPath = join(__dirname, '../../whisper');
-        if (!disableWhisperFolderExport && !isWindows && fs.existsSync(whisperPath)) commands.push(`sudo chmod -R 777 ${whisperPath}`);
+        if (!disableWhisperFolderExport && !isWindows && fs.existsSync(whisperPath)) commands.push({command:`sudo chmod -R 777 ${whisperPath}`,name: "chmod whisper folder"});
 
         for (let i = 0; i < commands.length; i += 1) {
             const commandInfo = commands[i];
