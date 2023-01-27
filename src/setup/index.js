@@ -119,10 +119,9 @@ class GrafanaInitializer {
         grafanaApiUrl = `http://localhost:${grafanaPort}/api`
         console.log(`Grafana API URL: ${grafanaApiUrl}, serverPort: ${process.env.SERVER_PORT}`);
 
-        const dockerComposePath = join(__dirname, '../../docker-compose.yml');
-        const commands = [{command: `docker-compose -f ${dockerComposePath} down --volumes --remove-orphans`, name: 'docker-compose down'},
-            {command: `docker-compose -f ${dockerComposePath} build --no-cache`, name: 'docker-compose build',},
-            {command: `docker-compose -f ${dockerComposePath} up -d`, name: 'docker-compose up'},
+        const commands = [{command: `docker-compose down --volumes --remove-orphans`, name: 'docker-compose down'},
+            {command: `docker-compose build --no-cache`, name: 'docker-compose build',},
+            {command: `docker-compose up -d`, name: 'docker-compose up'},
         ];
         const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
         const whisperPath = join(__dirname, '../../whisper');

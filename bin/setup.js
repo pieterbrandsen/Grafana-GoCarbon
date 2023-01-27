@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-const { execSync } = require('child_process');
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+import { execSync } from 'child_process';
 
 async function run() {
     await import('../src/setup/index.js');

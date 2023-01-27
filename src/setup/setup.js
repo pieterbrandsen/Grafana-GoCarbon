@@ -19,7 +19,8 @@ function UpdateEnvFile(argv) {
     let exampleEnvText = fs.readFileSync(exampleEnvFilePath, 'utf8');
     exampleEnvText = exampleEnvText
         .replace('GRAFANA_PORT=3000', `GRAFANA_PORT=${grafanaPort}`)
-        .replace("COMPOSE_PROJECT_NAME=screeps-grafana", `COMPOSE_PROJECT_NAME=screeps-grafana-${grafanaPort}`);
+        .replace("COMPOSE_PROJECT_NAME=screeps-grafana", `COMPOSE_PROJECT_NAME=screeps-grafana-${grafanaPort}`)
+        .replace("COMPOSE_FILE=./docker-compose.yml", `COMPOSE_FILE=${join(__dirname, '../../docker-compose.yml')}`);
     if (serverPort) exampleEnvText = exampleEnvText.replace("SERVER_PORT=21025", `SERVER_PORT=${serverPort}`);
 
     fs.writeFileSync(envFile, exampleEnvText);
