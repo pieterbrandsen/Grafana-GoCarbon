@@ -1,6 +1,6 @@
 {
     "name": "screeps-grafana",
-    "version": "1.6.1",
+    "version": "1.6.2",
     "scripts": {
         "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025",
         "start:mmo": "node src/setup/index.js --grafanaType=mmo --grafanaPort=3000",
@@ -26,10 +26,11 @@
     },
     "files": [
         "src",
-        "conf",
+        "grafanaConfig",
         "dashboards",
         "docker-compose.example.yml",
         "example.env",
+        "users.example.json",
         ".dockerignore"
     ]
 }
