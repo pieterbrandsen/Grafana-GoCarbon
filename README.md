@@ -77,7 +77,6 @@ Run Commands
 - `--grafanaType`: type of Grafana to run (mmo or private). If not included, it will run a normal Grafana instance.
 - `--relayPort`: port for relay to run on (default is 2003)
 - `--disablePushGateway`: disable the push gateway
-- `--disableWhisperFolderExport`: disable the export of the whisper folder
 - `--force`: force the non .example config files to be overwritten.
 - `--debug`: listen to setup Docker logs
 

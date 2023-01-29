@@ -10,7 +10,7 @@ apiVersion: 1
 # whats available in the database
 datasources:
   # <string, required> name of the datasource. Required
-- name: carbonapi
+- name: Graphite
   # <string, required> datasource type. Required
   type: graphite
   # <string, required> access mode. direct or proxy. Required
@@ -18,7 +18,7 @@ datasources:
   # <int> org id. will default to orgId 1 if not specified
   orgId: 1
   # <string> url
-  url: http://api:8080
+  url: http://carbon-api:8081
   # <string> database password, if used
   password:
   # <string> database user, if used

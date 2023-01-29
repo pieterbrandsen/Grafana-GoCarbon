@@ -5,6 +5,7 @@ users.json
 
 # Folders
 node_modules
-whisper
 logs
+go-carbon-storage/whisper/*
+!go-carbon-storage/whisper/.gitkeep
 grafanaConfig

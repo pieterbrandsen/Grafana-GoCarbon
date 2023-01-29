@@ -13,7 +13,7 @@ if (process.env.DISABLE_PUSHGATEWAY === 'true') {
 };
 console.log("Pushgateway enabled");
 
-const client = graphite.createClient('plaintext://relay:2003/');
+const client = graphite.createClient('plaintext://carbon-relay-ng:2003/');
 const { combine, timestamp, prettyPrint } = format;
 const logger = createLogger({
   format: combine(
@@ -61,7 +61,7 @@ class ManageStats {
 
     if (type === 'mmo') {
       if (Object.keys(groupedStats).length > 0) {
-        ManageStats.reportStats({ stats: groupedStats });
+        if (!await ManageStats.reportStats({ stats: groupedStats })) return console.log('Error while pushing stats');
         this.message += `Pushed ${type} stats to graphite`;
         console.log(this.message);
         logger.info(this.message);
@@ -84,7 +84,7 @@ class ManageStats {
       }
     }
 
-    ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats });
+    if (!await ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats })) return console.log('Error while pushing stats');
     let statsPushed = "";
     if (Object.keys(groupedStats).length > 0) {
       statsPushed = `Pushed ${type} stats`;
@@ -139,15 +139,18 @@ class ManageStats {
     this.pushStats(userinfo, stats, shard);
   }
 
-  static reportStats(stats) {
-    try {
-      client.write(stats, {}, (err) => {
-        if (err) logger.error(err);
+  static async reportStats(stats) {
+    return new Promise((resolve) => {
+      client.write({ screeps: stats }, (err) => {
+        if (err) {
+          console.log(err)
+          logger.error(err);
+          resolve(false);
+        }
+        console.log('success')
+        resolve(true);
       });
-      return true;
-    } catch (error) {
-      return error;
-    }
+    });
   }
 
   pushStats(userinfo, stats, shard) {
@@ -165,7 +168,7 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/30 * * * * *', async () => {
   const message = 'Cron event hit: ' + new Date();
   console.log("\r\n" + message);
   cronLogger.info(message);

@@ -13,7 +13,6 @@ console.dir(argv);
 const isWindows = process.platform === 'win32';
 let grafanaPort;
 let grafanaApiUrl;
-dotenv.config({ path: join(__dirname, '../../grafanaConfig/.env.grafana') });
 
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, prettyPrint } = format;
@@ -31,10 +30,7 @@ function sleep(milliseconds) {
 }
 
 const dashboards = getDashboards();
-const login = {
-    username: process.env.GF_SECURITY_ADMIN_USER,
-    password: process.env.GF_SECURITY_ADMIN_PASSWORD,
-};
+let adminLogin
 
 function handleSuccess(type) {
     console.log(`${type} dashboard setup done`);
@@ -54,7 +50,7 @@ class GrafanaInitializer {
             await axios({
                 url: `${grafanaApiUrl}/dashboards/db`,
                 method: 'post',
-                auth: login,
+                auth: adminLogin,
                 data: dashboard,
             });
             handleSuccess(type);
@@ -70,7 +66,7 @@ class GrafanaInitializer {
             await axios({
                 url: `${grafanaApiUrl}/dashboards/db`,
                 method: 'post',
-                auth: login,
+                auth: adminLogin,
                 data: dashboard,
             });
             handleSuccess(type);
@@ -86,7 +82,7 @@ class GrafanaInitializer {
             await axios({
                 url: `${grafanaApiUrl}/dashboards/db`,
                 method: 'post',
-                auth: login,
+                auth: adminLogin,
                 data: dashboard,
             });
             handleSuccess(type);
@@ -102,7 +98,7 @@ class GrafanaInitializer {
             await axios({
                 url: `${grafanaApiUrl}/dashboards/db`,
                 method: 'post',
-                auth: login,
+                auth: adminLogin,
                 data: dashboard,
             });
             handleSuccess(type);
@@ -115,23 +111,29 @@ class GrafanaInitializer {
         await setup(argv);
         dotenv.config({ path: join(__dirname, '../../.env') });
 
+        const grafanaIni = fs.readFileSync(join(__dirname, '../../grafanaConfig/grafana/grafana.ini'), 'utf8');
+        const username = grafanaIni.match(/admin_user = (.*)/)[1];
+        const password = grafanaIni.match(/admin_password = (.*)/)[1];
+        adminLogin = { username, password };
+
+        dotenv.config({ path: join(__dirname, '../../grafanaConfig/.env.grafana') });
+
         grafanaPort = process.env.GRAFANA_PORT;
         grafanaApiUrl = `http://localhost:${grafanaPort}/api`
         console.log(`Grafana API URL: ${grafanaApiUrl}, serverPort: ${process.env.SERVER_PORT}`);
 
-        const commands = [{command: `docker-compose down --volumes --remove-orphans`, name: 'docker-compose down'},
-            {command: `docker-compose build --no-cache`, name: 'docker-compose build',},
-            {command: `docker-compose up -d`, name: 'docker-compose up'},
+        const commands = [{ command: `docker-compose down --volumes --remove-orphans`, name: 'docker-compose down' },
+        { command: `docker-compose build --no-cache`, name: 'docker-compose build', },
+        { command: `docker-compose up -d`, name: 'docker-compose up' },
         ];
-        const disableWhisperFolderExport = argv.disableWhisperFolderExport === "true";
         const whisperPath = join(__dirname, '../../whisper');
-        if (!disableWhisperFolderExport && !isWindows && fs.existsSync(whisperPath)) commands.push({command:`sudo chmod -R 777 ${whisperPath}`,name: "chmod whisper folder"});
+        if (!isWindows && fs.existsSync(whisperPath)) commands.push({ command: `sudo chmod -R 777 ${whisperPath}`, name: "chmod whisper folder" });
 
         for (let i = 0; i < commands.length; i += 1) {
             const commandInfo = commands[i];
             try {
                 console.log(`Running command ${commandInfo.name}`);
-                execSync(commandInfo.command, {stdio: argv.debug ? "inherit" : 'ignore'});
+                execSync(commandInfo.command, { stdio: argv.debug ? "inherit" : 'ignore' });
             } catch (error) {
                 console.log(`Command ${commandInfo.name} errored`, error);
                 console.log("Stopping setup");
