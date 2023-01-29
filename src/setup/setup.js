@@ -30,7 +30,7 @@ function UpdateEnvFile(argv) {
 async function UpdateDockerComposeFile(argv) {
     const dockerComposeFile = join(__dirname, '../../docker-compose.yml');
     if (fs.existsSync(dockerComposeFile) && !argv.force) return console.log('Docker-compose file already exists, use --force to overwrite it');
-    const relayPort = argv.relayPort || 2003;
+    const relayPort = argv.relayPort;
     const disablePushGateway = argv.disablePushGateway;
     const disableWhisperFolderExport = argv.disableWhisperFolderExport;
 
@@ -41,7 +41,10 @@ async function UpdateDockerComposeFile(argv) {
 
     if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace("DISABLE_PUSHGATEWAY: \"false\"", `DISABLE_PUSHGATEWAY: \"${disablePushGateway}\"`)
     if (disableWhisperFolderExport) exampleDockerComposeText = exampleDockerComposeText.replace("- ./whisper:", "- whisper_data:");
-    if (relayPort) exampleDockerComposeText.replace('2003:2003', `${relayPort}:2003`);
+    if (relayPort) exampleDockerComposeText.replace('2003:2003', `${relayPort}:2003`)
+    else {
+        exampleDockerComposeText = exampleDockerComposeText.replace(`ports:\r\n               - '2003:2003'`, "")
+    }
     if (serverPort) {
         exampleDockerComposeText = exampleDockerComposeText
             .replace('http://localhost:21025/web', `http://localhost:${serverPort}/web`)
