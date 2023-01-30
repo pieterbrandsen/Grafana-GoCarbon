@@ -4,18 +4,19 @@ import net from 'net';
 import util from 'util';
 import zlib from 'zlib';
 import fs from 'fs';
-const users = JSON.parse(fs.readFileSync('users.json'));
 // import users from './users.json' assert {type: 'json'};
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
 import { join, dirname } from 'path';
 
+import { createLogger, format, transports } from 'winston';
+
+const users = JSON.parse(fs.readFileSync('users.json'));
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: join(__dirname, './.env') });
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
-
-import { createLogger, format, transports } from 'winston';
 
 const gunzipAsync = util.promisify(zlib.gunzip);
 const { combine, timestamp, prettyPrint } = format;
@@ -26,7 +27,7 @@ const logger = createLogger({
     prettyPrint(),
   ),
   transports: [new transports.File({ filename: 'logs/api.log' }),
-  new transports.File({ filename: 'logs/api_error.log', level: 'error' }),],
+    new transports.File({ filename: 'logs/api_error.log', level: 'error' })],
 });
 
 async function gz(data) {
@@ -85,9 +86,9 @@ function getPrivateHost() {
 async function TryToGetPrivateHost() {
   if (!privateHost && needsPrivateHost) {
     getPrivateHost();
-    if (!privateHost) console.log('No private host found to make connection with yet! Trying again in 60 seconds.')
-    else console.log(`Private host found! Continuing with ${privateHost}.`)
-    
+    if (!privateHost) console.log('No private host found to make connection with yet! Trying again in 60 seconds.');
+    else console.log(`Private host found! Continuing with ${privateHost}.`);
+
     // eslint-disable-next-line
     await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
     TryToGetPrivateHost();
@@ -191,15 +192,16 @@ export default class {
     const data = await gz(res.data);
     return data;
   }
+
   static async getSegmentMemory(info, shard) {
     const options = await getRequestOptions(info, `/api/user/memory-segment?segment=${info.segment}&shard=${shard}`, 'GET');
     const res = await req(options);
     if (!res || res.data == null) return {};
     try {
-      const data = JSON.parse(res.data)
+      const data = JSON.parse(res.data);
       return data;
     } catch (error) {
-      return {}
+      return {};
     }
   }
 
@@ -216,22 +218,22 @@ export default class {
   }
 
   static async getServerStats(host) {
-    const serverHost = host ? host : privateHost;
+    const serverHost = host || privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/api/stats/server', 'GET');
     const res = await req(options);
     if (!res || !res.users) {
-      logger.error(res)
+      logger.error(res);
       return undefined;
     }
     return removeNonNumbers(res);
   }
 
   static async getAdminUtilsServerStats(host) {
-    const serverHost = host ? host : privateHost;
+    const serverHost = host || privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/stats', 'GET');
     const res = await req(options);
     if (!res || !res.gametime) {
-      logger.error(res)
+      logger.error(res);
       return undefined;
     }
     delete res.ticks.ticks;

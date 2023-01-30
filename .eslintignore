@@ -1,8 +1,8 @@
 # Folders
 
-/node_modules
-/grafanaConfig
-/go-carbon-storage/whisper
+node_modules
+grafanaConfig
+go-carbon-storage/
 
 ## File types
 

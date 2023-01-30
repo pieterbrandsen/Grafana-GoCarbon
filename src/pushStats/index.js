@@ -1,17 +1,20 @@
+// eslint-disable-next-line import/no-unresolved
 import cron from 'node-cron';
+// eslint-disable-next-line import/no-unresolved
 import graphite from 'graphite';
 import { createLogger, format, transports } from 'winston';
-import ApiFunc from './apiFunctions.js';
 import fs from 'fs';
-const users = JSON.parse(fs.readFileSync('users.json'));
 // import users from './users.json' assert {type: 'json'};
 import * as dotenv from 'dotenv';
+import ApiFunc from './apiFunctions.js';
+
+const users = JSON.parse(fs.readFileSync('users.json'));
 dotenv.config();
 if (process.env.DISABLE_PUSHGATEWAY === 'true') {
-  console.log("Pushgateway disabled");
+  console.log('Pushgateway disabled');
   process.exit(0);
-};
-console.log("Pushgateway enabled");
+}
+console.log('Pushgateway enabled');
 
 const client = graphite.createClient('plaintext://carbon-relay-ng:2003/');
 const { combine, timestamp, prettyPrint } = format;
@@ -66,38 +69,39 @@ class ManageStats {
         console.log(this.message);
         logger.info(this.message);
       }
-      return;
+      return console.log('No stats to push');
     }
 
     const privateUser = users.find((user) => user.type === 'private' && user.host);
     const host = privateUser ? privateUser.host : undefined;
     const serverStats = await ApiFunc.getServerStats(host);
-    let adminUtilsServerStats = await ApiFunc.getAdminUtilsServerStats(host);
+    const adminUtilsServerStats = await ApiFunc.getAdminUtilsServerStats(host);
     if (adminUtilsServerStats) {
       try {
         const groupedAdminStatsUsers = {};
-        adminUtilsServerStats.users.forEach(user => {
+        adminUtilsServerStats.users.forEach((user) => {
           groupedAdminStatsUsers[user.username] = user;
-        })
+        });
         adminUtilsServerStats.users = groupedAdminStatsUsers;
       } catch (error) {
+        console.log(error);
       }
     }
 
     if (!await ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats })) return console.log('Error while pushing stats');
-    let statsPushed = "";
+    let statsPushed = '';
     if (Object.keys(groupedStats).length > 0) {
       statsPushed = `Pushed ${type} stats`;
     }
     if (serverStats) {
-      statsPushed += statsPushed.length > 0 ? `, server stats` : "Pushed server stats";
+      statsPushed += statsPushed.length > 0 ? ', server stats' : 'Pushed server stats';
     }
     if (adminUtilsServerStats) {
-      statsPushed += statsPushed.length > 0 ? `, adminUtilsServerStats` : "Pushed server stats";
+      statsPushed += statsPushed.length > 0 ? ', adminUtilsServerStats' : 'Pushed server stats';
     }
     this.message += statsPushed.length > 0 ? `> ${statsPushed} to graphite` : '> Pushed no stats to graphite';
     logger.info(this.message);
-    console.log(this.message);
+    return console.log(this.message);
   }
 
   static async getLoginInfo(userinfo) {
@@ -123,7 +127,9 @@ class ManageStats {
   async getStats(userinfo, shard) {
     try {
       await ManageStats.getLoginInfo(userinfo);
-      const stats = userinfo.segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
+      const stats = userinfo.segment === undefined
+        ? await ApiFunc.getMemory(userinfo, shard)
+        : await ApiFunc.getSegmentMemory(userinfo, shard);
       await this.processStats(userinfo, shard, stats);
       return 'success';
     } catch (error) {
@@ -143,11 +149,11 @@ class ManageStats {
     return new Promise((resolve) => {
       client.write({ screeps: stats }, (err) => {
         if (err) {
-          console.log(err)
+          console.log(err);
           logger.error(err);
           resolve(false);
         }
-        console.log('success')
+        console.log('success');
         resolve(true);
       });
     });
@@ -169,10 +175,10 @@ const groupedUsers = users.reduce((group, user) => {
 }, {});
 
 cron.schedule('*/30 * * * * *', async () => {
-  const message = 'Cron event hit: ' + new Date();
-  console.log("\r\n" + message);
+  const message = `Cron event hit: ${new Date()}`;
+  console.log(`\r\n${message}`);
   cronLogger.info(message);
   Object.keys(groupedUsers).forEach((type) => {
     new ManageStats(groupedUsers[type]).handleUsers(type);
-  })
+  });
 });
