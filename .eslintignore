@@ -1,14 +1,10 @@
 # Folders
 
-/dashboards
 /node_modules
-/conf
-/whisper
+/grafanaConfig
+/go-carbon-storage/whisper
 
 ## File types
 
-**/*.json
 **/*.log
 **/*.md
-**/*.yml
-Dockerfile
