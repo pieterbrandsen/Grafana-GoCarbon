@@ -9,3 +9,6 @@ logs
 go-carbon-storage/whisper/*
 !go-carbon-storage/whisper/.gitkeep
 grafanaConfig
+
+# External
+src/tadoGetter
