@@ -6,9 +6,5 @@ users.json
 # Folders
 node_modules
 logs
-go-carbon-storage/whisper/*
-!go-carbon-storage/whisper/.gitkeep
+go-carbon-storage
 grafanaConfig
-
-# External
-src/tadoGetter

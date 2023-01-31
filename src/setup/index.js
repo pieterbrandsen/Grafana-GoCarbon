@@ -124,12 +124,23 @@ class GrafanaInitializer {
     grafanaApiUrl = `http://localhost:${grafanaPort}/api`;
     console.log(`Grafana API URL: ${grafanaApiUrl}, serverPort: ${process.env.SERVER_PORT}`);
 
-    const commands = [{ command: 'docker-compose down --volumes --remove-orphans', name: 'docker-compose down' },
+    const commands = [
+      { command: 'docker-compose down --volumes --remove-orphans', name: 'docker-compose down' },
       { command: 'docker-compose build --no-cache', name: 'docker-compose build' },
       { command: 'docker-compose up -d', name: 'docker-compose up' },
     ];
-    const whisperPath = join(__dirname, '../../whisper');
-    if (!isWindows && fs.existsSync(whisperPath)) commands.push({ command: `sudo chmod -R 777 ${whisperPath}`, name: 'chmod whisper folder' });
+
+    const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
+    const carbonCommands = [];
+    if (fs.existsSync(carbonStoragePath) && argv.force) {
+      if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage folder' });
+      else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage folder' });
+    }
+    if (!isWindows) {
+      carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage folder' });
+      carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage folder' });
+    } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage folder' });
+    commands.splice(1, 0, ...carbonCommands);
 
     for (let i = 0; i < commands.length; i += 1) {
       const commandInfo = commands[i];
