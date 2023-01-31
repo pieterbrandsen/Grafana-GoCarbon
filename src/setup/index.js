@@ -158,13 +158,14 @@ class GrafanaInitializer {
     await sleep(30 * 1000);
 
     await this.SetupServiceInfoDashboard();
-    await this.SetupAdminUtilsServerStatsDashboard();
     switch (argv.grafanaType) {
       case 'private':
+        await this.SetupAdminUtilsServerStatsDashboard();
         await this.SetupStatsDashboard();
         await this.SetupServerStatsDashboard();
         break;
       case 'mmo':
+        await this.SetupAdminUtilsServerStatsDashboard();
         await this.SetupStatsDashboard();
         break;
       default:
