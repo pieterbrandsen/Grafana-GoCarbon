@@ -89,3 +89,5 @@ Run Commands
 Go to [localhost:3000](http://localhost:3000) and login with `admin` and `password`.
 
 By default, stats are gathered from users every minute. If the mod [screepsmod-server-stats](https://github.com/The-International-Screeps-Bot/screepsmod-server-stats)
+
+Its possible to use https for your grafana instance, check out this [tutorial](https://www.turbogeek.co.uk/grafana-how-to-configure-ssl-https-in-grafana/) for example on how to do this, enough info online about it.
