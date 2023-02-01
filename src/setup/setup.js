@@ -2,6 +2,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const { join } = require('path');
 const { execSync } = require('child_process');
+
 let argv;
 
 function getPortMock() {
@@ -73,11 +74,18 @@ function UpdateGrafanaConfigFolder() {
   const grafanaIniFile = join(grafanaConfigFolder, './grafana/grafana.ini');
   let grafanaIniText = fs.readFileSync(grafanaIniFile, 'utf8');
 
-  const username = argv.username
-  const password = argv.password
+  const { username } = argv;
+  const { password } = argv;
   if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
+
+  const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
+  let storageSchemasText = fs.readFileSync(storageSchemasFile, 'utf8');
+  const { defaultRetention } = argv;
+  if (defaultRetention) storageSchemasText = storageSchemasText.replace(/pattern = .*\nretentions = (.*)/, `pattern = .*\nretentions = ${defaultRetention}`);
+  fs.writeFileSync(storageSchemasFile, storageSchemasText);
+
   console.log('Grafana config folder created');
 }
 
@@ -102,7 +110,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
 
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   const carbonCommands = [];
-  if (fs.existsSync(carbonStoragePath) && argv.force) {
+  if (fs.existsSync(carbonStoragePath) && argv.deleteFolder) {
     if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
     else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
   }
@@ -112,24 +120,27 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
   } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage' });
 
   const logsPath = join(__dirname, '../../logs');
-  const logsCommands = []
-  // if (fs.existsSync(logsPath) && argv.force) {
-  //   if (!isWindows) logsCommands.push({ command: `rm -rf ${logsPath}`, name: 'rm -rf logs' });
-  //   else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
-  // }
+  const logsCommands = [];
+  if (fs.existsSync(logsPath) && argv.deleteFolder) {
+    if (!isWindows) logsCommands.push({ command: `rm -rf ${logsPath}`, name: 'rm -rf logs' });
+    else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
+  }
   if (!isWindows) {
     // logsCommands.push({ command: `sudo mkdir -p ${logsPath}`, name: 'mkdir logs' });
     // logsCommands.push({ command: `sudo chmod -R 777 ${logsPath}`, name: 'chmod logs' });
 
-    logsCommands.push({ command: `sudo mkdir -p ${join(logsPath, "./goCarbon")}`, name: 'mkdir logs/goCarbon' });
-    // logsCommands.push({ command: `sudo chmod -R 777 ${join(logsPath, "./goCarbon")}`, name: 'chmod logs/goCarbon' });
+    logsCommands.push({
+      command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
+      name: 'mkdir logs/goCarbon',
+    });
+    // logsCommands.push({ command: `sudo chmod -R 777 ${join(logsPath, "./goCarbon")}`,
+    // name: 'chmod logs/goCarbon' });
     // logsCommands.push({ command: `sudo chmod o+w ${logsPath}`, name: "chown go-carbon.log"})
   }
 
-
   commands.splice(1, 0, ...carbonCommands);
   commands.splice(1 + carbonCommands.length, 0, ...logsCommands);
-  console.log("\r\nExecuting start commands:")
+  console.log('\r\nExecuting start commands:');
   for (let i = 0; i < commands.length; i += 1) {
     const commandInfo = commands[i];
     try {
@@ -141,4 +152,4 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
       process.exit(1);
     }
   }
-}
+};
