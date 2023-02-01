@@ -127,6 +127,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     if (!isWindows) logsCommands.push({ command: `rm -rf ${logsPath}`, name: 'rm -rf logs' });
     else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
   }
+  console.log(`sudo chmod -R 777 ${join(logsPath, './goCarbon')}`);
   if (!isWindows && !fs.existsSync(logsPath)) {
     // logsCommands.push({ command: `sudo mkdir -p ${logsPath}`, name: 'mkdir logs' });
     // logsCommands.push({ command: `sudo chmod -R 777 ${logsPath}`, name: 'chmod logs' });
@@ -135,8 +136,10 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
       command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
       name: 'mkdir logs/goCarbon',
     });
-    // logsCommands.push({ command: `sudo chmod -R 777 ${join(logsPath, "./goCarbon")}`,
-    // name: 'chmod logs/goCarbon' });
+    logsCommands.push({
+      command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
+      name: 'chmod logs/goCarbon',
+    });
     // logsCommands.push({ command: `sudo chmod o+w ${logsPath}`, name: "chown go-carbon.log"})
   }
 

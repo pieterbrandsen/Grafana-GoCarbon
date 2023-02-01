@@ -8,3 +8,4 @@ go-carbon-storage/
 
 **/*.log
 **/*.md
+.eslintrc.js
