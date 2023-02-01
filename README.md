@@ -78,7 +78,8 @@ Run Commands
 - `--relayPort`: port for relay to run on (default is 2003)
 - `--disablePushGateway`: disable the push gateway
 - `--force`: force the non .example config files to be overwritten.
-- `--deleteFolder`: deletes the logs and go-carbon-storage folders
+- `--deleteLogs`: deletes the logs folder
+- `--deleteWhsiper`: deletes the carbon whsiper folder
 - `--debug`: listen to setup Docker logs
 - `--username`: overwrite the username for the admin user
 - `--password`: overwrite the password for the admin user
