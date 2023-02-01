@@ -50,7 +50,7 @@ services:
       timeout: 1s
       retries: 3
   grafana:
-    image: grafana/grafana-oss:9.0.4-ubuntu
+    image: grafana/grafana-oss:9.3.6-ubuntu
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafanaConfig/grafana:/etc/grafana
