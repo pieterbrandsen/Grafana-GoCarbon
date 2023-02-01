@@ -66,8 +66,8 @@ class ManageStats {
       if (Object.keys(groupedStats).length > 0) {
         if (!await ManageStats.reportStats({ stats: groupedStats })) return console.log('Error while pushing stats');
         this.message += `Pushed ${type} stats to graphite`;
-        console.log(this.message);
         logger.info(this.message);
+        return console.log(this.message);
       }
       return console.log('No stats to push');
     }
