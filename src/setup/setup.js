@@ -110,11 +110,13 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
 
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   const carbonCommands = [];
+  let deletedCarbonStorage = false
   if (fs.existsSync(carbonStoragePath) && argv.deleteFolder) {
     if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
     else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
+    deletedCarbonStorage = true;
   }
-  if (!fs.existsSync(carbonStoragePath)) {
+  if (!fs.existsSync(carbonStoragePath) || deletedCarbonStorage) {
     if (!isWindows) {
       carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
       carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
@@ -123,15 +125,13 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
 
   const logsPath = join(__dirname, '../../logs');
   const logsCommands = [];
+  let deletedLogs = false
   if (fs.existsSync(logsPath) && argv.deleteFolder) {
-    if (!isWindows) logsCommands.push({ command: `rm -rf ${logsPath}`, name: 'rm -rf logs' });
+    if (!isWindows) logsCommands.push({ command: `sudo rm -rf ${logsPath}`, name: 'rm -rf logs' });
     else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
+    deletedLogs = true
   }
-  console.log(`sudo chmod -R 777 ${join(logsPath, './goCarbon')}`);
-  if (!isWindows && !fs.existsSync(logsPath)) {
-    // logsCommands.push({ command: `sudo mkdir -p ${logsPath}`, name: 'mkdir logs' });
-    // logsCommands.push({ command: `sudo chmod -R 777 ${logsPath}`, name: 'chmod logs' });
-
+  if (!isWindows && (!fs.existsSync(logsPath) || deletedLogs)) {
     logsCommands.push({
       command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
       name: 'mkdir logs/goCarbon',
@@ -140,7 +140,6 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
       command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
       name: 'chmod logs/goCarbon',
     });
-    // logsCommands.push({ command: `sudo chmod o+w ${logsPath}`, name: "chown go-carbon.log"})
   }
 
   commands.splice(1, 0, ...carbonCommands);
