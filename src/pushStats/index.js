@@ -153,7 +153,6 @@ class ManageStats {
           logger.error(err);
           resolve(false);
         }
-        console.log('success');
         resolve(true);
       });
     });

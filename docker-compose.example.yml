@@ -25,7 +25,7 @@ services:
     ports:
       - 2003:2003
     healthcheck:
-      test: nc -zv localhost 2003
+      test: nc -zv go-carbon:2003
       interval: 10s
       timeout: 1s
       retries: 3
@@ -45,7 +45,7 @@ services:
     depends_on:
       - go-carbon
     healthcheck:
-      test: "curl -fsSL -o /dev/null http://localhost:8080/lb_check"
+      test: "curl -fsSL -o /dev/null http://go-carbon:8080/lb_check"
       interval: 10s
       timeout: 1s
       retries: 3

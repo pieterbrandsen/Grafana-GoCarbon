@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 const axios = require('axios');
-const { execSync } = require('child_process');
 const { join } = require('path');
 const fs = require('fs');
 
@@ -9,8 +8,6 @@ const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
 console.dir(argv);
 
-const isWindows = process.platform === 'win32';
-let grafanaPort;
 let grafanaApiUrl;
 
 const { createLogger, format, transports } = require('winston');
@@ -120,41 +117,9 @@ class GrafanaInitializer {
 
     dotenv.config({ path: join(__dirname, '../../grafanaConfig/.env.grafana') });
 
-    grafanaPort = process.env.GRAFANA_PORT;
-    grafanaApiUrl = `http://localhost:${grafanaPort}/api`;
-    console.log(`Grafana API URL: ${grafanaApiUrl}, serverPort: ${process.env.SERVER_PORT}`);
-
-    const commands = [
-      { command: 'docker-compose down --volumes --remove-orphans', name: 'docker-compose down' },
-      { command: 'docker-compose build --no-cache', name: 'docker-compose build' },
-      { command: 'docker-compose up -d', name: 'docker-compose up' },
-    ];
-
-    const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
-    const carbonCommands = [];
-    if (fs.existsSync(carbonStoragePath) && argv.force) {
-      if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage folder' });
-      else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage folder' });
-    }
-    if (!isWindows) {
-      carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage folder' });
-      carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage folder' });
-    } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage folder' });
-    commands.splice(1, 0, ...carbonCommands);
-
-    for (let i = 0; i < commands.length; i += 1) {
-      const commandInfo = commands[i];
-      try {
-        console.log(`Running command ${commandInfo.name}`);
-        execSync(commandInfo.command, { stdio: argv.debug ? 'inherit' : 'ignore' });
-      } catch (error) {
-        console.log(`Command ${commandInfo.name} errored`, error);
-        console.log('Stopping setup');
-        process.exit(1);
-      }
-    }
-
-    console.log('Pre setup done!\r\nWaiting for Grafana to start...\r\n');
+    grafanaApiUrl = `http://localhost:${process.env.GRAFANA_PORT}/api`;
+    await setup.commands(grafanaApiUrl);
+    console.log('\r\nPre setup done!\r\nWaiting for Grafana to start...\r\n');
     await sleep(30 * 1000);
 
     await this.SetupServiceInfoDashboard();

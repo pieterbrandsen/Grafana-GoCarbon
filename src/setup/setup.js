@@ -1,6 +1,8 @@
 const fs = require('fs');
 const fse = require('fs-extra');
 const { join } = require('path');
+const { execSync } = require('child_process');
+let argv;
 
 function getPortMock() {
   return 3000;
@@ -12,7 +14,7 @@ const { getPort } = nodeVersionMajor >= 14 ? require('get-port-please') : { getP
 let grafanaPort;
 let serverPort;
 
-function UpdateEnvFile(argv) {
+function UpdateEnvFile() {
   const envFile = join(__dirname, '../../.env');
   if (fs.existsSync(envFile) && !argv.force) return console.log('Env file already exists, use --force to overwrite it');
 
@@ -28,7 +30,7 @@ function UpdateEnvFile(argv) {
   console.log('Env file created');
 }
 
-async function UpdateDockerComposeFile(argv) {
+async function UpdateDockerComposeFile() {
   const dockerComposeFile = join(__dirname, '../../docker-compose.yml');
   if (fs.existsSync(dockerComposeFile) && !argv.force) return console.log('Docker-compose file already exists, use --force to overwrite it');
   const { relayPort } = argv;
@@ -53,7 +55,7 @@ async function UpdateDockerComposeFile(argv) {
   console.log('Docker-compose file created');
 }
 
-function UpdateUsersFile(argv) {
+function UpdateUsersFile() {
   const usersFile = join(__dirname, '../../users.json');
   if (fs.existsSync(usersFile) && !argv.force) return console.log('Users file already exists, use --force to overwrite it');
 
@@ -63,7 +65,7 @@ function UpdateUsersFile(argv) {
   console.log('Users file created');
 }
 
-function UpdateGrafanaConfigFolder(argv) {
+function UpdateGrafanaConfigFolder() {
   const grafanaConfigFolder = join(__dirname, '../../grafanaConfig');
   if (fs.existsSync(grafanaConfigFolder) && !argv.force) return console.log('Grafana config folder already exists, use --force to overwrite it');
 
@@ -71,11 +73,64 @@ function UpdateGrafanaConfigFolder(argv) {
   console.log('Grafana config folder created');
 }
 
-module.exports = async function Setup(argv) {
+module.exports = async function Setup(mArgv) {
+  argv = mArgv || {};
   grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] });
   serverPort = argv.serverPort;
-  UpdateEnvFile(argv);
-  await UpdateDockerComposeFile(argv);
-  UpdateUsersFile(argv);
-  UpdateGrafanaConfigFolder(argv);
+  UpdateEnvFile();
+  await UpdateDockerComposeFile();
+  UpdateUsersFile();
+  UpdateGrafanaConfigFolder();
 };
+module.exports.commands = async function Commands(grafanaApiUrl) {
+  const isWindows = process.platform === 'win32';
+  console.log(`\r\nGrafana API URL: ${grafanaApiUrl}, serverPort: ${serverPort}`);
+
+  const commands = [
+    { command: 'docker-compose down --volumes --remove-orphans', name: 'docker-compose down' },
+    { command: 'docker-compose build --no-cache', name: 'docker-compose build' },
+    { command: 'docker-compose up -d', name: 'docker-compose up' },
+  ];
+
+  const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
+  const carbonCommands = [];
+  if (fs.existsSync(carbonStoragePath) && argv.force) {
+    if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
+    else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
+  }
+  if (!isWindows) {
+    carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
+    carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
+  } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage' });
+
+  const logsPath = join(__dirname, '../../logs');
+  const logsCommands = []
+  // if (fs.existsSync(logsPath) && argv.force) {
+  //   if (!isWindows) logsCommands.push({ command: `rm -rf ${logsPath}`, name: 'rm -rf logs' });
+  //   else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
+  // }
+  if (!isWindows) {
+    // logsCommands.push({ command: `sudo mkdir -p ${logsPath}`, name: 'mkdir logs' });
+    // logsCommands.push({ command: `sudo chmod -R 777 ${logsPath}`, name: 'chmod logs' });
+
+    logsCommands.push({ command: `sudo mkdir -p ${join(logsPath, "./goCarbon")}`, name: 'mkdir logs/goCarbon' });
+    // logsCommands.push({ command: `sudo chmod -R 777 ${join(logsPath, "./goCarbon")}`, name: 'chmod logs/goCarbon' });
+    // logsCommands.push({ command: `sudo chmod o+w ${logsPath}`, name: "chown go-carbon.log"})
+  }
+  
+  
+  commands.splice(1, 0, ...carbonCommands);
+  commands.splice(1+carbonCommands.length, 0, ...logsCommands);
+  console.log("\r\nExecuting start commands:")
+  for (let i = 0; i < commands.length; i += 1) {
+    const commandInfo = commands[i];
+    try {
+      console.log(`Running command ${commandInfo.name}`);
+      execSync(commandInfo.command, { stdio: argv.debug ? 'inherit' : 'ignore' });
+    } catch (error) {
+      console.log(`Command ${commandInfo.name} errored`, error);
+      console.log('Stopping setup');
+      process.exit(1);
+    }
+  }
+}
