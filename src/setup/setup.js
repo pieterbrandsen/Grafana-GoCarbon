@@ -114,10 +114,12 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
     else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
   }
-  if (!isWindows) {
-    carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
-    carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
-  } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage' });
+  if (!fs.existsSync(carbonStoragePath)) {
+    if (!isWindows) {
+      carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
+      carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
+    } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage' });
+  }
 
   const logsPath = join(__dirname, '../../logs');
   const logsCommands = [];
@@ -125,7 +127,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     if (!isWindows) logsCommands.push({ command: `rm -rf ${logsPath}`, name: 'rm -rf logs' });
     else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
   }
-  if (!isWindows) {
+  if (!isWindows && !fs.existsSync(logsPath)) {
     // logsCommands.push({ command: `sudo mkdir -p ${logsPath}`, name: 'mkdir logs' });
     // logsCommands.push({ command: `sudo chmod -R 777 ${logsPath}`, name: 'chmod logs' });
 
