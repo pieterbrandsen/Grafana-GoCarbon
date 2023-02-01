@@ -79,6 +79,8 @@ Run Commands
 - `--disablePushGateway`: disable the push gateway
 - `--force`: force the non .example config files to be overwritten.
 - `--debug`: listen to setup Docker logs
+- `--username`: overwrite the username for the admin user
+- `--password`: overwrite the password for the admin user
 
 ## Usage
 

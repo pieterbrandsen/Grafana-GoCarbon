@@ -70,6 +70,14 @@ function UpdateGrafanaConfigFolder() {
   if (fs.existsSync(grafanaConfigFolder) && !argv.force) return console.log('Grafana config folder already exists, use --force to overwrite it');
 
   fse.copySync(join(__dirname, '../../grafanaConfig.example'), grafanaConfigFolder);
+  const grafanaIniFile = join(grafanaConfigFolder, './grafana/grafana.ini');
+  let grafanaIniText = fs.readFileSync(grafanaIniFile, 'utf8');
+
+  const username = argv.username
+  const password = argv.password
+  if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
+  if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
+  fs.writeFileSync(grafanaIniFile, grafanaIniText);
   console.log('Grafana config folder created');
 }
 
@@ -117,10 +125,10 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     // logsCommands.push({ command: `sudo chmod -R 777 ${join(logsPath, "./goCarbon")}`, name: 'chmod logs/goCarbon' });
     // logsCommands.push({ command: `sudo chmod o+w ${logsPath}`, name: "chown go-carbon.log"})
   }
-  
-  
+
+
   commands.splice(1, 0, ...carbonCommands);
-  commands.splice(1+carbonCommands.length, 0, ...logsCommands);
+  commands.splice(1 + carbonCommands.length, 0, ...logsCommands);
   console.log("\r\nExecuting start commands:")
   for (let i = 0; i < commands.length; i += 1) {
     const commandInfo = commands[i];
