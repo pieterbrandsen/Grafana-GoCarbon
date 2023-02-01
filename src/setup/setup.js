@@ -76,8 +76,10 @@ function UpdateGrafanaConfigFolder() {
 
   const { username } = argv;
   const { password } = argv;
+  const { enableAnonymousAccess } = argv;
   if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
+  grafanaIniText = grafanaIniText.replace(/enable anonymous access\nenabled = (.*)/, `enable anonymous access\nenabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
   const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
@@ -110,32 +112,35 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
 
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   const carbonCommands = [];
-  let deletedCarbonStorage = false;
-  if (fs.existsSync(carbonStoragePath) && argv.deleteWhisper) {
+  const carbonStorageExists = fs.existsSync(carbonStoragePath);
+  if (carbonStorageExists && argv.deleteWhisper) {
     if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
     else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
-    deletedCarbonStorage = true;
   }
-  if (!fs.existsSync(carbonStoragePath) || deletedCarbonStorage) {
+
+  if (!carbonStorageExists) {
     if (!isWindows) {
-      carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
       carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
+      carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
     } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage' });
   }
 
   const logsPath = join(__dirname, '../../logs');
   const logsCommands = [];
-  let deletedLogs = false;
-  if (fs.existsSync(logsPath) && argv.deleteLogs) {
+  const logsExist = fs.existsSync(logsPath);
+  if (logsExist && argv.deleteLogs) {
+    console.log('deleting logs');
     if (!isWindows) logsCommands.push({ command: `sudo rm -rf ${logsPath}`, name: 'rm -rf logs' });
     else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
-    deletedLogs = true;
   }
-  if (!isWindows && (!fs.existsSync(logsPath) || deletedLogs)) {
-    logsCommands.push({
-      command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
-      name: 'mkdir logs/goCarbon',
-    });
+
+  if (!logsExist) {
+    if (!isWindows) {
+      logsCommands.push({
+        command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
+        name: 'mkdir logs/goCarbon',
+      });
+    }
     logsCommands.push({
       command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
       name: 'chmod logs/goCarbon',

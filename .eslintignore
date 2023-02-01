@@ -7,5 +7,5 @@ go-carbon-storage/
 ## File types
 
 **/*.log
-**/*.md
 .eslintrc.js
+**/*.md
