@@ -112,10 +112,11 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
 
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   const carbonCommands = [];
-  const carbonStorageExists = fs.existsSync(carbonStoragePath);
+  let carbonStorageExists = fs.existsSync(carbonStoragePath);
   if (carbonStorageExists && argv.deleteWhisper) {
     if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
     else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
+    carbonStorageExists = false;
   }
 
   if (!carbonStorageExists) {
@@ -127,11 +128,11 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
 
   const logsPath = join(__dirname, '../../logs');
   const logsCommands = [];
-  const logsExist = fs.existsSync(logsPath);
+  let logsExist = fs.existsSync(logsPath);
   if (logsExist && argv.deleteLogs) {
-    console.log('deleting logs');
     if (!isWindows) logsCommands.push({ command: `sudo rm -rf ${logsPath}`, name: 'rm -rf logs' });
     else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
+    logsExist = false;
   }
 
   if (!logsExist) {
