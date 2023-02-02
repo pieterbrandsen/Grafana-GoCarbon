@@ -85,6 +85,7 @@ Run Commands
 - `--password`: overwrite the password for the admin user
 - `--defaultRetention`: overwrite the default retention for the default retention policy, path stats & screeps (screepsUserStats) are not affected by this.
 - `--enableAnonymousAccess`: enable anonymous access to Grafana
+- `--includePushStatusApi`: include the push-status-api in the setup
 
 ## Usage
 

@@ -4,6 +4,7 @@ const { join } = require('path');
 const { execSync } = require('child_process');
 
 let argv;
+const port = 10004;
 
 function getPortMock() {
   return 3000;
@@ -52,6 +53,7 @@ async function UpdateDockerComposeFile() {
       .replace('http://localhost:21025/web', `http://localhost:${serverPort}/web`)
       .replace('SERVER_PORT: 21025', `SERVER_PORT: ${serverPort}`);
   }
+  if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true\n     ports:\n        - ${port}:${port}`);
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
   console.log('Docker-compose file created');
 }

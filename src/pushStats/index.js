@@ -6,7 +6,12 @@ import { createLogger, format, transports } from 'winston';
 import fs from 'fs';
 // import users from './users.json' assert {type: 'json'};
 import * as dotenv from 'dotenv';
+import express from 'express';
 import ApiFunc from './apiFunctions.js';
+
+const app = express();
+const port = 10004;
+let lastUpload = new Date().getTime();
 
 const users = JSON.parse(fs.readFileSync('users.json'));
 dotenv.config();
@@ -153,6 +158,7 @@ class ManageStats {
           logger.error(err);
           resolve(false);
         }
+        lastUpload = new Date().getTime();
         resolve(true);
       });
     });
@@ -181,3 +187,16 @@ cron.schedule('*/30 * * * * *', async () => {
     new ManageStats(groupedUsers[type]).handleUsers(type);
   });
 });
+
+if (process.env.INCLUDE_PUSH_STATUS_API === 'true') {
+  console.log(process.env.INCLUDE_PUSH_STATUS_API);
+  app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
+  });
+  app.get('/', (req, res) => {
+    const diffCompleteMinutes = Math.ceil(
+      Math.abs(parseInt(new Date().getTime(), 10) - parseInt(lastUpload, 10)) / (1000 * 60),
+    );
+    res.json({ result: diffCompleteMinutes < 300, lastUpload, diffCompleteMinutes });
+  });
+}
