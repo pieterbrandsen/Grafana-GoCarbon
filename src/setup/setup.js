@@ -141,11 +141,11 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
         command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
         name: 'mkdir logs/goCarbon',
       });
+      logsCommands.push({
+        command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
+        name: 'chmod logs/goCarbon',
+      });
     }
-    logsCommands.push({
-      command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
-      name: 'chmod logs/goCarbon',
-    });
   }
 
   commands.splice(1, 0, ...carbonCommands);
