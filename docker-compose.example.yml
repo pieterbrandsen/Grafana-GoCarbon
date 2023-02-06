@@ -56,10 +56,10 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafanaConfig/grafana:/etc/grafana
       - ./logs/grafana:/var/log/grafana
-    # expose:
-    #   - 3000:3000
     ports:
       - 3000:3000
+    # expose:
+    #   - 3000:3000
     healthcheck:
       test: "curl -fsSL -o /dev/null http://localhost:3000/login"
       interval: 10s
