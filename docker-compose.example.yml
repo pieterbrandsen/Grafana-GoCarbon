@@ -56,24 +56,26 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafanaConfig/grafana:/etc/grafana
       - ./logs/grafana:/var/log/grafana
-    expose:
+    # expose:
+    #   - 3000:3000
+    ports:
       - 3000:3000
     healthcheck:
       test: "curl -fsSL -o /dev/null http://localhost:3000/login"
       interval: 10s
       timeout: 1s
       retries: 3
-    labels:
-          - "traefik.http.routers.my_custom_image.rule=Host(`my_custom_image.whatever.localhost`)"
-          - "traefik.http.services.my_custom_image.loadbalancer.server.port=3000"
-  traefik:
-    image: traefik:v2.4
-    command:
-      - --api.insecure=true
-      - --providers.docker=true
-      - --entrypoints.web.address=:80
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    # labels:
+    #       - "traefik.http.routers.my_custom_image.rule=Host(`my_custom_image.whatever.localhost`)"
+    #       - "traefik.http.services.my_custom_image.loadbalancer.server.port=3000"
+  # traefik:
+  #   image: traefik:v2.4
+  #   command:
+  #     - --api.insecure=true
+  #     - --providers.docker=true
+  #     - --entrypoints.web.address=:80
+  #   ports:
+  #     - "80:80"
+  #     - "8080:8080"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
