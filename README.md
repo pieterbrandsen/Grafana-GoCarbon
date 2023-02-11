@@ -1,9 +1,11 @@
 # An easy-to-use, high-performance Graphite + Grafana service
 
+* When running on linux logs size and go-carbon-storage folder can be infinitely increasing, keep an good eye! (I'm working on a fix for this). Disabling exporting should fix this already, windows should not have this issue.
+
 ## Requirements
 
-- Docker-Compose
-- Node (any version)
+* Docker-Compose
+* Node (any version)
 
 ## Installation
 
