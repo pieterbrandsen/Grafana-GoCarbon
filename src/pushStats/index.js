@@ -4,8 +4,8 @@ import cron from 'node-cron';
 import graphite from 'graphite';
 import { createLogger, format, transports } from 'winston';
 import fs from 'fs';
-// import users from './users.json' assert {type: 'json'};
 import * as dotenv from 'dotenv';
+// eslint-disable-next-line import/no-unresolved
 import express from 'express';
 import ApiFunc from './apiFunctions.js';
 
@@ -53,7 +53,8 @@ class ManageStats {
     const getStatsFunctions = [];
     users.forEach((user) => {
       try {
-        const shouldContinue = new Date().getMinutes() % user.shards.length !== 0;
+        const shouldContinue = new Date().getSeconds() < 15
+        && new Date().getMinutes() % user.shards.length !== 0;
         if (user.type === 'mmo' && shouldContinue) return;
         for (let y = 0; y < user.shards.length; y += 1) {
           const shard = user.shards[y];
