@@ -12,9 +12,16 @@ function getPortMock() {
 const nodeVersion = process.versions.node;
 const nodeVersionMajor = Number(nodeVersion.split('.')[0]);
 const { getPort } = nodeVersionMajor >= 14 ? require('get-port-please') : { getPort: getPortMock };
+const isWindows = process.platform === 'win32';
+const regexEscape = isWindows ? "\r\n" : "\n";
 
 let grafanaPort;
 let serverPort;
+
+function createRegexWithEscape(string) {
+  return new RegExp(string.replace("\r\n", regexEscape));
+}
+
 
 function UpdateEnvFile() {
   const envFile = join(__dirname, '../../.env');
@@ -46,14 +53,15 @@ async function UpdateDockerComposeFile() {
   if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace('DISABLE_PUSHGATEWAY=false', `DISABLE_PUSHGATEWAY=${disablePushGateway}`);
   if (relayPort) exampleDockerComposeText = exampleDockerComposeText.replace('2003:2003', `${relayPort}:2003`);
   else {
-    exampleDockerComposeText = exampleDockerComposeText.replace('ports:\r\n      - 2003:2003', '');
+    // 
+    exampleDockerComposeText = exampleDockerComposeText.replace(createRegexWithEscape('ports:\r\n      - 2003:2003'), '');
   }
   if (serverPort) {
     exampleDockerComposeText = exampleDockerComposeText
       .replace('http://localhost:21025/web', `http://localhost:${serverPort}/web`)
       .replace('SERVER_PORT: 21025', `SERVER_PORT: ${serverPort}`);
   }
-  if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true\n     ports:\n        - ${port}:${port}`);
+  if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true${regexEscape}     ports:${regexEscape}        - ${port}:${port}`);
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
   console.log('Docker-compose file created');
 }
@@ -81,13 +89,15 @@ function UpdateGrafanaConfigFolder() {
   const { enableAnonymousAccess } = argv;
   if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
-  grafanaIniText = grafanaIniText.replace(/enable anonymous access\nenabled = (.*)/, `enable anonymous access\nenabled = ${enableAnonymousAccess}`);
+  grafanaIniText = grafanaIniText.replace(createRegexWithEscape("enable anonymous access\r\nenabled = (.*)"), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
   const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
   let storageSchemasText = fs.readFileSync(storageSchemasFile, 'utf8');
   const { defaultRetention } = argv;
-  if (defaultRetention) storageSchemasText = storageSchemasText.replace(/pattern = .*\nretentions = (.*)/, `pattern = .*\nretentions = ${defaultRetention}`);
+
+  const regex = new RegExp();
+  if (defaultRetention) storageSchemasText = storageSchemasText.replace(createRegexWithEscape(`pattern = .*\r\nretentions = (.*)`), `pattern = .*${regexEscape}retentions = ${defaultRetention}`);
   fs.writeFileSync(storageSchemasFile, storageSchemasText);
 
   console.log('Grafana config folder created');
@@ -104,7 +114,8 @@ module.exports = async function Setup(mArgv) {
 };
 module.exports.commands = async function Commands(grafanaApiUrl) {
   const isWindows = process.platform === 'win32';
-  console.log(`\r\nGrafana API URL: ${grafanaApiUrl}, serverPort: ${serverPort}`);
+  console.log(`\r\nGrafana API URL: ${grafanaApiUrl}${serverPort ? `, serverPort: ${serverPort}` :
+    ""}`);
 
   const commands = [
     { command: 'docker-compose down --volumes --remove-orphans', name: 'docker-compose down' },
