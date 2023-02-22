@@ -151,9 +151,9 @@ class ManageStats {
     this.pushStats(userinfo, stats, shard);
   }
 
-  static async reportStats(stats) {
+  static async reportStats(screeps) {
     return new Promise((resolve) => {
-      client.write({ screeps: stats }, (err) => {
+      client.write({ screeps }, (err) => {
         if (err) {
           console.log(err);
           logger.error(err);
