@@ -190,7 +190,6 @@ cron.schedule('*/30 * * * * *', async () => {
 });
 
 if (process.env.INCLUDE_PUSH_STATUS_API === 'true') {
-  console.log(process.env.INCLUDE_PUSH_STATUS_API);
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
   });

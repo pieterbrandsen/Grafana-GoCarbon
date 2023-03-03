@@ -55,7 +55,7 @@ function removeNonNumbers(obj) {
 }
 
 let privateHost;
-let serverPort;
+let serverPort = 21025;
 
 function getPrivateHost() {
   serverPort = process.env.SERVER_PORT || 21025;
