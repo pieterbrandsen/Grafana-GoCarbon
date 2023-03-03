@@ -236,7 +236,14 @@ export default class {
       logger.error(res);
       return undefined;
     }
+
     delete res.ticks.ticks;
+    const users = {};
+    res.users.forEach(user => {
+      users[user.username] = user;
+    });
+    res.users = users;
+
     return removeNonNumbers(res);
   }
 }
