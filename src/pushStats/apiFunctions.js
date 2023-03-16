@@ -238,11 +238,11 @@ export default class {
     }
 
     delete res.ticks.ticks;
-    const users = {};
-    res.users.forEach(user => {
-      users[user.username] = user;
+    const mUsers = {};
+    res.users.forEach((user) => {
+      mUsers[user.username] = user;
     });
-    res.users = users;
+    res.users = mUsers;
 
     return removeNonNumbers(res);
   }
