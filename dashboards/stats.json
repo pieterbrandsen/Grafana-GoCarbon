@@ -24,63 +24,26 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 8,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
       },
-      "id": 4,
-      "panels": [],
-      "title": "Global",
-      "type": "row"
-    },
-    {
-      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "continuous-GrYlRd"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": false
           },
-          "decimals": 2,
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -93,121 +56,112 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "none"
+          }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/limit/"
-            },
-            "properties": [
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "aliasByNode(movingAverage(groupByNode(screeps.stats.$Users.$Shards.tickLength, 3, 'averageSeries'), '1d'), 0)"
+        }
+      ],
+      "title": "Tick speed",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
               {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": true,
-                  "tooltip": true,
-                  "viz": false
-                }
+                "color": "green",
+                "value": null
               }
             ]
-          }
-        ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 6
       },
       "id": 2,
       "options": {
-        "legend": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
           "calcs": [
-            "min",
-            "mean",
-            "max"
+            "lastNotNull"
           ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
+          "fields": "",
+          "values": false
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "textMode": "auto"
       },
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "graphite",
-            "uid": "utjUeLRVz"
+            "uid": "P1D261A8554D2DA69"
           },
-          "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.cpu.usage), 1)",
-          "textEditor": false
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "B",
-          "target": "aliasByNode(screeps.stats.$Users.$Shards.cpu.limit, 1, 3, 4)",
-          "textEditor": false
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.gcl.level, 2)"
         }
       ],
-      "title": "Cpu used",
-      "type": "timeseries"
+      "title": "GCL Levels",
+      "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMax": 1,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 2,
           "mappings": [],
-          "max": 2,
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -216,8 +170,142 @@
                 "value": null
               },
               {
+                "color": "#EAB839",
+                "value": 0.8
+              },
+              {
                 "color": "red",
-                "value": 80
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.gpl.level, 2)"
+        }
+      ],
+      "title": "GPL Level",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.8
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.leaderboard.rank, 2)"
+        }
+      ],
+      "title": "Leaderboard rank",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.8
+              },
+              {
+                "color": "red",
+                "value": 1
               }
             ]
           },
@@ -228,183 +316,84 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 1
+        "x": 0,
+        "y": 21
       },
-      "id": 75,
+      "id": 3,
       "options": {
-        "legend": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
           "calcs": [
-            "min",
-            "mean",
-            "max"
+            "lastNotNull"
           ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
+          "fields": "",
+          "values": false
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "textMode": "auto"
       },
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "graphite",
-            "uid": "utjUeLRVz"
+            "uid": "P1D261A8554D2DA69"
           },
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.cpu.usage, #B)), 1)",
-          "targetFull": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.cpu.usage, screeps.stats.$Users.$Shards.cpu.limit)), 1)",
-          "textEditor": false
+          "target": "aliasByNode(movingAverage(divideSeriesLists(screeps.stats.$Users.$Shards.cpu.usage, #B), '1day'), 2)",
+          "targetFull": "aliasByNode(movingAverage(divideSeriesLists(screeps.stats.$Users.$Shards.cpu.usage, screeps.stats.$Users.$Shards.cpu.limit), '1day'), 2)"
         },
         {
           "datasource": {
             "type": "graphite",
-            "uid": "utjUeLRVz"
+            "uid": "P1D261A8554D2DA69"
           },
           "hide": true,
-          "refCount": -1,
+          "refCount": 0,
           "refId": "B",
-          "target": "screeps.stats.$Users.$Shards.cpu.limit",
-          "textEditor": false
+          "target": "screeps.stats.$Users.$Shards.cpu.limit"
         }
       ],
-      "title": "Cpu Usage",
-      "type": "timeseries"
+      "title": "CPU usgae (1 day avg)",
+      "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "green",
                 "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 0,
-        "y": 9
-      },
-      "id": 8,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "sortByMaxima(aliasByNode(screeps.stats.$Users.$Shards.gcl.level, 1))"
-        }
-      ],
-      "title": "Global Control Level",
-      "type": "stat"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+              },
               {
                 "color": "red",
-                "value": null
+                "value": 2000
+              },
+              {
+                "color": "#EAB839",
+                "value": 5000
+              },
+              {
+                "color": "light-green",
+                "value": 7500
+              },
+              {
+                "color": "green",
+                "value": 10000
               }
             ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 6,
-        "y": 9
-      },
-      "id": 15,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
           },
-          "refId": "A",
-          "target": "sortByMaxima(aliasByNode(screeps.stats.$Users.$Shards.gpl.level, 1))"
-        }
-      ],
-      "title": "Global Power Level",
-      "type": "stat"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": [],
-          "unit": "none"
+          "unit": "short"
         },
         "overrides": []
       },
@@ -412,1161 +401,207 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 21
       },
-      "id": 47,
+      "id": 4,
       "options": {
-        "displayLabels": [
-          "value",
-          "percent"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Value",
-          "sortDesc": false,
-          "values": [
-            "value",
-            "percent"
-          ]
-        },
-        "pieType": "pie",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
           "fields": "",
           "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.cpu.bucket, 2)"
+        }
+      ],
+      "title": "CPU Bucket",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "P1D261A8554D2DA69"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.memory.usage, 2)"
+        }
+      ],
+      "title": "Memory usage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "C",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5, 'sum'), '1hour'), 'Harvest')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "A",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5, 'sum'), '1hour'), 'Build')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "B",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5, 'sum'), '1hour'), 'Repair Other')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5, 'sum'), '1hour'), 'Repair Barricades')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "E",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5, 'sum'), '1hour'), 'Spawning')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "F",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5, 'sum'), '1hour'), 'Remote Harvest')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "G",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5, 'sum')), '1hour'), 'Remote Build')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "H",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5, 'sum')), '1hour'), 'Remote Repair Other')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "I",
-          "target": "alias(movingAverage(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5, 'sum'), '1hour'), 'Upgrading')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "J",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5, 'sum')), '1hour'), 'Bought')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "x4EM2VW4z"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "K",
-          "target": "alias(movingAverage(removeZeroSeries(groupByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5, 'sum')), '1hour'), 'Sold')"
-        }
-      ],
-      "title": "Energy Distribution",
-      "type": "piechart"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "blue",
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 17
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.gcl.progress, #B)), 1)",
-          "targetFull": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.gcl.progress, screeps.stats.$Users.$Shards.gcl.progressTotal)), 1)"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": -1,
-          "refId": "B",
-          "target": "screeps.stats.$Users.$Shards.gcl.progressTotal"
-        }
-      ],
-      "title": "GCL Progress",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "max": 10000,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 17
-      },
-      "id": 6,
-      "maxDataPoints": 912,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.cpu.bucket, 50)), 1)"
-        }
-      ],
-      "title": "Cpu bucket",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "red",
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 25
-      },
-      "id": 16,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.gpl.progress, #B)), 1)",
-          "targetFull": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.gpl.progress, screeps.stats.$Users.$Shards.gpl.progressTotal)), 1)"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": -1,
-          "refId": "B",
-          "target": "screeps.stats.$Users.$Shards.gpl.progressTotal"
-        }
-      ],
-      "title": "GPL Progress",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 2,
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 25
-      },
-      "id": 48,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
+            "uid": "P1D261A8554D2DA69"
           },
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.memory.usage, #B)), 1)",
-          "targetFull": "aliasByNode(removeZeroSeries(divideSeriesLists(screeps.stats.$Users.$Shards.memory.usage, screeps.stats.$Users.$Shards.memory.limit)), 1)"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": -1,
-          "refId": "B",
-          "target": "screeps.stats.$Users.$Shards.memory.limit"
-        }
-      ],
-      "title": "Memory usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "semi-dark-purple",
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "purple"
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 33
-      },
-      "id": 19,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.resources.credits), 1)"
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.resources.credits, 2)"
         }
       ],
       "title": "Credits",
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "graphite",
+        "uid": "P1D261A8554D2DA69"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue"
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 33
-      },
-      "id": 21,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.leaderboard.rank), 1)"
-        }
-      ],
-      "title": "Leaderboard Rank",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 41
-      },
-      "id": 18,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": false
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "aliasByNode(screeps.stats.$Users.$Shards.constructionSiteCount, 1)"
-        }
-      ],
-      "title": "Construction site count",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "ms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 41
-      },
-      "id": 17,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "groupByNode(removeAboveValue(screeps.stats.$Users.$Shards.tickLength, 100000), 2, 'averageSeries')"
-        }
-      ],
-      "title": "Tick duration",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 49
-      },
-      "id": 14,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.lastReset), 1)"
-        }
-      ],
-      "title": "Last Global reset",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 49
-      },
-      "id": 83,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "groupByNode(removeZeroSeries(screeps.stats.$Users.$Shards.rooms.*.cl), 1, 'sumSeries')"
-        }
-      ],
-      "title": "Combined rcl",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "noValue": "-",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 57
-      },
-      "id": 20,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.resources.pixels), 1)",
-          "textEditor": false
-        }
-      ],
-      "title": "Pixels",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 65
-      },
-      "id": 67,
-      "panels": [],
-      "title": "Users",
-      "type": "row"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1596,12 +631,14 @@
           },
           "decimals": 0,
           "mappings": [],
+          "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1613,3367 +650,46 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 66
-      },
-      "id": 68,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": -1,
-          "refId": "A",
-          "target": "groupByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.tcc, 5)), 1, 'sum')"
-        }
-      ],
-      "title": "Creep count",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
+        "h": 7,
         "w": 12,
         "x": 12,
-        "y": 66
+        "y": 36
       },
-      "id": 69,
+      "id": 9,
       "options": {
         "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "graphite",
-            "uid": "utjUeLRVz"
+            "uid": "P1D261A8554D2DA69"
           },
-          "hide": true,
-          "refCount": -1,
-          "refId": "A",
-          "target": "removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.es)"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "B",
-          "target": "groupByNode(movingAverage(group(removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.res), #A), 5), 1, 'sum')",
-          "targetFull": "groupByNode(movingAverage(group(removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.res), removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.es)), 5), 1, 'sum')"
-        }
-      ],
-      "title": "Energy stored",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-RdYlGr"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "#EAB839",
-                "value": 0
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 74
-      },
-      "id": 82,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "A",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "B",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "C",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "D",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "E",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "F",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "G",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "H",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "d34EAUnVz"
-          },
-          "hide": true,
-          "refCount": 2,
-          "refId": "J",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5))",
-          "textEditor": true
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "d34EAUnVz"
-          },
-          "hide": true,
-          "refCount": 2,
-          "refId": "K",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5))",
-          "textEditor": true
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "d34EAUnVz"
-          },
-          "hide": true,
-          "refCount": 2,
-          "refId": "L",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5))",
-          "textEditor": true
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "d34EAUnVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "M",
-          "target": "sortByName(groupByNode(group(#J, #K, #L), 4, 'sum'), false)",
-          "targetFull": "sortByName(groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 4, 'sum'), false)",
-          "textEditor": true
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "qM1fZaZ4k"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "I",
-          "target": "sortByName(groupByNode(group(#A, #B, #C, #D, #E, #F, #G, #H), 4, 'sum'), false)",
-          "targetFull": "sortByName(groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 4, 'sum'), false)"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "d34EAUnVz"
-          },
-          "hide": false,
-          "refCount": 1,
-          "refId": "O",
-          "target": "aliasByNode(diffSeriesLists(#M, #I), 0)",
-          "targetFull": "aliasByNode(diffSeriesLists(sortByName(groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 4, 'sum'), false), sortByName(groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 4, 'sum'), false)), 0)",
-          "textEditor": true
-        }
-      ],
-      "title": "Energy Net income",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 74
-      },
-      "id": 70,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "A",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "B",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "C",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "qM1fZaZ4k"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "D",
-          "target": "groupByNode(group(#A, #B, #C), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5))), 1, 'sum')"
-        }
-      ],
-      "title": "Energy Input",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 2,
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 82
-      },
-      "id": 76,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "groupByNode(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.su, 5), 1, 'averageSeries')",
-          "textEditor": false
-        }
-      ],
-      "title": "Spawn Usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 82
-      },
-      "id": 80,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "A",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "B",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "C",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "D",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "E",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "F",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "G",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "H",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "qM1fZaZ4k"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "I",
-          "target": "groupByNode(group(#A, #B, #C, #D, #E, #F, #G, #H), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5))), 1, 'sum')"
-        }
-      ],
-      "title": "Energy Output",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 90
-      },
-      "id": 77,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
           "refCount": 0,
           "refId": "A",
-          "target": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5)), #B), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5))), 1, 'sum')"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": -1,
-          "refId": "B",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5))"
+          "target": "aliasByNode(screeps.stats.$Users.$Shards.constructionSiteCount, 2)"
         }
       ],
-      "title": "Energy input - Harvest",
+      "title": "Construction sites",
       "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 90
-      },
-      "id": 78,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "A",
-          "target": "groupByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5)), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eib, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5))), 1, 'sum')"
-        }
-      ],
-      "title": "Energy input - Bought",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 98
-      },
-      "id": 73,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "groupByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5)), 1, 'sum')"
-        }
-      ],
-      "title": "Energy output - Upgrade",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 98
-      },
-      "id": 37,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "refId": "A",
-          "target": "groupByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), 1, 'sum')"
-        }
-      ],
-      "title": "Energy output - Spawn",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 106
-      },
-      "id": 72,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "A",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": 1,
-          "refId": "B",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "C",
-          "target": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), #A, #B), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5))), 1, 'sum')"
-        }
-      ],
-      "title": "Energy output - Repair",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 106
-      },
-      "id": 71,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": true,
-          "refCount": -1,
-          "refId": "A",
-          "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5))"
-        },
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "B",
-          "target": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5)), #A), 1, 'sum')",
-          "targetFull": "groupByNode(group(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5))), 1, 'sum')"
-        }
-      ],
-      "title": "Energy output - Build",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 114
-      },
-      "id": 79,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Mean",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "graphite",
-            "uid": "utjUeLRVz"
-          },
-          "hide": false,
-          "refCount": 0,
-          "refId": "C",
-          "target": "groupByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eos, 5)), 1, 'sum')"
-        }
-      ],
-      "title": "Energy output - Sold",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 122
-      },
-      "id": 26,
-      "panels": [
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 3
-          },
-          "id": 28,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.cu, 5)), 1, 4)"
-            }
-          ],
-          "title": "Cpu used",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 2,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 3
-          },
-          "id": 30,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.cc, 5)), 1, 4)"
-            }
-          ],
-          "title": "Creep count",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 11
-          },
-          "id": 29,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Last *",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.cl), 1, 4)"
-            }
-          ],
-          "title": "Controller level",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 2,
-              "mappings": [],
-              "max": 1,
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 11
-          },
-          "id": 44,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.su, 5)), 1, 4)",
-              "textEditor": false
-            }
-          ],
-          "title": "Spawn Usage",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 19
-          },
-          "id": 31,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refCount": 0,
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.es), 1, 4)"
-            }
-          ],
-          "title": "Energy stored",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 19
-          },
-          "id": 32,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "removeZeroSeries(aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.mh, 1, 4))"
-            }
-          ],
-          "title": "Minerals harvested",
-          "type": "timeseries"
-        }
-      ],
-      "title": "Commune Rooms",
-      "type": "row"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 123
-      },
-      "id": 59,
-      "panels": [
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 4
-          },
-          "id": 65,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": false,
-              "refCount": -1,
-              "refId": "A",
-              "target": "aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.rc, 1, 4)"
-            }
-          ],
-          "title": "Remote count",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 12
-          },
-          "id": 60,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.rcu, 5)), 1, 4)"
-            }
-          ],
-          "title": "Cpu used",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 2,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 12
-          },
-          "id": 61,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "A",
-              "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.tcc, 5))"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "B",
-              "target": "removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.cc, 5))"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "qM1fZaZ4k"
-              },
-              "hide": false,
-              "refCount": 0,
-              "refId": "C",
-              "target": "aliasByNode(diffSeriesLists(#A, #B), 1, 4)",
-              "targetFull": "aliasByNode(diffSeriesLists(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.tcc, 5)), removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.cc, 5))), 1, 4)"
-            }
-          ],
-          "title": "Creep count",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 20
-          },
-          "id": 62,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refCount": 0,
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(screeps.stats.$Users.$Shards.rooms.$Rooms.res), 1, 4)"
-            }
-          ],
-          "title": "Energy stored",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 20
-          },
-          "id": 51,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reih, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy input - Harvest",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 28
-          },
-          "id": 63,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reob, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Build",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 28
-          },
-          "id": 64,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.reoro, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Repair Other",
-          "type": "timeseries"
-        }
-      ],
-      "title": "Remote Rooms",
-      "type": "row"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 124
-      },
-      "id": 46,
-      "panels": [
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 5
-          },
-          "id": 41,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eih, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy input - Harvest",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 13
-          },
-          "id": 38,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "A",
-              "target": "aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 1, 4)"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "B",
-              "target": "aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 1, 4)"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "C",
-              "target": "aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoso, 1, 4)"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "D",
-              "target": "aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 1, 4)"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "hide": true,
-              "refCount": 1,
-              "refId": "E",
-              "target": "aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 1, 4)"
-            },
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "LILfoERVz"
-              },
-              "hide": false,
-              "refCount": 0,
-              "refId": "F",
-              "target": "groupByNodes(removeZeroSeries(movingAverage(group(#A, #B, #C, #D, #E), 5)), 'sum', 0, 1)",
-              "targetFull": "groupByNodes(removeZeroSeries(movingAverage(group(aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 1, 4), aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 1, 4), aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoso, 1, 4), aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 1, 4), aliasByNode(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 1, 4)), 5)), 'sum', 0, 1)"
-            }
-          ],
-          "title": "Energy output - TOTAL",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 21
-          },
-          "id": 36,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eob, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Build",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 21
-          },
-          "id": 74,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eosp, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Spawn",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 29
-          },
-          "id": 33,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eou, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Upgrade",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 29
-          },
-          "id": 34,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eorwr, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Repair Wall/Rampart",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {},
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 37
-          },
-          "id": 35,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true,
-              "sortBy": "Mean",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "graphite",
-                "uid": "utjUeLRVz"
-              },
-              "refId": "A",
-              "target": "aliasByNode(removeZeroSeries(movingAverage(screeps.stats.$Users.$Shards.rooms.$Rooms.eoro, 5)), 1, 4)"
-            }
-          ],
-          "title": "Energy output - Repair Other",
-          "type": "timeseries"
-        }
-      ],
-      "title": "Performance Commune",
-      "type": "row"
     }
   ],
-  "refresh": "30m",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": "",
         "current": {
           "selected": true,
           "text": [
@@ -4983,7 +699,11 @@
             "$__all"
           ]
         },
-        "definition": "stats.*",
+        "datasource": {
+          "type": "graphite",
+          "uid": "P1D261A8554D2DA69"
+        },
+        "definition": "",
         "hide": 0,
         "includeAll": true,
         "multi": true,
@@ -4997,7 +717,7 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 1,
+        "sort": 0,
         "type": "query"
       },
       {
@@ -5010,7 +730,11 @@
             "$__all"
           ]
         },
-        "definition": "screeps.stats.$Users.*",
+        "datasource": {
+          "type": "graphite",
+          "uid": "P1D261A8554D2DA69"
+        },
+        "definition": "",
         "hide": 0,
         "includeAll": true,
         "multi": true,
@@ -5037,29 +761,37 @@
             "$__all"
           ]
         },
-        "definition": "screeps.stats.$Users.$Shards.rooms.*",
+        "datasource": {
+          "type": "graphite",
+          "uid": "P1D261A8554D2DA69"
+        },
+        "definition": "",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "Rooms",
         "options": [],
-        "query": "screeps.stats.$Users.$Shards.rooms.*",
+        "query": {
+          "queryType": "Default",
+          "refId": "A",
+          "target": "screeps.stats.$Users.*.rooms.*"
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 1,
+        "sort": 0,
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Stats",
-  "uid": "MObkP-74k",
-  "version": 1,
+  "title": "User stats",
+  "uid": "1vLPMsx4z",
+  "version": 3,
   "weekStart": ""
 }
