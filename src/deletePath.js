@@ -1,19 +1,29 @@
-import fs from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs');
+const { join } = require('path');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const minimist = require('minimist');
 
-const statsPath = process.argv[2];
+const argv = minimist(process.argv.slice(2));
+console.dir(argv);
+
+const whisperPath = join(__dirname, '../whisper/');
+let { statsPath } = argv;
 if (!statsPath) {
   console.error('Please provide a path to the stats');
   process.exit(1);
 }
-if (statsPath.includes('.')) {
-  console.error('Please provide a path to the stats only, not outside of the db folder');
+
+if (!fs.existsSync(whisperPath)) {
+  console.log('No whisper folder found, manually delete the stats are not working while whisper export is disabled.');
+  process.exit(1);
+} else if (statsPath.startsWith('.')) {
+  console.log('Please provide a path without a leading dot');
+  process.exit(1);
+} else if (statsPath.endsWith('.')) {
+  console.log('Please provide a path without a trailing dot');
   process.exit(1);
 }
+statsPath = statsPath.split('.').join('/');
 
 function deletePath(path) {
   if (fs.existsSync(path)) {
@@ -28,4 +38,4 @@ function deletePath(path) {
   }
   console.log(`Path not found: ${path}`);
 }
-deletePath(join(__dirname, '../whisper', statsPath));
+deletePath(join(whisperPath, statsPath));

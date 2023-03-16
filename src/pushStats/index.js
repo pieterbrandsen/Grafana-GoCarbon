@@ -1,17 +1,27 @@
+// eslint-disable-next-line import/no-unresolved
 import cron from 'node-cron';
+// eslint-disable-next-line import/no-unresolved
 import graphite from 'graphite';
 import { createLogger, format, transports } from 'winston';
-import ApiFunc from './apiFunctions.js';
-import users from './users.js';
+import fs from 'fs';
 import * as dotenv from 'dotenv';
+// eslint-disable-next-line import/no-unresolved
+import express from 'express';
+import ApiFunc from './apiFunctions.js';
+
+const app = express();
+const port = 10004;
+let lastUpload = new Date().getTime();
+
+const users = JSON.parse(fs.readFileSync('users.json'));
 dotenv.config();
 if (process.env.DISABLE_PUSHGATEWAY === 'true') {
-  console.log("Pushgateway disabled");
+  console.log('Pushgateway disabled');
   process.exit(0);
-};
-console.log("Pushgateway enabled");
+}
+console.log('Pushgateway enabled');
 
-const client = graphite.createClient('plaintext://relay:2003/');
+const client = graphite.createClient('plaintext://carbon-relay-ng:2003/');
 const { combine, timestamp, prettyPrint } = format;
 const logger = createLogger({
   format: combine(
@@ -43,7 +53,9 @@ class ManageStats {
     const getStatsFunctions = [];
     users.forEach((user) => {
       try {
-        const shouldContinue = new Date().getMinutes() % user.shards.length !== 0;
+        const beginningOfMinute = new Date().getSeconds() < 15;
+        const rightMinuteForShard = new Date().getMinutes() % user.shards.length === 0;
+        const shouldContinue = !beginningOfMinute || !rightMinuteForShard;
         if (user.type === 'mmo' && shouldContinue) return;
         for (let y = 0; y < user.shards.length; y += 1) {
           const shard = user.shards[y];
@@ -59,43 +71,44 @@ class ManageStats {
 
     if (type === 'mmo') {
       if (Object.keys(groupedStats).length > 0) {
-        ManageStats.reportStats({ stats: groupedStats });
+        if (!await ManageStats.reportStats({ stats: groupedStats })) return console.log('Error while pushing stats');
         this.message += `Pushed ${type} stats to graphite`;
-        console.log(this.message);
         logger.info(this.message);
+        return console.log(this.message);
       }
-      return;
+      return console.log('No stats to push');
     }
 
     const privateUser = users.find((user) => user.type === 'private' && user.host);
     const host = privateUser ? privateUser.host : undefined;
     const serverStats = await ApiFunc.getServerStats(host);
-    let adminUtilsServerStats = await ApiFunc.getAdminUtilsServerStats(host);
+    const adminUtilsServerStats = await ApiFunc.getAdminUtilsServerStats(host);
     if (adminUtilsServerStats) {
       try {
         const groupedAdminStatsUsers = {};
-        adminUtilsServerStats.users.forEach(user => {
+        adminUtilsServerStats.users.forEach((user) => {
           groupedAdminStatsUsers[user.username] = user;
-        })
+        });
         adminUtilsServerStats.users = groupedAdminStatsUsers;
       } catch (error) {
+        console.log(error);
       }
     }
 
-    ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats });
-    let statsPushed = "";
+    if (!await ManageStats.reportStats({ stats: groupedStats, serverStats, adminUtilsServerStats })) return console.log('Error while pushing stats');
+    let statsPushed = '';
     if (Object.keys(groupedStats).length > 0) {
       statsPushed = `Pushed ${type} stats`;
     }
     if (serverStats) {
-      statsPushed += statsPushed.length > 0 ? `, server stats` : "Pushed server stats";
+      statsPushed += statsPushed.length > 0 ? ', server stats' : 'Pushed server stats';
     }
     if (adminUtilsServerStats) {
-      statsPushed += statsPushed.length > 0 ? `, adminUtilsServerStats` : "Pushed server stats";
+      statsPushed += statsPushed.length > 0 ? ', adminUtilsServerStats' : 'Pushed server stats';
     }
     this.message += statsPushed.length > 0 ? `> ${statsPushed} to graphite` : '> Pushed no stats to graphite';
     logger.info(this.message);
-    console.log(this.message);
+    return console.log(this.message);
   }
 
   static async getLoginInfo(userinfo) {
@@ -121,7 +134,9 @@ class ManageStats {
   async getStats(userinfo, shard) {
     try {
       await ManageStats.getLoginInfo(userinfo);
-      const stats = userinfo.segment === undefined ? await ApiFunc.getMemory(userinfo, shard) : await ApiFunc.getSegmentMemory(userinfo, shard);
+      const stats = userinfo.segment === undefined
+        ? await ApiFunc.getMemory(userinfo, shard)
+        : await ApiFunc.getSegmentMemory(userinfo, shard);
       await this.processStats(userinfo, shard, stats);
       return 'success';
     } catch (error) {
@@ -137,15 +152,18 @@ class ManageStats {
     this.pushStats(userinfo, stats, shard);
   }
 
-  static reportStats(stats) {
-    try {
-      client.write(stats, (err) => {
-        if (err) logger.error(err);
+  static async reportStats(stats) {
+    return new Promise((resolve) => {
+      client.write({ screeps: stats }, (err) => {
+        if (err) {
+          console.log(err);
+          logger.error(err);
+          resolve(false);
+        }
+        lastUpload = new Date().getTime();
+        resolve(true);
       });
-      return true;
-    } catch (error) {
-      return error;
-    }
+    });
   }
 
   pushStats(userinfo, stats, shard) {
@@ -163,11 +181,23 @@ const groupedUsers = users.reduce((group, user) => {
   return group;
 }, {});
 
-cron.schedule('* * * * *', async () => {
-  const message = 'Cron event hit: ' + new Date();
-  console.log("\r\n" + message);
+cron.schedule('*/30 * * * * *', async () => {
+  const message = `Cron event hit: ${new Date()}`;
+  console.log(`\r\n${message}`);
   cronLogger.info(message);
   Object.keys(groupedUsers).forEach((type) => {
     new ManageStats(groupedUsers[type]).handleUsers(type);
-  })
+  });
 });
+
+if (process.env.INCLUDE_PUSH_STATUS_API === 'true') {
+  app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
+  });
+  app.get('/', (req, res) => {
+    const diffCompleteMinutes = Math.ceil(
+      Math.abs(parseInt(new Date().getTime(), 10) - parseInt(lastUpload, 10)) / (1000 * 60),
+    );
+    res.json({ result: diffCompleteMinutes < 300, lastUpload, diffCompleteMinutes });
+  });
+}

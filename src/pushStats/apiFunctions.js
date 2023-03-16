@@ -3,16 +3,20 @@ import https from 'https';
 import net from 'net';
 import util from 'util';
 import zlib from 'zlib';
-import users from './users.js';
+import fs from 'fs';
+// import users from './users.json' assert {type: 'json'};
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
 import { join, dirname } from 'path';
 
+import { createLogger, format, transports } from 'winston';
+
+const users = JSON.parse(fs.readFileSync('users.json'));
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+dotenv.config({ path: join(__dirname, './.env') });
 const needsPrivateHost = users.some((u) => u.type !== 'mmo' && !u.host);
-
-import { createLogger, format, transports } from 'winston';
 
 const gunzipAsync = util.promisify(zlib.gunzip);
 const { combine, timestamp, prettyPrint } = format;
@@ -22,7 +26,8 @@ const logger = createLogger({
     timestamp(),
     prettyPrint(),
   ),
-  transports: [new transports.File({ filename: 'logs/api.log' })],
+  transports: [new transports.File({ filename: 'logs/api.log' }),
+    new transports.File({ filename: 'logs/api_error.log', level: 'error' })],
 });
 
 async function gz(data) {
@@ -32,10 +37,9 @@ async function gz(data) {
   return JSON.parse(ret.toString());
 }
 
-// remove all non number values recursively in object or array
 function removeNonNumbers(obj) {
   if (!obj) return obj;
-  
+
   if (Array.isArray(obj)) {
     for (let i = 0; i < obj.length; i += 1) {
       obj[i] = removeNonNumbers(obj[i]);
@@ -51,12 +55,10 @@ function removeNonNumbers(obj) {
 }
 
 let privateHost;
-let serverPort;
+let serverPort = 21025;
 
 function getPrivateHost() {
-  dotenv.config({path: join(__dirname, '../.env')});
-
-  serverPort = process.env.SERVER_PORT;
+  serverPort = process.env.SERVER_PORT || 21025;
   const hosts = [
     'localhost',
     'host.docker.internal',
@@ -72,11 +74,9 @@ function getPrivateHost() {
       privateHost = host;
     })
       .on('error', () => {
-        console.log(`error: ${host}:${serverPort}`);
         sock.destroy();
       })
       .on('timeout', () => {
-        console.log(`timeout: ${host}:${serverPort}`);
         sock.destroy();
       })
       .connect(serverPort, host);
@@ -84,11 +84,13 @@ function getPrivateHost() {
 }
 
 async function TryToGetPrivateHost() {
-  getPrivateHost();
-  if (!privateHost) console.log('no private host found to make connection with!');
   if (!privateHost && needsPrivateHost) {
+    getPrivateHost();
+    if (!privateHost) console.log('No private host found to make connection with yet! Trying again in 60 seconds.');
+    else console.log(`Private host found! Continuing with ${privateHost}.`);
+
     // eslint-disable-next-line
-    await new Promise((resolve) => setTimeout(resolve, 30 * 1000));
+    await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
     TryToGetPrivateHost();
   }
 }
@@ -190,15 +192,16 @@ export default class {
     const data = await gz(res.data);
     return data;
   }
+
   static async getSegmentMemory(info, shard) {
     const options = await getRequestOptions(info, `/api/user/memory-segment?segment=${info.segment}&shard=${shard}`, 'GET');
     const res = await req(options);
     if (!res || res.data == null) return {};
     try {
-      const data = JSON.parse(res.data)
+      const data = JSON.parse(res.data);
       return data;
     } catch (error) {
-      return {}
+      return {};
     }
   }
 
@@ -215,19 +218,32 @@ export default class {
   }
 
   static async getServerStats(host) {
-    const serverHost = host ? host : privateHost;
+    const serverHost = host || privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/api/stats/server', 'GET');
     const res = await req(options);
-    if (res.code === 'ENOTFOUND') return undefined;
+    if (!res || !res.users) {
+      logger.error(res);
+      return undefined;
+    }
     return removeNonNumbers(res);
   }
 
   static async getAdminUtilsServerStats(host) {
-    const serverHost = host ? host : privateHost;
+    const serverHost = host || privateHost;
     const options = await getRequestOptions({ host: serverHost }, '/stats', 'GET');
     const res = await req(options);
-    if (!res || res.code === 'ENOTFOUND' || !res.ticks) return undefined;
+    if (!res || !res.gametime) {
+      logger.error(res);
+      return undefined;
+    }
+
     delete res.ticks.ticks;
+    const mUsers = {};
+    res.users.forEach((user) => {
+      mUsers[user.username] = user;
+    });
+    res.users = mUsers;
+
     return removeNonNumbers(res);
   }
 }

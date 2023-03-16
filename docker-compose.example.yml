@@ -1,69 +1,81 @@
-version: '3'
+version: "3.5"
 
-volumes: 
-  grafana_data: 
+volumes:
+  grafana_data:
+  go-carbon_data:
+
 services:
-     push-stats:
-          build:
-               context: .
-               dockerfile: Dockerfile.PushStats
-          volumes:
-               - ./logs:/logs
-          healthcheck:
-               test: 'curl -fsSL -o /dev/null http://localhost:{{ serverPort }}/web'
-               interval: 10s
-               timeout: 1s
-               retries: 3
-          environment:
-               DISABLE_PUSHGATEWAY: "false"
-     relay:
-          image: openmetric/carbon-c-relay:latest
-          volumes:
-               - ./conf/relay.conf:/openmetric/conf/relay.conf:ro
-          depends_on:
-               - carbon
-          ports:
-               - '{{ relayPort }}:2003'
-          healthcheck:
-               test: nc -zv localhost 2003
-               interval: 10s
-               timeout: 1s
-               retries: 3
-     carbon:
-          image: openmetric/go-carbon:latest
-          volumes:
-               - ./conf/carbon.conf:/openmetric/conf/carbon.conf:ro
-               - ./conf/schemas.conf:/openmetric/conf/schemas.conf:ro
-               - ./whisper:/openmetric/data/whisper
-          healthcheck:
-               test: "curl -fsSL -o /dev/null 'http://localhost:8080/metrics/find/?query=*&format=json'"
-               interval: 10s
-               timeout: 1s
-               retries: 3
-     api:
-          image: openmetric/carbonapi:latest
-          volumes:
-               - ./conf/api.yaml:/openmetric/conf/api.yaml:ro
-          depends_on:
-               - relay
-          healthcheck:
-               test: 'curl -fsSL -o /dev/null http://localhost:8080/lb_check'
-               interval: 10s
-               timeout: 1s
-               retries: 3
-     grafana:
-          image: grafana/grafana-enterprise:9.0.4-ubuntu
-          volumes:
-               - grafana_data:/var/lib/grafana
-               - ./conf/grafanaDatasource.yaml:/etc/grafana/provisioning/datasources/grafanaDatasource.yaml:ro
-          ports:
-               - '{{ grafanaPort }}:3000'
-          depends_on:
-               - relay
-          env_file:
-               - ./conf/.env.grafana
-          healthcheck:
-               test: 'curl -fsSL -o /dev/null http://localhost:3000/login'
-               interval: 10s
-               timeout: 1s
-               retries: 3
+  stats-getter:
+     build:
+          context: .
+          dockerfile: ./src/pushStats/Dockerfile
+     volumes:
+      - ./logs/statsGetter:/app/logs
+     depends_on:
+      - carbon-relay-ng
+     environment:
+      - DISABLE_PUSHGATEWAY=false
+      - SERVER_PORT=21025
+      - INCLUDE_PUSH_STATUS_API=false
+  carbon-relay-ng:
+    image: grafana/carbon-relay-ng
+    depends_on:
+      - go-carbon
+    volumes:
+      - ./grafanaConfig/carbon-relay-ng:/conf
+    ports:
+      - 2003:2003
+    healthcheck:
+      test: nc -zv go-carbon:2003
+      interval: 10s
+      timeout: 1s
+      retries: 3
+  go-carbon:
+    image: ghcr.io/go-graphite/go-carbon
+    volumes:
+      - ./grafanaConfig/go-carbon/go-carbon.conf:/etc/go-carbon/go-carbon.conf
+      - ./grafanaConfig/go-carbon:/conf
+      - ./go-carbon-storage:/graphite
+      - ./logs/goCarbon:/log
+  carbon-api:
+    image: pieterbrandsen/carbonapi-0.15.6
+    volumes:
+      - ./grafanaConfig/carbonapi/carbonapi.yml:/etc/carbonapi.yml
+      - ./grafanaConfig/carbonapi:/conf:ro
+      - ./logs/carbonApi:/log
+    depends_on:
+      - go-carbon
+    healthcheck:
+      test: "curl -fsSL -o /dev/null http://go-carbon:8080/lb_check"
+      interval: 10s
+      timeout: 1s
+      retries: 3
+  grafana:
+    image: grafana/grafana-oss:9.3.6-ubuntu
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafanaConfig/grafana:/etc/grafana
+      - ./logs/grafana:/var/log/grafana
+    ports:
+      - 3000:3000
+    # expose:
+    #   - 3000:3000
+    healthcheck:
+      test: "curl -fsSL -o /dev/null http://localhost:3000/login"
+      interval: 10s
+      timeout: 1s
+      retries: 3
+    # labels:
+    #       - "traefik.http.routers.my_custom_image.rule=Host(`my_custom_image.whatever.localhost`)"
+    #       - "traefik.http.services.my_custom_image.loadbalancer.server.port=3000"
+  # traefik:
+  #   image: traefik:v2.4
+  #   command:
+  #     - --api.insecure=true
+  #     - --providers.docker=true
+  #     - --entrypoints.web.address=:80
+  #   ports:
+  #     - "80:80"
+  #     - "8080:8080"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
