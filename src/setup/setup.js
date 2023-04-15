@@ -125,7 +125,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
   const carbonCommands = [];
   let carbonStorageExists = fs.existsSync(carbonStoragePath);
   if (carbonStorageExists && argv.deleteWhisper) {
-    if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
+    if (!isWindows) carbonCommands.push({ command: `sudo rm -rf ${carbonStoragePath}`, name: 'sudo rm -rf go-carbon-storage' });
     else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
     carbonStorageExists = false;
   }
