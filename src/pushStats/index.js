@@ -53,8 +53,9 @@ class ManageStats {
     const getStatsFunctions = [];
     users.forEach((user) => {
       try {
-        const shouldContinue = new Date().getSeconds() < 15
-        && new Date().getMinutes() % user.shards.length !== 0;
+        const beginningOfMinute = new Date().getSeconds() < 15;
+        const rightMinuteForShard = new Date().getMinutes() % user.shards.length === 0;
+        const shouldContinue = !beginningOfMinute || !rightMinuteForShard;
         if (user.type === 'mmo' && shouldContinue) return;
         for (let y = 0; y < user.shards.length; y += 1) {
           const shard = user.shards[y];
