@@ -111,6 +111,27 @@ module.exports = async function Setup(mArgv) {
   UpdateUsersFile();
   UpdateGrafanaConfigFolder();
 };
+
+function resetFolders() {
+  const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
+  let carbonStorageExists = fs.existsSync(carbonStoragePath);
+  if (carbonStorageExists && argv.deleteWhisper) {
+    fs.rmdirSync(carbonStoragePath, { recursive: true });
+    carbonStorageExists = false;
+  }
+  if (!carbonStorageExists) {
+    fs.mkdirSync(carbonStoragePath, { recursive: true, mode: 0o777 });
+  }
+
+  const logsPath = join(__dirname, '../../logs');
+  let logsExist = fs.existsSync(logsPath);
+  if (logsExist && argv.deleteLogs) {
+    fs.rmdirSync(logsPath, { recursive: true });
+    logsExist = false;
+  }
+  if (!logsExist) fs.mkdirSync(logsPath, { recursive: true, mode: 0o777 })
+}
+
 module.exports.commands = async function Commands(grafanaApiUrl) {
   console.log(`\r\nGrafana API URL: ${grafanaApiUrl}${serverPort ? `, serverPort: ${serverPort}`
     : ''}`);
@@ -121,57 +142,13 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     { command: 'docker-compose up -d', name: 'docker-compose up' },
   ];
 
-  const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
-  const carbonCommands = [];
-  let carbonStorageExists = fs.existsSync(carbonStoragePath);
-  if (carbonStorageExists && argv.deleteWhisper) {
-    if (!isWindows) carbonCommands.push({ command: `rm -rf ${carbonStoragePath}`, name: 'rm -rf go-carbon-storage' });
-    else carbonCommands.push({ command: `rmdir /s /q ${carbonStoragePath}`, name: 'rmdir /s /q go-carbon-storage' });
-    carbonStorageExists = false;
-  }
-
-  if (!carbonStorageExists) {
-    if (!isWindows) {
-      carbonCommands.push({ command: `sudo mkdir -p ${join(carbonStoragePath, './whisper')}`, name: 'mkdir go-carbon-storage' });
-      carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
-    } else carbonCommands.push({ command: `mkdir "${join(carbonStoragePath, './whisper')}"`, name: 'mkdir go-carbon-storage' });
-  } else if (!isWindows) carbonCommands.push({ command: `sudo chmod -R 777 ${carbonStoragePath}`, name: 'chmod go-carbon-storage' });
-
-  const logsPath = join(__dirname, '../../logs');
-  const logsCommands = [];
-  let logsExist = fs.existsSync(logsPath);
-  if (logsExist && argv.deleteLogs) {
-    if (!isWindows) logsCommands.push({ command: `sudo rm -rf ${logsPath}`, name: 'rm -rf logs' });
-    else logsCommands.push({ command: `rmdir /s /q ${logsPath}`, name: 'rmdir /s /q logs' });
-    logsExist = false;
-  }
-
-  if (!logsExist) {
-    if (!isWindows) {
-      logsCommands.push({
-        command: `sudo mkdir -p ${join(logsPath, './goCarbon')}`,
-        name: 'mkdir logs/goCarbon',
-      });
-      logsCommands.push({
-        command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
-        name: 'chmod logs/goCarbon',
-      });
-    }
-  } else if (!isWindows) {
-    logsCommands.push({
-      command: `sudo chmod -R 777 ${join(logsPath, './goCarbon')}`,
-      name: 'chmod logs/goCarbon',
-    });
-  }
-
-  commands.splice(1, 0, ...carbonCommands);
-  commands.splice(1 + carbonCommands.length, 0, ...logsCommands);
   console.log('\r\nExecuting start commands:');
   for (let i = 0; i < commands.length; i += 1) {
     const commandInfo = commands[i];
     try {
       console.log(`Running command ${commandInfo.name}`);
       execSync(commandInfo.command, { stdio: argv.debug ? 'inherit' : 'ignore' });
+      if (commandInfo.name.startsWith("docker-compose down")) resetFolders();
     } catch (error) {
       console.log(`Command ${commandInfo.name} errored`, error);
       console.log('Stopping setup');

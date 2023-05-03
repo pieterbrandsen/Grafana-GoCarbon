@@ -94,7 +94,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "adminUtilsServerStats.gametime"
+          "target": "screeps.adminUtilsServerStats.gametime"
         }
       ],
       "title": "Game time",
@@ -153,7 +153,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "adminUtilsServerStats.activeUsers"
+          "target": "screeps.adminUtilsServerStats.activeUsers"
         }
       ],
       "title": "Active users",
@@ -212,7 +212,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "adminUtilsServerStats.ownedRooms"
+          "target": "screeps.adminUtilsServerStats.ownedRooms"
         }
       ],
       "title": "Owned rooms",
@@ -271,7 +271,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "adminUtilsServerStats.activeRooms"
+          "target": "screeps.adminUtilsServerStats.activeRooms"
         }
       ],
       "title": "Active rooms",
@@ -332,8 +332,8 @@
           "hide": false,
           "refCount": 0,
           "refId": "A",
-          "target": "diffSeries(adminUtilsServerStats.objects.all, #B)",
-          "targetFull": "diffSeries(adminUtilsServerStats.objects.all, adminUtilsServerStats.objects.creeps)"
+          "target": "diffSeries(screeps.adminUtilsServerStats.objects.all, #B)",
+          "targetFull": "diffSeries(screeps.adminUtilsServerStats.objects.all, screeps.adminUtilsServerStats.objects.creeps)"
         },
         {
           "datasource": {
@@ -343,7 +343,7 @@
           "hide": true,
           "refCount": -1,
           "refId": "B",
-          "target": "adminUtilsServerStats.objects.creeps"
+          "target": "screeps.adminUtilsServerStats.objects.creeps"
         }
       ],
       "title": "Total objects",
@@ -402,7 +402,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "adminUtilsServerStats.objects.creeps"
+          "target": "screeps.adminUtilsServerStats.objects.creeps"
         }
       ],
       "title": "Total creeps",
@@ -488,7 +488,7 @@
           },
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByMetric(adminUtilsServerStats.ticks.avg)"
+          "target": "aliasByMetric(screeps.adminUtilsServerStats.ticks.avg)"
         },
         {
           "datasource": {
@@ -498,7 +498,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "B",
-          "target": "aliasByMetric(adminUtilsServerStats.ticks.max)"
+          "target": "aliasByMetric(screeps.adminUtilsServerStats.ticks.max)"
         },
         {
           "datasource": {
@@ -508,7 +508,7 @@
           "hide": false,
           "refCount": 0,
           "refId": "C",
-          "target": "aliasByMetric(adminUtilsServerStats.ticks.min)"
+          "target": "aliasByMetric(screeps.adminUtilsServerStats.ticks.min)"
         }
       ],
       "title": "Tick speed",
@@ -609,7 +609,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "aliasByNode(movingAverage(perSecond(adminUtilsServerStats.users.$Users.gcl), '$Avg'), 2)",
+          "target": "aliasByNode(movingAverage(perSecond(screeps.adminUtilsServerStats.users.$Users.gcl), '$Avg'), 3)",
           "textEditor": false
         }
       ],
@@ -698,7 +698,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "aliasByNode(adminUtilsServerStats.users.$Users.gcl, 2)",
+          "target": "aliasByNode(screeps.adminUtilsServerStats.users.$Users.gcl, 3)",
           "textEditor": false
         }
       ],
@@ -788,7 +788,7 @@
           },
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(adminUtilsServerStats.users.$Users.gclLevel, 2)"
+          "target": "aliasByNode(screeps.adminUtilsServerStats.users.$Users.gclLevel, 3)"
         }
       ],
       "title": "GCL level",
@@ -876,7 +876,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "aliasByNode(adminUtilsServerStats.users.$Users.combinedRCL, 2)"
+          "target": "aliasByNode(screeps.adminUtilsServerStats.users.$Users.combinedRCL, 3)"
         }
       ],
       "title": "Combined RCL",
@@ -965,7 +965,7 @@
           },
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(adminUtilsServerStats.users.$Users.power, 2)"
+          "target": "aliasByNode(screeps.adminUtilsServerStats.users.$Users.power, 3)"
         }
       ],
       "title": "Power",
@@ -1054,7 +1054,7 @@
           },
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(adminUtilsServerStats.users.$Users.powerLevel, 2)"
+          "target": "aliasByNode(screeps.adminUtilsServerStats.users.$Users.powerLevel, 3)"
         }
       ],
       "title": "GPL",
@@ -1142,7 +1142,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "aliasByNode(movingAverage(adminUtilsServerStats.users.$Users.creeps, '1hour'), 2)"
+          "target": "aliasByNode(movingAverage(screeps.adminUtilsServerStats.users.$Users.creeps, '1hour'), 3)"
         }
       ],
       "title": "Creeps (1 hour avg)",
@@ -1230,7 +1230,7 @@
             "uid": "P66A2574FF36FD84D"
           },
           "refId": "A",
-          "target": "aliasByNode(adminUtilsServerStats.users.$Users.cpu, 2)"
+          "target": "aliasByNode(screeps.adminUtilsServerStats.users.$Users.cpu, 3)"
         }
       ],
       "title": "CPU",
@@ -1320,8 +1320,8 @@
           "hide": false,
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(divideSeries(perSecond(adminUtilsServerStats.users.$Users.gcl), #B), 2)",
-          "targetFull": "aliasByNode(divideSeries(perSecond(adminUtilsServerStats.users.$Users.gcl), perSecond(adminUtilsServerStats.gametime)), 2)",
+          "target": "aliasByNode(divideSeries(perSecond(screeps.adminUtilsServerStats.users.$Users.gcl), #B), 3)",
+          "targetFull": "aliasByNode(divideSeries(perSecond(screeps.adminUtilsServerStats.users.$Users.gcl), perSecond(screeps.adminUtilsServerStats.gametime)), 3)",
           "textEditor": false
         },
         {
@@ -1332,7 +1332,7 @@
           "hide": true,
           "refCount": -1,
           "refId": "B",
-          "target": "perSecond(adminUtilsServerStats.gametime)",
+          "target": "perSecond(screeps.adminUtilsServerStats.gametime)",
           "textEditor": false
         }
       ],
@@ -1360,13 +1360,13 @@
           "type": "graphite",
           "uid": "P66A2574FF36FD84D"
         },
-        "definition": "adminUtilsServerStats.users.*",
+        "definition": "screeps.adminUtilsServerStats.users.*",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "Users",
         "options": [],
-        "query": "adminUtilsServerStats.users.*",
+        "query": "screeps.adminUtilsServerStats.users.*",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
