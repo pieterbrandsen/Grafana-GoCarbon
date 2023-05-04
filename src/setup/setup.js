@@ -116,7 +116,7 @@ function resetFolders() {
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   let carbonStorageExists = fs.existsSync(carbonStoragePath);
   if (carbonStorageExists && argv.deleteWhisper) {
-    fs.rm(carbonStoragePath, { recursive: true });
+    fs.rmdirSync(carbonStoragePath, { recursive: true });
     carbonStorageExists = false;
   }
   if (!carbonStorageExists) {
@@ -126,7 +126,7 @@ function resetFolders() {
   const logsPath = join(__dirname, '../../logs');
   let logsExist = fs.existsSync(logsPath);
   if (logsExist && argv.deleteLogs) {
-    fs.rm(logsPath, { recursive: true });
+    fs.rmdirSync(logsPath, { recursive: true });
     logsExist = false;
   }
   if (!logsExist) fs.mkdirSync(logsPath, { recursive: true, mode: 0o777 })

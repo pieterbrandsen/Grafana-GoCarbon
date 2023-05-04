@@ -1,6 +1,6 @@
 {
     "name": "screeps-grafana",
-    "version": "2.5.2",
+    "version": "2.5.1",
     "scripts": {
         "start": "node src/setup/index.js --grafanaPort=3000 --serverPort=21025",
         "start:mmo": "node src/setup/index.js --grafanaType=mmo --grafanaPort=3000",
