@@ -120,7 +120,10 @@ function resetFolders() {
     carbonStorageExists = false;
   }
   if (!carbonStorageExists) {
-    fs.mkdirSync(carbonStoragePath, { recursive: true, mode: 0o777 });
+    fs.mkdirSync(carbonStoragePath, { recursive: true });
+    // if (!isWindows) {
+    //   execSync(`sudo chmod -R 555 ${carbonStoragePath}`)
+    // }
   }
 
   const logsPath = join(__dirname, '../../logs');
@@ -129,7 +132,7 @@ function resetFolders() {
     fs.rmdirSync(logsPath, { recursive: true });
     logsExist = false;
   }
-  if (!logsExist) fs.mkdirSync(logsPath, { recursive: true, mode: 0o777 })
+  if (!logsExist) fs.mkdirSync(logsPath, { recursive: true })
 }
 
 module.exports.commands = async function Commands(grafanaApiUrl) {

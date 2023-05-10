@@ -34,9 +34,9 @@ services:
     image: ghcr.io/go-graphite/go-carbon
     volumes:
       - ./grafanaConfig/go-carbon/go-carbon.conf:/etc/go-carbon/go-carbon.conf
-      - ./grafanaConfig/go-carbon:/conf
-      - ./go-carbon-storage:/graphite
-      - ./logs/goCarbon:/log
+      - ./grafanaConfig/go-carbon:/etc/go-carbon/
+      - ./go-carbon-storage:/var/lib/graphite/whisper
+      #- ./logs/goCarbon:/var/log/go-carbon
   carbon-api:
     image: pieterbrandsen/carbonapi-0.15.6
     volumes:
