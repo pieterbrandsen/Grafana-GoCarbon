@@ -154,7 +154,7 @@ class ManageStats {
 
   static async reportStats(stats) {
     return new Promise((resolve) => {
-      client.write({ screeps: stats }, (err) => {
+      client.write({ [`${process.env.PREFIX ? `${process.env.PREFIX}.` : ''}screeps`]: stats }, (err) => {
         if (err) {
           console.log(err);
           logger.error(err);
@@ -168,7 +168,7 @@ class ManageStats {
 
   pushStats(userinfo, stats, shard) {
     if (Object.keys(stats).length === 0) return;
-    this.groupedStats[(`${userinfo.prefix}.` || '') + userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats };
+    this.groupedStats[(userinfo.prefix ? `${userinfo.prefix}.` : '') + userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats };
     this.message += `${userinfo.type}: Added stats object for ${userinfo.username} in ${shard}\r\n`;
   }
 }

@@ -90,6 +90,7 @@ Run Commands
 - `--defaultRetention`: overwrite the default retention for the default retention policy, path stats & screeps (screepsUserStats) are not affected by this.
 - `--enableAnonymousAccess`: enable anonymous access to Grafana
 - `--includePushStatusApi`: include the push-status-api in the setup
+- `--prefix`: Add an prefix to include before screeps.stats
 
 ## Usage
 
