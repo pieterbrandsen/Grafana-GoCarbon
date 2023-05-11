@@ -23,7 +23,7 @@ services:
       - go-carbon
     volumes:
       - ./grafanaConfig/carbon-relay-ng:/conf
-    ports:
+    publish:
       - 2003:2003
     healthcheck:
       test: nc -zv go-carbon:2003
