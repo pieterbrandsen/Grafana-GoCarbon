@@ -26,6 +26,7 @@ A. MMO:
 
 ```json
 {
+"prefix": "a.b.c",
 "username": "PandaMaster",
 "type": "mmo",
 "shards": ["shard0"],
@@ -37,6 +38,7 @@ B. Private:
 
 ```json
 {
+"prefix": "a.b.c",
 "username": "W1N1",
 "type": "private",
 "shards": ["screeps"],

@@ -132,7 +132,7 @@ function resetFolders() {
     fs.rmdirSync(logsPath, { recursive: true });
     logsExist = false;
   }
-  if (!logsExist) fs.mkdirSync(logsPath, { recursive: true })
+  if (!logsExist) fs.mkdirSync(logsPath, { recursive: true });
 }
 
 module.exports.commands = async function Commands(grafanaApiUrl) {
@@ -151,7 +151,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     try {
       console.log(`Running command ${commandInfo.name}`);
       execSync(commandInfo.command, { stdio: argv.debug ? 'inherit' : 'ignore' });
-      if (commandInfo.name.startsWith("docker-compose down")) resetFolders();
+      if (commandInfo.name.startsWith('docker-compose down')) resetFolders();
     } catch (error) {
       console.log(`Command ${commandInfo.name} errored`, error);
       console.log('Stopping setup');

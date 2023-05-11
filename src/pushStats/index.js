@@ -168,7 +168,7 @@ class ManageStats {
 
   pushStats(userinfo, stats, shard) {
     if (Object.keys(stats).length === 0) return;
-    this.groupedStats[userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats };
+    this.groupedStats[(`${userinfo.prefix}.` || '') + userinfo.username] = userinfo.type === 'mmo' ? { [shard]: stats } : { shard: stats };
     this.message += `${userinfo.type}: Added stats object for ${userinfo.username} in ${shard}\r\n`;
   }
 }
