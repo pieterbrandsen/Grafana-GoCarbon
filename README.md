@@ -91,6 +91,7 @@ Run Commands
 - `--enableAnonymousAccess`: enable anonymous access to Grafana
 - `--includePushStatusApi`: include the push-status-api in the setup
 - `--prefix`: Add an prefix to include before screeps.stats
+- `--traefik`: Add traefik labels to the docker-compose.yml file, reverse proxy for docker containers.
 
 ## Usage
 

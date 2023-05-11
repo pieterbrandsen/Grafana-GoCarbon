@@ -61,8 +61,9 @@ async function UpdateDockerComposeFile() {
       .replace('http://localhost:21025/web', `http://localhost:${serverPort}/web`)
       .replace('SERVER_PORT: 21025', `SERVER_PORT: ${serverPort}`);
   }
-  if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true${regexEscape}     ports:${regexEscape}        - ${port}:${port}`);
+  if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true${regexEscape}    ports:${regexEscape}        - ${port}:${port}`);
   if (argv.prefix) exampleDockerComposeText = exampleDockerComposeText.replace('PREFIX=""', `PREFIX=${argv.prefix}`);
+  if (argv.traefik) exampleDockerComposeText = exampleDockerComposeText.replace(/#t/g, '');
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
   console.log('Docker-compose file created');
 }
