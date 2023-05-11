@@ -91,6 +91,7 @@ function UpdateGrafanaConfigFolder() {
   const { enableAnonymousAccess } = argv;
   if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
+  if (argv.grafanaRootUrl) grafanaIniText = grafanaIniText.replace("%(protocol)s://%(domain)s:%(http_port)s/", argv.grafanaRootUrl);
   grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
