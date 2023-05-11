@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 7,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -294,8 +294,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -367,8 +366,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -437,8 +435,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -491,10 +488,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -502,8 +496,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -556,10 +549,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -568,8 +558,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -663,8 +652,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -754,8 +742,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -814,10 +801,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -826,8 +810,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -880,10 +863,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -892,8 +872,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -946,10 +925,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -991,8 +967,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1059,10 +1034,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -1071,8 +1043,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1126,10 +1097,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -1138,8 +1106,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1193,10 +1160,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -1205,8 +1169,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1260,10 +1223,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "P1D261A8554D2DA69"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "decimals": 0,
@@ -1272,8 +1232,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -1360,7 +1319,7 @@
           "target": "screeps.stats.*"
         },
         "refresh": 1,
-        "regex": "",
+        "regex": "/^(?!.*V1king$).*$/",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
@@ -1435,8 +1394,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "User stats 2.0",
-  "uid": "LhWJx6Y4z",
-  "version": 10,
+  "title": "User stats",
+  "uid": "WKuusS84z",
+  "version": 1,
   "weekStart": ""
 }
