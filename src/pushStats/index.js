@@ -19,7 +19,7 @@ if (process.env.DISABLE_PUSHGATEWAY === 'true') {
   console.log('Pushgateway disabled');
   process.exit(0);
 }
-console.log('Pushgateway enabled');
+console.log('Pushgateway enabled' + process.env.PREFIX ? `with prefix: ${process.env.PREFIX}` : "");
 
 const client = graphite.createClient('plaintext://carbon-relay-ng:2003/');
 const { combine, timestamp, prettyPrint } = format;
