@@ -14,7 +14,7 @@ services:
     depends_on:
       - carbon-relay-ng
     environment:
-      - PREFIX=""
+      - PREFIX=
       - DISABLE_PUSHGATEWAY=false
       - SERVER_PORT=21025
       - INCLUDE_PUSH_STATUS_API=false
