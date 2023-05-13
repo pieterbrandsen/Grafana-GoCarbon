@@ -93,6 +93,8 @@ Run Commands
 - `--prefix`: Add an prefix to include before screeps.stats
 - `--traefik`: Add traefik labels to the docker-compose.yml file, reverse proxy for docker containers.
 - `--grafanaRootUrl`: Overwrite grafana.ini root url
+- `--removeVolumes`: Remove all volumes, including the grafana database.
+
 ## Usage
 
 - npm run start:mmo for the International MMO dashboard.

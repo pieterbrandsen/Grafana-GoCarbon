@@ -143,7 +143,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     : ''}`);
 
   const commands = [
-    { command: 'docker-compose down --volumes --remove-orphans', name: 'docker-compose down' },
+    { command: `docker-compose down ${argv.removeVolumes ? "--volumes" : ""} --remove-orphans`, name: 'docker-compose down' },
     { command: 'docker-compose build --no-cache', name: 'docker-compose build' },
     { command: 'docker-compose up -d', name: 'docker-compose up' },
   ];

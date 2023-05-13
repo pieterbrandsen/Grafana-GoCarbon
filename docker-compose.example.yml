@@ -24,8 +24,8 @@ services:
       - go-carbon
     volumes:
       - ./grafanaConfig/carbon-relay-ng:/conf
-    expose:
-      - 2003
+    ports:
+      - 127.0.0.1:2003:2003
     healthcheck:
       test: nc -zv go-carbon:2003
       interval: 10s
