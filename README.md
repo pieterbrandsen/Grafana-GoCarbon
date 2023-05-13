@@ -92,7 +92,7 @@ Run Commands
 - `--includePushStatusApi`: include the push-status-api in the setup
 - `--prefix`: Add an prefix to include before screeps.stats
 - `--traefik`: Add traefik labels to the docker-compose.yml file, reverse proxy for docker containers.
-- `--grafanaRootUrl`: Overwrite grafana.ini root url
+- `--grafanaDomain`: Overwrite grafana.ini domain
 - `--removeVolumes`: Remove all volumes, including the grafana database.
 
 ## Usage

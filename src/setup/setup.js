@@ -91,8 +91,12 @@ function UpdateGrafanaConfigFolder() {
   const { enableAnonymousAccess } = argv;
   if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
-  if (argv.grafanaRootUrl) grafanaIniText = grafanaIniText.replace("%(protocol)s://%(domain)s:%(http_port)s/", argv.grafanaRootUrl);
-  grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
+  if (argv.grafanaDomain) {
+    grafanaIniText = grafanaIniText.replace("domain = localhost", `domain = ${argv.grafanaDomain}`);
+    grafanaIniText = grafanaIniText.replace("from_address = admin@localhost", `from_address = admin@${argv.grafanaDomain}`);
+    
+  }
+    grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
   const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
@@ -124,9 +128,6 @@ function resetFolders() {
   }
   if (!carbonStorageExists) {
     fs.mkdirSync(carbonStoragePath, { recursive: true });
-    // if (!isWindows) {
-    //   execSync(`sudo chmod -R 555 ${carbonStoragePath}`)
-    // }
   }
 
   const logsPath = join(__dirname, '../../logs');
