@@ -51,7 +51,7 @@ async function UpdateDockerComposeFile() {
     .replace('3000:80', `${grafanaPort}:80`);
 
   if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace('DISABLE_PUSHGATEWAY=false', `DISABLE_PUSHGATEWAY=${disablePushGateway}`);
-  if (relayPort) exampleDockerComposeText = exampleDockerComposeText.replace('- 2003', `- ${relayPort}`);
+  if (relayPort) exampleDockerComposeText = exampleDockerComposeText.replace('2003:2003', `${relayPort}:2003`);
   else {
     exampleDockerComposeText = exampleDockerComposeText.replace(createRegexWithEscape('ports:\r\n      - 2003:2003'), '');
   }
