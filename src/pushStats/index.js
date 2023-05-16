@@ -50,10 +50,10 @@ class ManageStats {
   }
 
   async handleUsers(type) {
+    const beginningOfMinute = new Date().getSeconds() < 15;
     const getStatsFunctions = [];
     users.forEach((user) => {
       try {
-        const beginningOfMinute = new Date().getSeconds() < 15;
         const rightMinuteForShard = new Date().getMinutes() % user.shards.length === 0;
         const shouldContinue = !beginningOfMinute || !rightMinuteForShard;
         if (user.type === 'mmo' && shouldContinue) return;
@@ -76,7 +76,8 @@ class ManageStats {
         logger.info(this.message);
         return console.log(this.message);
       }
-      return console.log('No stats to push');
+      else if (beginningOfMinute) return console.log('No stats to push');
+      else return
     }
 
     const privateUser = users.find((user) => user.type === 'private' && user.host);

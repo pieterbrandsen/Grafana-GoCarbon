@@ -93,10 +93,10 @@ function UpdateGrafanaConfigFolder() {
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
   if (argv.grafanaDomain) {
     grafanaIniText = grafanaIniText.replace("domain = localhost", `domain = ${argv.grafanaDomain}`);
-    grafanaIniText = grafanaIniText.replace("from_address = admin@localhost", `from_address = admin@${argv.grafanaDomain}`);
-    
+    grafanaIniText = grafanaIniText.replace("from_address = admin@grafana.localhost", `from_address = admin@${argv.grafanaDomain}`);
   }
-    grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
+  
+  grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
   const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
