@@ -52,33 +52,39 @@ services:
       timeout: 1s
       retries: 3
   grafana:
+  #t  container_name: grafana
     image: grafana/grafana-oss:9.3.6-ubuntu
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafanaConfig/grafana:/etc/grafana
       - ./logs/grafana:/var/log/grafana
     ports:
-      - 3000:3000
+      - 3000:80
     healthcheck:
-      test: "curl -fsSL -o /dev/null http://grafana:3000"
+      test: "curl -fsSL -o /dev/null http://grafana/login"
       interval: 10s
       timeout: 1s
       retries: 3
   #t  labels:
   #t    - "traefik.enable=true"
   #t    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
-  #t    - "traefik.http.routers.grafana.entrypoints=web"
   #ttraefik:
-  #t  image: traefik:latest
+  #t  image: traefik:v2.5.4
   #t  container_name: traefik
   #t  command:
   #t    - "--log.level=DEBUG"
   #t    - "--api.insecure=true"
+  #t    - "--api.dashboard=true"
   #t    - "--providers.docker=true"
   #t    - "--providers.docker.exposedbydefault=false"
   #t    - "--entrypoints.web.address=:80"
+  #t    - "--entrypoints.websecure.address=:443"
+  #t    - "--providers.file.directory=/CustomTraefik/"
+  #t    - "--providers.file.watch=true"
   #t  volumes:
   #t    - /var/run/docker.sock:/var/run/docker.sock
+  #t    - ./traefik/:/CustomTraefik/
   #t  ports:
   #t    - 80:80
   #t    - 443:443
+  #t    - 8080:8080

@@ -48,12 +48,11 @@ async function UpdateDockerComposeFile() {
   const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
   let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
   exampleDockerComposeText = exampleDockerComposeText
-    .replace('3000:3000', `${grafanaPort}:3000`);
+    .replace('3000:80', `${grafanaPort}:80`);
 
   if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace('DISABLE_PUSHGATEWAY=false', `DISABLE_PUSHGATEWAY=${disablePushGateway}`);
   if (relayPort) exampleDockerComposeText = exampleDockerComposeText.replace('- 2003', `- ${relayPort}`);
   else {
-    //
     exampleDockerComposeText = exampleDockerComposeText.replace(createRegexWithEscape('ports:\r\n      - 2003:2003'), '');
   }
   if (serverPort) {
@@ -64,6 +63,7 @@ async function UpdateDockerComposeFile() {
   if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true${regexEscape}    ports:${regexEscape}        - ${port}:${port}`);
   if (argv.prefix) exampleDockerComposeText = exampleDockerComposeText.replace('PREFIX=', `PREFIX=${argv.prefix}`);
   if (argv.traefik) exampleDockerComposeText = exampleDockerComposeText.replace(/#t/g, '');
+
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
   console.log('Docker-compose file created');
 }
@@ -93,10 +93,10 @@ function UpdateGrafanaConfigFolder() {
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
   if (argv.grafanaDomain) {
     grafanaIniText = grafanaIniText.replace("domain = localhost", `domain = ${argv.grafanaDomain}`);
-    grafanaIniText = grafanaIniText.replace("from_address = admin@grafana.localhost", `from_address = admin@${argv.grafanaDomain}`);
+    grafanaIniText = grafanaIniText.replace("from_address = admin@localhost", `from_address = admin@${argv.grafanaDomain}`);
+    
   }
-  
-  grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
+    grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
   const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
