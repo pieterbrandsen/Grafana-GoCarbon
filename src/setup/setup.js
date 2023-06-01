@@ -64,7 +64,7 @@ async function UpdateDockerComposeFile() {
   if (argv.prefix) exampleDockerComposeText = exampleDockerComposeText.replace('PREFIX=', `PREFIX=${argv.prefix}`);
   if (argv.traefik) {
     exampleDockerComposeText = exampleDockerComposeText.replace(/#t/g, '');
-    // exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
+    exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
   }
 
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
