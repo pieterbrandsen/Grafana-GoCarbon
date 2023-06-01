@@ -26,11 +26,6 @@ services:
       - ./grafanaConfig/carbon-relay-ng:/conf
     ports:
       - 127.0.0.1:2003:2003
-    healthcheck:
-      test: nc -zv go-carbon:2003
-      interval: 10s
-      timeout: 1s
-      retries: 3
   go-carbon:
     image: ghcr.io/go-graphite/go-carbon
     volumes:
