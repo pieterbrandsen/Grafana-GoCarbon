@@ -101,6 +101,7 @@ if (!privateHost && needsPrivateHost) {
 
 async function getHost(host, type) {
   if (type === 'mmo') return 'screeps.com';
+  if (type === 'season') return 'screeps.com/season';
   if (host) return host;
   return privateHost;
 }

@@ -95,11 +95,10 @@ function UpdateGrafanaConfigFolder() {
   if (username) grafanaIniText = grafanaIniText.replace(/admin_user = (.*)/, `admin_user = ${username}`);
   if (password) grafanaIniText = grafanaIniText.replace(/admin_password = (.*)/, `admin_password = ${password}`);
   if (argv.grafanaDomain) {
-    grafanaIniText = grafanaIniText.replace("domain = localhost", `domain = ${argv.grafanaDomain}`);
-    grafanaIniText = grafanaIniText.replace("from_address = admin@localhost", `from_address = admin@${argv.grafanaDomain}`);
-    
+    grafanaIniText = grafanaIniText.replace('domain = localhost', `domain = ${argv.grafanaDomain}`);
+    grafanaIniText = grafanaIniText.replace('from_address = admin@localhost', `from_address = admin@${argv.grafanaDomain}`);
   }
-    grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
+  grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
   const storageSchemasFile = join(grafanaConfigFolder, './go-carbon/storage-schemas.conf');
@@ -148,7 +147,7 @@ module.exports.commands = async function Commands(grafanaApiUrl) {
     : ''}`);
 
   const commands = [
-    { command: `docker-compose down ${argv.removeVolumes ? "--volumes" : ""} --remove-orphans`, name: 'docker-compose down' },
+    { command: `docker-compose down ${argv.removeVolumes ? '--volumes' : ''} --remove-orphans`, name: 'docker-compose down' },
     { command: 'docker-compose build --no-cache', name: 'docker-compose build' },
     { command: 'docker-compose up -d', name: 'docker-compose up' },
   ];

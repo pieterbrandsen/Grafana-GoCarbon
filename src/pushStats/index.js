@@ -19,7 +19,7 @@ if (process.env.DISABLE_PUSHGATEWAY === 'true') {
   console.log('Pushgateway disabled');
   process.exit(0);
 }
-console.log('Pushgateway enabled' + process.env.PREFIX ? `with prefix: ${process.env.PREFIX}` : "");
+console.log(`Pushgateway enabled${process.env.PREFIX}` ? `with prefix: ${process.env.PREFIX}` : '');
 
 const client = graphite.createClient('plaintext://carbon-relay-ng:2003/');
 const { combine, timestamp, prettyPrint } = format;
@@ -57,6 +57,7 @@ class ManageStats {
         const rightMinuteForShard = new Date().getMinutes() % user.shards.length === 0;
         const shouldContinue = !beginningOfMinute || !rightMinuteForShard;
         if (user.type === 'mmo' && shouldContinue) return;
+        if (user.type === 'season' && shouldContinue) return;
         for (let y = 0; y < user.shards.length; y += 1) {
           const shard = user.shards[y];
           getStatsFunctions.push(this.getStats(user, shard, this.message));
@@ -76,8 +77,18 @@ class ManageStats {
         logger.info(this.message);
         return console.log(this.message);
       }
-      else if (beginningOfMinute) return console.log('No stats to push');
-      else return
+      if (beginningOfMinute) return console.log('No stats to push');
+      return;
+    }
+    else if (type === 'season') {
+      if (Object.keys(groupedStats).length > 0) {
+        if (!await ManageStats.reportStats({ stats: groupedStats })) return console.log('Error while pushing stats');
+        this.message += `Pushed ${type} stats to graphite`;
+        logger.info(this.message);
+        return console.log(this.message);
+      }
+      if (beginningOfMinute) return console.log('No stats to push');
+      return;
     }
 
     const privateUser = users.find((user) => user.type === 'private' && user.host);
@@ -113,7 +124,7 @@ class ManageStats {
   }
 
   static async getLoginInfo(userinfo) {
-    if (userinfo.type !== 'mmo') {
+    if (userinfo.type === 'private') {
       userinfo.token = await ApiFunc.getPrivateServerToken(userinfo);
     }
     return userinfo.token;
