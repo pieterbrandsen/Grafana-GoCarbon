@@ -1,9 +1,9 @@
-[http.middlewares.tado-redirect-org-regex.redirectregex]
+[http.middlewares.screeps-seasonal-redirect-org-regex.redirectregex]
   permanent = true
-  regex = "^https?://tado\\.localhost(.*)"
-  replacement = "http://grafana.localhost/?orgId=2"
+  regex = "^https?://seasonal\\.pandascreeps.com(.*)"
+  replacement = "http://grafana.pandascreeps.com/?orgId=2"
 
-[http.routers.tado-grafana]
+[http.routers.screeps-seasonal-grafana]
   service = "grafana-screeps-grafana-standalone@docker"
-  rule = "Host(`tado.localhost`)"
-  middlewares = "tado-redirect-org-regex@file"
+  rule = "Host(`seasonal.pandascreeps.com`)"
+  middlewares = "screeps-seasonal-redirect-org-regex@file"
