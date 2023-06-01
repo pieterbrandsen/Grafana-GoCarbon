@@ -19,7 +19,6 @@ if (process.env.DISABLE_PUSHGATEWAY === 'true') {
   console.log('Pushgateway disabled');
   process.exit(0);
 }
-console.log(`Pushgateway enabled${process.env.PREFIX}` ? `with prefix: ${process.env.PREFIX}` : '');
 
 const client = graphite.createClient('plaintext://carbon-relay-ng:2003/');
 const { combine, timestamp, prettyPrint } = format;
@@ -78,9 +77,9 @@ class ManageStats {
         return console.log(this.message);
       }
       if (beginningOfMinute) return console.log('No stats to push');
-      return;
+      return undefined;
     }
-    else if (type === 'season') {
+    if (type === 'season') {
       if (Object.keys(groupedStats).length > 0) {
         if (!await ManageStats.reportStats({ stats: groupedStats })) return console.log('Error while pushing stats');
         this.message += `Pushed ${type} stats to graphite`;
@@ -88,7 +87,7 @@ class ManageStats {
         return console.log(this.message);
       }
       if (beginningOfMinute) return console.log('No stats to push');
-      return;
+      return undefined;
     }
 
     const privateUser = users.find((user) => user.type === 'private' && user.host);
