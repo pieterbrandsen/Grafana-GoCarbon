@@ -117,7 +117,7 @@ class GrafanaInitializer {
 
     dotenv.config({ path: join(__dirname, '../../grafanaConfig/.env.grafana') });
 
-    grafanaApiUrl = `http://localhost:${process.env.GRAFANA_PORT}/api`;
+    grafanaApiUrl = `http://localhost:${argv.grafanaPort}/api`;
     await setup.commands(grafanaApiUrl);
     console.log('\r\nPre setup done!\r\nWaiting for Grafana to start...\r\n');
     await sleep(30 * 1000);

@@ -31,7 +31,7 @@ function UpdateEnvFile() {
   let exampleEnvText = fs.readFileSync(exampleEnvFilePath, 'utf8');
   exampleEnvText = exampleEnvText
     .replace('GRAFANA_PORT=3000', `GRAFANA_PORT=${grafanaPort}`)
-    .replace('COMPOSE_PROJECT_NAME=screeps-grafana', `COMPOSE_PROJECT_NAME=screeps-grafana-${grafanaPort}`)
+    .replace('COMPOSE_PROJECT_NAME=screeps-grafana', `COMPOSE_PROJECT_NAME=screeps-grafana-${!argv.traefik ? grafanaPort : 'standalone'}`)
     .replace('COMPOSE_FILE=./docker-compose.yml', `COMPOSE_FILE=${join(__dirname, '../../docker-compose.yml')}`);
   if (serverPort) exampleEnvText = exampleEnvText.replace('SERVER_PORT=21025', `SERVER_PORT=${serverPort}`);
 
@@ -62,7 +62,10 @@ async function UpdateDockerComposeFile() {
   }
   if (argv.includePushStatusApi) exampleDockerComposeText = exampleDockerComposeText.replace('INCLUDE_PUSH_STATUS_API=false', `INCLUDE_PUSH_STATUS_API=true${regexEscape}    ports:${regexEscape}        - ${port}:${port}`);
   if (argv.prefix) exampleDockerComposeText = exampleDockerComposeText.replace('PREFIX=', `PREFIX=${argv.prefix}`);
-  if (argv.traefik) exampleDockerComposeText = exampleDockerComposeText.replace(/#t/g, '');
+  if (argv.traefik) {
+    exampleDockerComposeText = exampleDockerComposeText.replace(/#t/g, '');
+    // exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
+  }
 
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
   console.log('Docker-compose file created');
@@ -112,6 +115,7 @@ function UpdateGrafanaConfigFolder() {
 module.exports = async function Setup(mArgv) {
   argv = mArgv || {};
   grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] });
+  argv.grafanaPort = grafanaPort;
   serverPort = argv.serverPort;
   UpdateEnvFile();
   await UpdateDockerComposeFile();

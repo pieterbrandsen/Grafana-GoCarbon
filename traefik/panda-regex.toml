@@ -4,6 +4,6 @@
   replacement = "http://grafana.localhost/?orgId=2"
 
 [http.routers.tado-grafana]
-  service = "grafana@docker"
+  service = "grafana-screeps-grafana-standalone@docker"
   rule = "Host(`tado.localhost`)"
   middlewares = "tado-redirect-org-regex@file"
