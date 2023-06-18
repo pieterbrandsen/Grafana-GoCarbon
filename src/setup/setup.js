@@ -113,7 +113,7 @@ function UpdateGrafanaConfigFolder() {
 
 module.exports = async function Setup(mArgv) {
   argv = mArgv || {};
-  grafanaPort = argv.grafanaPort || await getPort({ portRange: [3000, 4000] });
+  grafanaPort = argv.grafanaPort || !argv.traefik ? await getPort({ portRange: [3000, 4000] }) : 3000;
   argv.grafanaPort = grafanaPort;
   serverPort = argv.serverPort;
   UpdateEnvFile();
