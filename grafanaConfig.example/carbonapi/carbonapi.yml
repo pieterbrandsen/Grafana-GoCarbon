@@ -83,7 +83,7 @@ functionsConfig:
     moving: /conf/moving.yaml
     movingMedian: /conf/moving.yaml
     aliasByRedis: /conf/aliasByRedis.yaml
-maxBatchSize: 100
+maxBatchSize: 500
 graphite:
     # Host:port where to send internal metrics
     # Empty = disabled
