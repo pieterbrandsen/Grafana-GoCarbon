@@ -1,15 +1,12 @@
 {
-    "name": "screeps-grafana",
-    "version": "2.5.6",
+    "name": "grafana-go_carbon",
+    "version": "0.1.0",
     "scripts": {
-        "start:mmo": "node src/setup/index.js --grafanaType=mmo --grafanaPort=3000",
-        "start:private": "node src/setup/index.js --grafanaType=private --grafanaPort=3000",
-        "start:private-test": "node src/setup/index.js --grafanaType=private --grafanaPort=3000 --force --debug --includePushStatusApi",
-        "start:standalone": "node src/setup/index.js --force --disablePushGateway --grafanaPort=3000 --relayPort=2003",
-        "start:standalone-traefik": "node src/setup/index.js --traefik --force --disablePushGateway --grafanaPort=3000 --relayPort=2003 --grafanaDomain=grafana.localhost",
+        "setup": "node src/setup/setup.js setup", 
+        "start:standalone": "node src/setup/index.js --grafanaPort=3000 --relayPort=2003",
+        "start:standalone-traefik": "node src/setup/index.js --traefik --grafanaPort=3000 --relayPort=2003 --grafanaDomain=grafana.localhost",
         "lint": "eslint src/**/*.js && eslint dashboards/**/*.js",
-        "lint:fix": "eslint src/**/*.js --fix && eslint dashboards/**/*.js --fix",
-        "update-stats-getter": "docker-compose up --detach --build"
+        "lint:fix": "eslint src/**/* --fix && eslint dashboards/**/*.js --fix"
     },
     "dependencies": {
         "axios": "^0.27.2",
@@ -25,7 +22,7 @@
         "eslint-plugin-import": "^2.26.0"
     },
     "bin": {
-        "screeps-grafana": "./bin/setup.js"
+        "grafana-go_carbon": "./bin/setup.js"
     },
     "files": [
         "src",
@@ -33,7 +30,6 @@
         "dashboards",
         "docker-compose.example.yml",
         "example.env",
-        "users.example.json",
         ".dockerignore",
         "go-carbon-storage"
     ]

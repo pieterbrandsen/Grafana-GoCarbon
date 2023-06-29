@@ -78,7 +78,7 @@ services:
   ##t    - "--providers.file.watch=true"
   #t  volumes:
   #t    - /var/run/docker.sock:/var/run/docker.sock
-  #t    - ./traefik/:/CustomTraefik/
+  #t    - ./traefikConfig/:/CustomTraefik/
   #t  ports:
   #t    - 80:80
   #t    - 443:443

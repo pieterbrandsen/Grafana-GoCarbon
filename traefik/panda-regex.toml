@@ -1,9 +1,0 @@
-[http.middlewares.screeps-seasonal-redirect-org-regex.redirectregex]
-  permanent = true
-  regex = "^https?://seasonal\\.pandascreeps.com(.*)"
-  replacement = "http://grafana.pandascreeps.com/?orgId=2"
-
-[http.routers.screeps-seasonal-grafana]
-  service = "grafana-screeps-grafana-standalone@docker"
-  rule = "Host(`seasonal.pandascreeps.com`)"
-  middlewares = "screeps-seasonal-redirect-org-regex@file"

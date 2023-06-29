@@ -31,7 +31,7 @@ function UpdateEnvFile() {
   let exampleEnvText = fs.readFileSync(exampleEnvFilePath, 'utf8');
   exampleEnvText = exampleEnvText
     .replace('GRAFANA_PORT=3000', `GRAFANA_PORT=${grafanaPort}`)
-    .replace('COMPOSE_PROJECT_NAME=screeps-grafana', `COMPOSE_PROJECT_NAME=screeps-grafana-${!argv.traefik ? grafanaPort : 'standalone'}`)
+    .replace('COMPOSE_PROJECT_NAME=grafana', `COMPOSE_PROJECT_NAME=grafana-${!argv.traefik ? grafanaPort : 'standalone'}`)
     .replace('COMPOSE_FILE=./docker-compose.yml', `COMPOSE_FILE=${join(__dirname, '../../docker-compose.yml')}`);
   if (serverPort) exampleEnvText = exampleEnvText.replace('SERVER_PORT=21025', `SERVER_PORT=${serverPort}`);
 
@@ -43,14 +43,12 @@ async function UpdateDockerComposeFile() {
   const dockerComposeFile = join(__dirname, '../../docker-compose.yml');
   if (fs.existsSync(dockerComposeFile) && !argv.force) return console.log('Docker-compose file already exists, use --force to overwrite it');
   const { relayPort } = argv;
-  const { disablePushGateway } = argv;
 
   const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
   let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
   exampleDockerComposeText = exampleDockerComposeText
     .replace('3000:80', `${grafanaPort}:80`);
 
-  if (disablePushGateway) exampleDockerComposeText = exampleDockerComposeText.replace('DISABLE_PUSHGATEWAY=false', `DISABLE_PUSHGATEWAY=${disablePushGateway}`);
   if (relayPort) exampleDockerComposeText = exampleDockerComposeText.replace('2003:2003', `${relayPort}:2003`);
   else {
     exampleDockerComposeText = exampleDockerComposeText.replace(createRegexWithEscape('ports:\r\n      - 2003:2003'), '');
@@ -71,14 +69,11 @@ async function UpdateDockerComposeFile() {
   console.log('Docker-compose file created');
 }
 
-function UpdateUsersFile() {
-  const usersFile = join(__dirname, '../../users.json');
-  if (fs.existsSync(usersFile) && !argv.force) return console.log('Users file already exists, use --force to overwrite it');
+function UpdateTraefikConfigFolder() {
+  const traefikConfigFolder = join(__dirname, '../../traefikConfig');
+  if (fs.existsSync(traefikConfigFolder) && !argv.force) return console.log('Traefik config folder already exists, use --force to overwrite it');
 
-  const exampleUsersFilePath = join(__dirname, '../../users.example.json');
-  const exampleUsersText = fs.readFileSync(exampleUsersFilePath, 'utf8');
-  fs.writeFileSync(usersFile, exampleUsersText);
-  console.log('Users file created');
+  fse.copySync(join(__dirname, '../../traefik.example'), traefikConfigFolder);
 }
 
 function UpdateGrafanaConfigFolder() {
@@ -111,17 +106,6 @@ function UpdateGrafanaConfigFolder() {
   console.log('Grafana config folder created');
 }
 
-module.exports = async function Setup(mArgv) {
-  argv = mArgv || {};
-  grafanaPort = argv.grafanaPort || !argv.traefik ? await getPort({ portRange: [3000, 4000] }) : 3000;
-  argv.grafanaPort = grafanaPort;
-  serverPort = argv.serverPort;
-  UpdateEnvFile();
-  await UpdateDockerComposeFile();
-  UpdateUsersFile();
-  UpdateGrafanaConfigFolder();
-};
-
 function resetFolders() {
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   let carbonStorageExists = fs.existsSync(carbonStoragePath);
@@ -141,6 +125,21 @@ function resetFolders() {
   }
   if (!logsExist) fs.mkdirSync(logsPath, { recursive: true });
 }
+
+async function Setup(mArgv) {
+  argv = mArgv || {};
+  grafanaPort = (argv.grafanaPort || !argv.traefik)
+    ? await getPort({ portRange: [3000, 4000] })
+    : 3000;
+  argv.grafanaPort = grafanaPort;
+  serverPort = argv.serverPort;
+  UpdateEnvFile();
+  await UpdateDockerComposeFile();
+  UpdateGrafanaConfigFolder();
+  UpdateTraefikConfigFolder();
+}
+
+module.exports = Setup();
 
 module.exports.commands = async function Commands(grafanaApiUrl) {
   console.log(`\r\nGrafana API URL: ${grafanaApiUrl}${serverPort ? `, serverPort: ${serverPort}`

@@ -1,14 +1,9 @@
 const fs = require('fs');
 const { join } = require('path');
 
-const dashboardFileNames = [
-  'serviceInfo',
-  'stats',
-  'serverStats',
-  'adminUtilsServerStats',
-];
+// read current dir and filter only json files
 
-function setupDashboard(dashboard) {
+function transformDashboard(dashboard) {
   delete dashboard.id;
   delete dashboard.uid;
   for (let i = 0; i < dashboard.templating.list.length; i += 1) {
@@ -37,15 +32,16 @@ function setupDashboard(dashboard) {
 
 module.exports = function GetDashboards() {
   const setupDashboards = {};
-  for (let i = 0; i < dashboardFileNames.length; i += 1) {
+
+  const dasboadFileNames = fs.readdirSync('./').filter((d) => d.endsWith('.json'));
+  dasboadFileNames.forEach((name) => {
     try {
-      const filePath = join(__dirname, `../dashboards/${dashboardFileNames[i]}.json`);
-      const rawDashboard = fs.readFileSync(filePath);
-      const json = JSON.parse(rawDashboard);
-      setupDashboards[dashboardFileNames[i]] = setupDashboard(json);
+      const filePath = join(__dirname, `../dashboards/${name}.json`);
+      const rawDashboardText = fs.readFileSync(filePath);
+      setupDashboards[name] = transformDashboard(JSON.parse(rawDashboardText));
     } catch (error) {
       console.log(error);
     }
-  }
+  });
   return setupDashboards;
 };
