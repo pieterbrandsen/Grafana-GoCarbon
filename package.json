@@ -1,6 +1,6 @@
 {
     "name": "grafana-go_carbon",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "scripts": {
         "setup": "node src/setup/setup.js setup", 
         "start:standalone": "node src/setup/index.js --grafanaPort=3000 --relayPort=2003",

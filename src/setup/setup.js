@@ -73,7 +73,7 @@ function UpdateTraefikConfigFolder() {
   const traefikConfigFolder = join(__dirname, '../../traefikConfig');
   if (fs.existsSync(traefikConfigFolder) && !argv.force) return console.log('Traefik config folder already exists, use --force to overwrite it');
 
-  fse.copySync(join(__dirname, '../../traefik.example'), traefikConfigFolder);
+  fse.copySync(join(__dirname, '../../traefikConfig.example'), traefikConfigFolder);
 }
 
 function UpdateGrafanaConfigFolder() {
@@ -139,7 +139,9 @@ async function Setup(mArgv) {
   UpdateTraefikConfigFolder();
 }
 
-module.exports = Setup();
+if (process.argv[2]=== "setup") Setup();
+
+module.exports = Setup;
 
 module.exports.commands = async function Commands(grafanaApiUrl) {
   console.log(`\r\nGrafana API URL: ${grafanaApiUrl}${serverPort ? `, serverPort: ${serverPort}`

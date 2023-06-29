@@ -1,8 +1,6 @@
 const fs = require('fs');
 const { join } = require('path');
 
-// read current dir and filter only json files
-
 function transformDashboard(dashboard) {
   delete dashboard.id;
   delete dashboard.uid;
@@ -33,10 +31,11 @@ function transformDashboard(dashboard) {
 module.exports = function GetDashboards() {
   const setupDashboards = {};
 
-  const dasboadFileNames = fs.readdirSync('./').filter((d) => d.endsWith('.json'));
-  dasboadFileNames.forEach((name) => {
+  const dashboardPath = __dirname;
+  const dashboardFileNames = fs.readdirSync(dashboardPath).filter((d) => d.endsWith('.json'));
+  dashboardFileNames.forEach((name) => {
     try {
-      const filePath = join(__dirname, `../dashboards/${name}.json`);
+      const filePath = join(dashboardPath, `${name}`);
       const rawDashboardText = fs.readFileSync(filePath);
       setupDashboards[name] = transformDashboard(JSON.parse(rawDashboardText));
     } catch (error) {
