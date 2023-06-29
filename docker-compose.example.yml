@@ -6,14 +6,15 @@ volumes:
 
 services:
   stats-getter:
-     build:
-          context: .
-          dockerfile: ./src/pushStats/Dockerfile
-     volumes:
+    build:
+      context: .
+      dockerfile: ./src/pushStats/Dockerfile
+    volumes:
       - ./logs/statsGetter:/app/logs
-     depends_on:
+    depends_on:
       - carbon-relay-ng
-     environment:
+    environment:
+      - PREFIX=
       - DISABLE_PUSHGATEWAY=false
       - SERVER_PORT=21025
       - INCLUDE_PUSH_STATUS_API=false
@@ -24,19 +25,14 @@ services:
     volumes:
       - ./grafanaConfig/carbon-relay-ng:/conf
     ports:
-      - 2003:2003
-    healthcheck:
-      test: nc -zv go-carbon:2003
-      interval: 10s
-      timeout: 1s
-      retries: 3
+      - 127.0.0.1:2003:2003
   go-carbon:
     image: ghcr.io/go-graphite/go-carbon
     volumes:
       - ./grafanaConfig/go-carbon/go-carbon.conf:/etc/go-carbon/go-carbon.conf
-      - ./grafanaConfig/go-carbon:/conf
-      - ./go-carbon-storage:/graphite
-      - ./logs/goCarbon:/log
+      - ./grafanaConfig/go-carbon:/etc/go-carbon/
+      - ./go-carbon-storage:/var/lib/graphite/whisper
+      #- ./logs/goCarbon:/var/log/go-carbon
   carbon-api:
     image: pieterbrandsen/carbonapi-0.15.6
     volumes:
@@ -51,31 +47,39 @@ services:
       timeout: 1s
       retries: 3
   grafana:
+  #t  container_name: grafana
     image: grafana/grafana-oss:9.3.6-ubuntu
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafanaConfig/grafana:/etc/grafana
       - ./logs/grafana:/var/log/grafana
     ports:
-      - 3000:3000
-    # expose:
-    #   - 3000:3000
+      - 3000:80
     healthcheck:
-      test: "curl -fsSL -o /dev/null http://localhost:3000/login"
+      test: "curl -fsSL -o /dev/null http://grafana/login"
       interval: 10s
       timeout: 1s
       retries: 3
-    # labels:
-    #       - "traefik.http.routers.my_custom_image.rule=Host(`my_custom_image.whatever.localhost`)"
-    #       - "traefik.http.services.my_custom_image.loadbalancer.server.port=3000"
-  # traefik:
-  #   image: traefik:v2.4
-  #   command:
-  #     - --api.insecure=true
-  #     - --providers.docker=true
-  #     - --entrypoints.web.address=:80
-  #   ports:
-  #     - "80:80"
-  #     - "8080:8080"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  #t  labels:
+  #t    - "traefik.enable=true"
+  #t    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+  #ttraefik:
+  #t  image: traefik:v2.5.4
+  #t  container_name: traefik
+  #t  command:
+  #t    - "--log.level=DEBUG"
+  #t    - "--api.insecure=true"
+  #t    - "--api.dashboard=true"
+  #t    - "--providers.docker=true"
+  #t    - "--providers.docker.exposedbydefault=false"
+  #t    - "--entrypoints.web.address=:80"
+  #t    - "--entrypoints.websecure.address=:443"
+  ##t    - "--providers.file.directory=/CustomTraefik/"
+  ##t    - "--providers.file.watch=true"
+  #t  volumes:
+  #t    - /var/run/docker.sock:/var/run/docker.sock
+  #t    - ./traefikConfig/:/CustomTraefik/
+  #t  ports:
+  #t    - 80:80
+  #t    - 443:443
+  #t    - 8080:8080

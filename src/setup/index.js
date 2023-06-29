@@ -6,7 +6,6 @@ const fs = require('fs');
 const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
-console.dir(argv);
 
 let grafanaApiUrl;
 
@@ -58,54 +57,6 @@ class GrafanaInitializer {
     }
   }
 
-  static async SetupStatsDashboard() {
-    const type = 'Stats';
-    try {
-      const dashboard = dashboards.stats;
-      await axios({
-        url: `${grafanaApiUrl}/dashboards/db`,
-        method: 'post',
-        auth: adminLogin,
-        data: dashboard,
-      });
-      handleSuccess(type);
-    } catch (err) {
-      handleError(type, err);
-    }
-  }
-
-  static async SetupServerStatsDashboard() {
-    const type = 'Server-Stats';
-    try {
-      const dashboard = dashboards.serverStats;
-      await axios({
-        url: `${grafanaApiUrl}/dashboards/db`,
-        method: 'post',
-        auth: adminLogin,
-        data: dashboard,
-      });
-      handleSuccess(type);
-    } catch (err) {
-      handleError(type, err);
-    }
-  }
-
-  static async SetupAdminUtilsServerStatsDashboard() {
-    const type = 'Admin-Utils-Server-Stats';
-    try {
-      const dashboard = dashboards.adminUtilsServerStats;
-      await axios({
-        url: `${grafanaApiUrl}/dashboards/db`,
-        method: 'post',
-        auth: adminLogin,
-        data: dashboard,
-      });
-      handleSuccess(type);
-    } catch (err) {
-      handleError(type, err);
-    }
-  }
-
   static async Start() {
     await setup(argv);
     dotenv.config({ path: join(__dirname, '../../.env') });
@@ -117,25 +68,12 @@ class GrafanaInitializer {
 
     dotenv.config({ path: join(__dirname, '../../grafanaConfig/.env.grafana') });
 
-    grafanaApiUrl = `http://localhost:${process.env.GRAFANA_PORT}/api`;
+    grafanaApiUrl = `http://localhost:${argv.grafanaPort}/api`;
     await setup.commands(grafanaApiUrl);
     console.log('\r\nPre setup done!\r\nWaiting for Grafana to start...\r\n');
     await sleep(30 * 1000);
 
     await this.SetupServiceInfoDashboard();
-    switch (argv.grafanaType) {
-      case 'private':
-        await this.SetupAdminUtilsServerStatsDashboard();
-        await this.SetupStatsDashboard();
-        await this.SetupServerStatsDashboard();
-        break;
-      case 'mmo':
-        await this.SetupAdminUtilsServerStatsDashboard();
-        await this.SetupStatsDashboard();
-        break;
-      default:
-        break;
-    }
     console.log('Setup done!');
   }
 }
