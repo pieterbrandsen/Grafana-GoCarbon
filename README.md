@@ -35,8 +35,7 @@ Update all .example files and/or folders to match your needs. This step is not r
 #### Exporting
 
 * `--deleteLogs`: deletes the logs folder
-* `--deleteWhsiper`: deletes the carbon whsiper folder
-
+* `--removeWhisper`: Deletes the carbon whisper folder
 * `--removeVolumes`: Remove all volumes, including the grafana database.
 
 ## Usage

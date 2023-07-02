@@ -109,7 +109,7 @@ function UpdateGrafanaConfigFolder() {
 function resetFolders() {
   const carbonStoragePath = join(__dirname, '../../go-carbon-storage');
   let carbonStorageExists = fs.existsSync(carbonStoragePath);
-  if (carbonStorageExists && argv.deleteWhisper) {
+  if (carbonStorageExists && argv.removeWhisper) {
     fs.rmdirSync(carbonStoragePath, { recursive: true });
     carbonStorageExists = false;
   }
