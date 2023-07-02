@@ -128,10 +128,12 @@ function resetFolders() {
 
 async function Setup(mArgv) {
   argv = mArgv || {};
-  if (argv.grafanaPort) grafanaPort = argv.grafanaPort
-  else grafanaPort = !argv.traefik
-    ? await getPort({ portRange: [3000, 4000] })
-    : 3000;
+  if (argv.grafanaPort) grafanaPort = argv.grafanaPort;
+  else {
+    grafanaPort = !argv.traefik
+      ? await getPort({ portRange: [3000, 4000] })
+      : 3000;
+  }
 
   argv.grafanaPort = grafanaPort;
   serverPort = argv.serverPort;
