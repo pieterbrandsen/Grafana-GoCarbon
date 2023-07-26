@@ -64,6 +64,12 @@ async function UpdateDockerComposeFile() {
     exampleDockerComposeText = exampleDockerComposeText.replace(/#t/g, '');
     exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
   }
+  if (argv.traefikHost) {
+    exampleDockerComposeText = exampleDockerComposeText.replace('#t  labels:', '  labels:');
+    exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.enable=true"', '    - "traefik.enable=true"');
+    exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"', '    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"');
+    exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
+  }
 
   fs.writeFileSync(dockerComposeFile, exampleDockerComposeText);
   console.log('Docker-compose file created');

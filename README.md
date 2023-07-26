@@ -25,6 +25,7 @@ Update all .example files and/or folders to match your needs. This step is not r
 * `--password`: overwrite the password for the Grafana admin user
 * `--defaultRetention`: overwrite the default retention for the default retention polic of all not regex'd retention paths.
 * `--enableAnonymousAccess`: enable anonymous access to Grafana
+* `--traefikHost`: use only traefik forwarding
 
 #### Network
 
