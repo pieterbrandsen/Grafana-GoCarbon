@@ -4,6 +4,16 @@ volumes:
   grafana_data:
   go-carbon_data:
 
+networks:
+  internal:
+    name: internal
+    driver: bridge
+  external:
+    name: external
+    driver: bridge
+  #t#htraefik-net:
+  #t#h  external: true
+
 services:
   carbon-relay-ng:
     image: grafana/carbon-relay-ng
@@ -13,6 +23,8 @@ services:
       - ./grafanaConfig/carbon-relay-ng:/conf
     ports:
       - 127.0.0.1:2003:2003
+    networks:
+      - internal
   go-carbon:
     image: ghcr.io/go-graphite/go-carbon
     volumes:
@@ -20,6 +32,8 @@ services:
       - ./grafanaConfig/go-carbon:/etc/go-carbon/
       - ./go-carbon-storage:/var/lib/graphite/whisper
       #- ./logs/goCarbon:/var/log/go-carbon
+    networks:
+      - internal
   carbon-api:
     image: pieterbrandsen/carbonapi-0.15.6
     volumes:
@@ -33,23 +47,30 @@ services:
       interval: 10s
       timeout: 1s
       retries: 3
+    networks:
+      - internal
   grafana:
-  #t  container_name: grafana
+    #t  container_name: grafana
     image: grafana/grafana-oss:9.3.6-ubuntu
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafanaConfig/grafana:/etc/grafana
       - ./logs/grafana:/var/log/grafana
     ports:
-      - 3000:80
+      - 3000:3000
     healthcheck:
-      test: "curl -fsSL -o /dev/null http://grafana/login"
+      test: "curl -fsSL -o /dev/null http://localhost:3000/login"
       interval: 10s
       timeout: 1s
       retries: 3
+    networks:
+      - external
+      #t#h- traefik-net
   #t  labels:
   #t    - "traefik.enable=true"
   #t    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+  #t#h    - "traefik.docker.network=traefik-net"
+  #t    - "traefik.http.services.grafana.loadbalancer.server.port=3000"
   #ttraefik:
   #t  image: traefik:v2.5.4
   #t  container_name: traefik

@@ -47,7 +47,8 @@ async function UpdateDockerComposeFile() {
   const exampleDockerComposeFile = join(__dirname, '../../docker-compose.example.yml');
   let exampleDockerComposeText = fs.readFileSync(exampleDockerComposeFile, 'utf8');
   exampleDockerComposeText = exampleDockerComposeText
-    .replace('3000:80', `${grafanaPort}:80`);
+    .replace('3000:3000', `${grafanaPort}:${grafanaPort}`);
+  exampleDockerComposeText = exampleDockerComposeText.replace('http://localhost:3000/login', `http://localhost:${grafanaPort}/login`);
 
   if (relayPort) exampleDockerComposeText = exampleDockerComposeText.replace('2003:2003', `${relayPort}:2003`);
   else {
@@ -68,6 +69,8 @@ async function UpdateDockerComposeFile() {
     exampleDockerComposeText = exampleDockerComposeText.replace('#t  labels:', '  labels:');
     exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.enable=true"', '    - "traefik.enable=true"');
     exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"', '    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"');
+    exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.http.services.grafana.loadbalancer.server.port=3000"', `    - "traefik.http.services.grafana.loadbalancer.server.port=${grafanaPort}"`);
+    exampleDockerComposeText = exampleDockerComposeText.replace(/\#t\#h/g, '');
     exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
   }
 
@@ -99,6 +102,7 @@ function UpdateGrafanaConfigFolder() {
     grafanaIniText = grafanaIniText.replace('domain = localhost', `domain = ${argv.grafanaDomain}`);
     grafanaIniText = grafanaIniText.replace('from_address = admin@localhost', `from_address = admin@${argv.grafanaDomain}`);
   }
+  if (grafanaPort) grafanaIniText = grafanaIniText.replace('http_port = 3000', `http_port = ${grafanaPort}`);
   grafanaIniText = grafanaIniText.replace(createRegexWithEscape('enable anonymous access\r\nenabled = (.*)'), `enable anonymous access${regexEscape}enabled = ${enableAnonymousAccess}`);
   fs.writeFileSync(grafanaIniFile, grafanaIniText);
 
