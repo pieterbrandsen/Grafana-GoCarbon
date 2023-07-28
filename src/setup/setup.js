@@ -70,7 +70,7 @@ async function UpdateDockerComposeFile() {
     exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.enable=true"', '    - "traefik.enable=true"');
     exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"', '    - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"');
     exampleDockerComposeText = exampleDockerComposeText.replace('#t    - "traefik.http.services.grafana.loadbalancer.server.port=3000"', `    - "traefik.http.services.grafana.loadbalancer.server.port=${grafanaPort}"`);
-    exampleDockerComposeText = exampleDockerComposeText.replace(/\#t\#h/g, '');
+    exampleDockerComposeText = exampleDockerComposeText.replace(/#t#h/g, '');
     exampleDockerComposeText = exampleDockerComposeText.replace(/grafana.localhost/g, argv.grafanaDomain);
   }
 
