@@ -57,6 +57,7 @@ services:
       retries: 3
     networks:
       - internal
+      - external
     logging: *default-logging
   grafana:
     #t  container_name: grafana
