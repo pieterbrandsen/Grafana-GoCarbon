@@ -17,8 +17,8 @@ networks:
 x-logging: &default-logging
   driver: "local"
   options:
-    max-size: "50m"
-    max-file: "1"
+    max-size: "20m"
+    max-file: "5"
 
 services:
   carbon-relay-ng:
@@ -57,6 +57,7 @@ services:
       retries: 3
     networks:
       - internal
+      - external
     logging: *default-logging
   grafana:
     #t  container_name: grafana
@@ -92,8 +93,8 @@ services:
   #t    - "--providers.docker.exposedbydefault=false"
   #t    - "--entrypoints.web.address=:80"
   #t    - "--entrypoints.websecure.address=:443"
-  ##t    - "--providers.file.directory=/CustomTraefik/"
-  ##t    - "--providers.file.watch=true"
+  #t    - "--providers.file.directory=/CustomTraefik/"
+  #t    - "--providers.file.watch=true"
   #t  volumes:
   #t    - /var/run/docker.sock:/var/run/docker.sock
   #t    - ./traefikConfig/:/CustomTraefik/
