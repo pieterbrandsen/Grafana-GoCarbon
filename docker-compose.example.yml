@@ -6,10 +6,8 @@ volumes:
 
 networks:
   internal:
-    name: internal
     driver: bridge
   external:
-    name: external
     driver: bridge
   #t#htraefik-net:
   #t#h  external: true
